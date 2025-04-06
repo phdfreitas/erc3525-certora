@@ -1,0 +1,3 @@
+[submodule "projeto_certora/lib/forge-std"]
+	path = projeto_certora/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
