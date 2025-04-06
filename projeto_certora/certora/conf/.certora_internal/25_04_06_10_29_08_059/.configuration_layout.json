@@ -1,0 +1,81 @@
+{
+    "files": {
+        "doc_link": "https://docs.certora.com/en/latest/docs/prover/cli/options.html#files",
+        "flag_type": "list",
+        "tooltip": "",
+        "unsound": false,
+        "value": [
+            "src/ERC3525.sol"
+        ]
+    },
+    "general": {
+        "flags": {
+            "loop_iter": {
+                "doc_link": "https://docs.certora.com/en/latest/docs/prover/cli/options.html#loop-iter",
+                "flag_type": "value",
+                "tooltip": "",
+                "unsound": false,
+                "value": "3"
+            },
+            "msg": {
+                "doc_link": "https://docs.certora.com/en/latest/docs/prover/cli/options.html#msg",
+                "flag_type": "value",
+                "tooltip": "",
+                "unsound": false,
+                "value": "Verification of ERC3525"
+            },
+            "optimistic_loop": {
+                "doc_link": "https://docs.certora.com/en/latest/docs/prover/cli/options.html#optimistic-loop",
+                "flag_type": "value",
+                "tooltip": "",
+                "unsound": true,
+                "value": true
+            },
+            "prover_version": {
+                "doc_link": "https://docs.certora.com/en/latest/docs/prover/cli/options.html#prover-version",
+                "flag_type": "value",
+                "tooltip": "",
+                "unsound": false,
+                "value": "master"
+            },
+            "rule_sanity": {
+                "doc_link": "https://docs.certora.com/en/latest/docs/prover/cli/options.html#rule-sanity",
+                "flag_type": "value",
+                "tooltip": "",
+                "unsound": false,
+                "value": "basic"
+            },
+            "verify": {
+                "doc_link": "https://docs.certora.com/en/latest/docs/prover/cli/options.html#verify",
+                "flag_type": "value",
+                "tooltip": "",
+                "unsound": false,
+                "value": "ERC3525:../specs/ERC3525.spec"
+            }
+        }
+    },
+    "git": {},
+    "links": {
+        "doc_link": "https://docs.certora.com/en/latest/docs/prover/cli/options.html#link",
+        "flag_type": "list",
+        "tooltip": "",
+        "unsound": false,
+        "value": [
+            "ERC3525:asset=ERC3525"
+        ]
+    },
+    "metadata": {
+        "main_spec": {
+            "doc_link": "",
+            "flag_type": "VALUE",
+            "tooltip": "",
+            "value": "../specs/ERC3525.spec"
+        },
+        "verify": {
+            "doc_link": "",
+            "flag_type": "VALUE",
+            "tooltip": "",
+            "value": "ERC3525:../specs/ERC3525.spec"
+        }
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "importFilesToOrigRelpaths": {},
+    "primary_contract": "ERC3525",
+    "specfile": "/home/pedro/Desktop/UFPE - Mar\u00e7o/erc3525-certora/projeto_certora/certora/specs/ERC3525.spec",
+    "specfileOrigRelpath": "../specs/ERC3525.spec",
+    "specfilesToImportDecls": {},
+    "type": "spec"
+}

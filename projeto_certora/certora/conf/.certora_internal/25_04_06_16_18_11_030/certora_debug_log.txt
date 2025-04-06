@@ -1,0 +1,19 @@
+Saving last configuration file to .certora_internal/25_04_06_16_18_11_030/run.conf
+There is no TAC file. Going to script CertoraProver/certoraBuild.py to main_with_args()
+Creating dir /home/pedro/Desktop/UFPE - Março/erc3525-certora/projeto_certora/certora/conf/.certora_internal/25_04_06_16_18_11_030/.certora_config
+In /home/pedro/Desktop/UFPE - Março/erc3525-certora/projeto_certora/certora/specs/ERC3525.spec, found the imports: []
+copying spec file /home/pedro/Desktop/UFPE - Março/erc3525-certora/projeto_certora/certora/specs/ERC3525.spec to /home/pedro/Desktop/UFPE - Março/erc3525-certora/projeto_certora/certora/conf/.certora_internal/25_04_06_16_18_11_030/.certora_sources/.0_ERC3525.spec.spec
+writing /home/pedro/Desktop/UFPE - Março/erc3525-certora/projeto_certora/certora/conf/.certora_internal/25_04_06_16_18_11_030/.certora_verify.json
+Failed to run Certora Prover locally. Please check the errors below for problems in the specifications (.spec files) or the prover_args defined in the .conf file.
+[main] ERROR ALWAYS - Found errors in ../specs/ERC3525.spec:
+[main] ERROR ALWAYS - Error in spec file (ERC3525.spec:32:5): let is not a valid CVL type
+[main] ERROR ALWAYS - Error in spec file (ERC3525.spec:33:5): let is not a valid CVL type
+[main] ERROR ALWAYS - Error in spec file (ERC3525.spec:36:5): let is not a valid CVL type
+[main] ERROR ALWAYS - Error in spec file (ERC3525.spec:37:5): assume is not a valid CVL type
+[main] ERROR ALWAYS - Error in spec file (ERC3525.spec:39:5): let is not a valid CVL type
+[main] ERROR ALWAYS - Error in spec file (ERC3525.spec:40:5): assume is not a valid CVL type
+[main] ERROR ALWAYS - Error in spec file (ERC3525.spec:42:5): let is not a valid CVL type
+[main] ERROR ALWAYS - Error in spec file (ERC3525.spec:43:5): let is not a valid CVL type
+[main] ERROR ALWAYS - Error in spec file (ERC3525.spec:46:5): let is not a valid CVL type
+[main] ERROR ALWAYS - Error in spec file (ERC3525.spec:47:5): let is not a valid CVL type
+build failed

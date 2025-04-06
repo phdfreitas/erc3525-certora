@@ -1,0 +1,64 @@
+{
+	"splitStats": [{
+    "ruleName": "totalSupplyNonNegative-rule_not_vacuous",
+    "splitStatistics": {
+        "[]": {
+            "address": "[]",
+            "splitName": "totalSupplyNonNegative-rule_not_vacuous",
+            "finalResult": "SAT",
+            "timeout": "PT5M",
+            "smtSolvingWallTime": "PT33.240978368S",
+            "tacStats": {
+                "cmdCounts": {
+                    "AssignHavocCmd": 43,
+                    "AssumeExpCmd": 22,
+                    "AnnotationCmd": 78,
+                    "AssignExpCmd": 17,
+                    "vc.data.TACExpr$Sym$Var": 1,
+                    "vc.data.TACExpr$Select": 5,
+                    "vc.data.TACExpr$BinRel$Eq": 1,
+                    "AssumeCmd": 1,
+                    "vc.data.TACExpr$MapDefinition": 1,
+                    "vc.data.TACExpr$Sym$Const": 6,
+                    "AssertCmd": 13,
+                    "vc.data.TACExpr$Apply$Unary": 2,
+                    "vc.data.TACExpr$Store": 1,
+                    "LabelCmd": 6
+                }
+            },
+            "solvers": {
+                "NIA": {
+                    "SAT": [
+                        "cvc5:nonlin"
+                    ],
+                    "LostRace": [
+                        "z3:def",
+                        "cvc5:nonlinNoDio",
+                        "z3:arith1"
+                    ]
+                },
+                "LIA": {
+                    "LostRace": [
+                        "z3:lia2",
+                        "cvc5:linNoDio",
+                        "cvc5:lin",
+                        "z3:eq2",
+                        "z3:def",
+                        "cvc5:def"
+                    ],
+                    "Overapproximation(SAT)": [
+                        "z3:lia1",
+                        "z3:arith2"
+                    ],
+                    "Error(Received `null` as a response from the solver process;\n    process.isAlive: false.\n    smtlib command: (declare-fun B56 () Bool)\n    solver command: [z3, -in, tactic.solve_eqs.max_occs=4, -t:300000]\n    options: Standard(logic=QF_UFLIA, produceUnsatCores=false, produceModels=true, incremental=true, printSuccess=true, oneOffSolver=false, noAnswers=false, trackModeInternal=false, queryUnknownReason=true, queryDifficulties=false)\n    sterr:\n        )": [
+                        "z3:eq1"
+                    ],
+                    "Error(Received `null` as a response from the solver process;\n    process.isAlive: false.\n    smtlib command: (declare-fun B56 () Bool)\n    solver command: [z3, -in, smt.arith.solver=6, smt.auto_config=false, -t:300000]\n    options: Standard(logic=QF_UFLIA, produceUnsatCores=false, produceModels=true, incremental=true, printSuccess=true, oneOffSolver=false, noAnswers=false, trackModeInternal=false, queryUnknownReason=true, queryDifficulties=false)\n    sterr:\n        )": [
+                        "z3:arith1"
+                    ]
+                }
+            }
+        }
+    }
+}]
+}

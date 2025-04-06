@@ -1,0 +1,448 @@
+Reports in /home/pedro/Desktop/UFPE - Março/erc3525-certora/projeto_certora/certora/conf/emv-22-certora-06-abr--15-44/Reports
+Start Sun Apr 06 15:44:52 BRT 2025
+[ForkJoinPool-1-worker-3] WARN ALWAYS - The type `ERC3525.AddressData` will not be accessible in CVL code
+Reason(s):
+	struct field `ownedTokensIndex` cannot be expressed in CVL: [mapping types are not supported]
+	struct field `approvals` cannot be expressed in CVL: [mapping types are not supported]
+The scene contains 1 contracts:
+ERC3525 : 0xce4604a0000000000000000000000017
+Running initial transformations
+[ForkJoinPool-1-worker-29] WARN INLINER - At mcopy src LTACCmd(ptr=CmdPointer(block=24862_1004_0_0_0_0, pos=4), cmd=ByteLongCopy 0x0 R218:bv256 R217:bv256 tacTmp!mcopy842!843:bytemap tacM:bytemap@31 (1871:23:16:0xce4604a0000000000000000000000017) // null) in ERC3525-slotURI(uint256), failed to project from IndexedNode(node=ArrayElement(v=Explicit(alloc=AbstractLocation(prevFPWriteIdx=1, nextFPWriteCmd=CmdPointer(block=3820_1016_0_0_2_0, pos=14), sort=DynamicBlock(eSz=1, elemSym=(CmdPointer(block=3820_1016_0_0_2_0, pos=11), R135:bv256)))), elemSize=1), index=IntValue(lb=0, ub=115792089237316195423570985008687907853269984665640564039457584007913129639935), elementSize=1)
+[ForkJoinPool-1-worker-15] WARN INLINER - At mcopy src LTACCmd(ptr=CmdPointer(block=24862_1004_0_0_0_0, pos=4), cmd=ByteLongCopy 0x0 R250:bv256 R249:bv256 tacTmp!mcopy2714!2715:bytemap tacM:bytemap@54 (1871:23:16:0xce4604a0000000000000000000000017) // null) in ERC3525-tokenURI(uint256), failed to project from IndexedNode(node=ArrayElement(v=Explicit(alloc=AbstractLocation(prevFPWriteIdx=1, nextFPWriteCmd=CmdPointer(block=8303_1016_0_0_2_0, pos=14), sort=DynamicBlock(eSz=1, elemSym=(CmdPointer(block=8303_1016_0_0_2_0, pos=11), R167:bv256)))), elemSize=1), index=IntValue(lb=0, ub=115792089237316195423570985008687907853269984665640564039457584007913129639935), elementSize=1)
+[ForkJoinPool-1-worker-13] WARN INLINER - At mcopy src LTACCmd(ptr=CmdPointer(block=24862_1005_0_0_0_0, pos=4), cmd=ByteLongCopy 0x0 R133:bv256 R132:bv256 tacTmp!mcopy671!672:bytemap tacM:bytemap@44 (1871:23:16:0xce4604a0000000000000000000000017) // null) in ERC3525-contractURI(), failed to project from IndexedNode(node=ArrayElement(v=Explicit(alloc=AbstractLocation(prevFPWriteIdx=1, nextFPWriteCmd=CmdPointer(block=9017_1017_0_0_2_0, pos=14), sort=DynamicBlock(eSz=1, elemSym=(CmdPointer(block=9017_1017_0_0_2_0, pos=11), R58:bv256)))), elemSize=1), index=IntValue(lb=0, ub=115792089237316195423570985008687907853269984665640564039457584007913129639935), elementSize=1)
+Has CVL checks.
+Checking CVL specs/ERC3525.spec for contract ERC3525
+Unrolling loops 3 times, unwinding condition is assumed
+Checking rule onlyAuthorizedCanTransfer (2 out of 2)...
+Checking rule totalSupplyNonNegative (1 out of 2)...
+Starting to run on rule totalSupplyNonNegative
+Starting to run on rule onlyAuthorizedCanTransfer
+Verified: totalSupplyNonNegative
+totalSupplyNonNegative: Properties successfully verified on all inputs
+Starting to run on rule totalSupplyNonNegative-rule_not_vacuous
+[pool-2-thread-3] WARN SMT_SMTFORMULACHECKERRESULT - solver process died; query: totalSupplyNonNegative-rule_not_vacuous
+java.io.IOException: Cannot run program "cvc4" (in directory "."): error=2, No such file or directory
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1128)
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1071)
+	at smtlibutils.algorithms.SubProcessInteraction.runCommand(SubProcessInteraction.kt:34)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor.startProcess(InteractingCmdProcessor.kt:202)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor.<init>(InteractingCmdProcessor.kt:207)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor.<init>(InteractingCmdProcessor.kt:172)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor$Companion.fromCommand(InteractingCmdProcessor.kt:247)
+	at smtlibutils.cmdprocessor.ExtraCommandsCmdProcessor$Companion.fromCommand(ExtraCommandsCmdProcessor.kt:70)
+	at smtlibutils.cmdprocessor.ExtraCommandsCmdProcessor$Companion.fromCommand$default(ExtraCommandsCmdProcessor.kt:61)
+	at smtlibutils.cmdprocessor.SmtQueryProcessor$Companion.fromSolverInstanceInfo(SmtQueryProcessor.kt:280)
+	at smtlibutils.cmdprocessor.SmtQueryProcessor$Companion.fromSolverInstanceInfo$default(SmtQueryProcessor.kt:272)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion.singleCheckerFromSolverInstanceInfo(SimpleFormulaChecker.kt:160)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion.singleCVC4or5(SimpleFormulaChecker.kt:347)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion.access$singleCVC4or5(SimpleFormulaChecker.kt:150)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion$singleCheckerSpawnerFromSolverInfoOrNull$2.invokeSuspend(SimpleFormulaChecker.kt:221)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion$singleCheckerSpawnerFromSolverInfoOrNull$2.invoke(SimpleFormulaChecker.kt)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion$singleCheckerSpawnerFromSolverInfoOrNull$2.invoke(SimpleFormulaChecker.kt)
+	at verifier.Executable.exec(Executable.kt:212)
+	at verifier.LExpVcChecker$raceSolvers$resultInfo$1$1$1$2.invokeSuspend(LExpVcChecker.kt:250)
+	at verifier.LExpVcChecker$raceSolvers$resultInfo$1$1$1$2.invoke(LExpVcChecker.kt)
+	at verifier.LExpVcChecker$raceSolvers$resultInfo$1$1$1$2.invoke(LExpVcChecker.kt)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1$1.invokeSuspend(RpcRace.kt:109)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1$1.invoke(RpcRace.kt)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1$1.invoke(RpcRace.kt)
+	at kotlinx.coroutines.intrinsics.UndispatchedKt.startUndispatchedOrReturnIgnoreTimeout(Undispatched.kt:89)
+	at kotlinx.coroutines.TimeoutKt.setupTimeout(Timeout.kt:151)
+	at kotlinx.coroutines.TimeoutKt.withTimeout(Timeout.kt:46)
+	at kotlinx.coroutines.TimeoutKt.withTimeout-KLykuaI(Timeout.kt:74)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1.invokeSuspend(RpcRace.kt:109)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1.invoke(RpcRace.kt)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1.invoke(RpcRace.kt)
+	at kotlinx.coroutines.intrinsics.UndispatchedKt.startUndispatchedOrReturn(Undispatched.kt:78)
+	at kotlinx.coroutines.BuildersKt__Builders_commonKt.withContext(Builders.common.kt:167)
+	at kotlinx.coroutines.BuildersKt.withContext(Unknown Source)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2.invokeSuspend(RpcRace.kt:106)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:108)
+	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:115)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.io.IOException: error=2, No such file or directory
+	at java.base/java.lang.ProcessImpl.forkAndExec(Native Method)
+	at java.base/java.lang.ProcessImpl.<init>(ProcessImpl.java:340)
+	at java.base/java.lang.ProcessImpl.start(ProcessImpl.java:271)
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1107)
+	... 40 more
+[pool-2-thread-1] WARN SMT_SMTFORMULACHECKERRESULT - solver process died; query: totalSupplyNonNegative-rule_not_vacuous
+java.io.IOException: Cannot run program "yices-smt2" (in directory "."): error=2, No such file or directory
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1128)
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1071)
+	at smtlibutils.algorithms.SubProcessInteraction.runCommand(SubProcessInteraction.kt:34)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor.startProcess(InteractingCmdProcessor.kt:202)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor.<init>(InteractingCmdProcessor.kt:207)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor.<init>(InteractingCmdProcessor.kt:172)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor$Companion.fromCommand(InteractingCmdProcessor.kt:247)
+	at smtlibutils.cmdprocessor.ExtraCommandsCmdProcessor$Companion.fromCommand(ExtraCommandsCmdProcessor.kt:70)
+	at smtlibutils.cmdprocessor.ExtraCommandsCmdProcessor$Companion.fromCommand$default(ExtraCommandsCmdProcessor.kt:61)
+	at smtlibutils.cmdprocessor.SmtQueryProcessor$Companion.fromSolverInstanceInfo(SmtQueryProcessor.kt:280)
+	at smtlibutils.cmdprocessor.SmtQueryProcessor$Companion.fromSolverInstanceInfo$default(SmtQueryProcessor.kt:272)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion.singleCheckerFromSolverInstanceInfo(SimpleFormulaChecker.kt:160)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion.singleYices(SimpleFormulaChecker.kt:398)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion.access$singleYices(SimpleFormulaChecker.kt:150)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion$singleCheckerSpawnerFromSolverInfoOrNull$3.invokeSuspend(SimpleFormulaChecker.kt:232)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion$singleCheckerSpawnerFromSolverInfoOrNull$3.invoke(SimpleFormulaChecker.kt)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion$singleCheckerSpawnerFromSolverInfoOrNull$3.invoke(SimpleFormulaChecker.kt)
+	at verifier.Executable.exec(Executable.kt:212)
+	at verifier.LExpVcChecker$raceSolvers$resultInfo$1$1$1$2.invokeSuspend(LExpVcChecker.kt:250)
+	at verifier.LExpVcChecker$raceSolvers$resultInfo$1$1$1$2.invoke(LExpVcChecker.kt)
+	at verifier.LExpVcChecker$raceSolvers$resultInfo$1$1$1$2.invoke(LExpVcChecker.kt)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1$1.invokeSuspend(RpcRace.kt:109)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1$1.invoke(RpcRace.kt)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1$1.invoke(RpcRace.kt)
+	at kotlinx.coroutines.intrinsics.UndispatchedKt.startUndispatchedOrReturnIgnoreTimeout(Undispatched.kt:89)
+	at kotlinx.coroutines.TimeoutKt.setupTimeout(Timeout.kt:151)
+	at kotlinx.coroutines.TimeoutKt.withTimeout(Timeout.kt:46)
+	at kotlinx.coroutines.TimeoutKt.withTimeout-KLykuaI(Timeout.kt:74)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1.invokeSuspend(RpcRace.kt:109)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1.invoke(RpcRace.kt)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1.invoke(RpcRace.kt)
+	at kotlinx.coroutines.intrinsics.UndispatchedKt.startUndispatchedOrReturn(Undispatched.kt:78)
+	at kotlinx.coroutines.BuildersKt__Builders_commonKt.withContext(Builders.common.kt:167)
+	at kotlinx.coroutines.BuildersKt.withContext(Unknown Source)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2.invokeSuspend(RpcRace.kt:106)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:108)
+	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:115)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.io.IOException: error=2, No such file or directory
+	at java.base/java.lang.ProcessImpl.forkAndExec(Native Method)
+	at java.base/java.lang.ProcessImpl.<init>(ProcessImpl.java:340)
+	at java.base/java.lang.ProcessImpl.start(ProcessImpl.java:271)
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1107)
+	... 40 more
+[pool-2-thread-1] WARN SMT_SMTFORMULACHECKERRESULT - solver process died; query: totalSupplyNonNegative-rule_not_vacuous
+java.io.IOException: Cannot run program "yices-smt2" (in directory "."): error=2, No such file or directory
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1128)
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1071)
+	at smtlibutils.algorithms.SubProcessInteraction.runCommand(SubProcessInteraction.kt:34)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor.startProcess(InteractingCmdProcessor.kt:202)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor.<init>(InteractingCmdProcessor.kt:207)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor.<init>(InteractingCmdProcessor.kt:172)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor$Companion.fromCommand(InteractingCmdProcessor.kt:247)
+	at smtlibutils.cmdprocessor.ExtraCommandsCmdProcessor$Companion.fromCommand(ExtraCommandsCmdProcessor.kt:70)
+	at smtlibutils.cmdprocessor.ExtraCommandsCmdProcessor$Companion.fromCommand$default(ExtraCommandsCmdProcessor.kt:61)
+	at smtlibutils.cmdprocessor.SmtQueryProcessor$Companion.fromSolverInstanceInfo(SmtQueryProcessor.kt:280)
+	at smtlibutils.cmdprocessor.SmtQueryProcessor$Companion.fromSolverInstanceInfo$default(SmtQueryProcessor.kt:272)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion.singleCheckerFromSolverInstanceInfo(SimpleFormulaChecker.kt:160)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion.singleYices(SimpleFormulaChecker.kt:398)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion.access$singleYices(SimpleFormulaChecker.kt:150)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion$singleCheckerSpawnerFromSolverInfoOrNull$3.invokeSuspend(SimpleFormulaChecker.kt:232)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion$singleCheckerSpawnerFromSolverInfoOrNull$3.invoke(SimpleFormulaChecker.kt)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion$singleCheckerSpawnerFromSolverInfoOrNull$3.invoke(SimpleFormulaChecker.kt)
+	at verifier.Executable.exec(Executable.kt:212)
+	at verifier.LExpVcChecker$raceSolvers$resultInfo$1$1$1$2.invokeSuspend(LExpVcChecker.kt:250)
+	at verifier.LExpVcChecker$raceSolvers$resultInfo$1$1$1$2.invoke(LExpVcChecker.kt)
+	at verifier.LExpVcChecker$raceSolvers$resultInfo$1$1$1$2.invoke(LExpVcChecker.kt)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1$1.invokeSuspend(RpcRace.kt:109)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1$1.invoke(RpcRace.kt)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1$1.invoke(RpcRace.kt)
+	at kotlinx.coroutines.intrinsics.UndispatchedKt.startUndispatchedOrReturnIgnoreTimeout(Undispatched.kt:89)
+	at kotlinx.coroutines.TimeoutKt.setupTimeout(Timeout.kt:151)
+	at kotlinx.coroutines.TimeoutKt.withTimeout(Timeout.kt:46)
+	at kotlinx.coroutines.TimeoutKt.withTimeout-KLykuaI(Timeout.kt:74)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1.invokeSuspend(RpcRace.kt:109)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1.invoke(RpcRace.kt)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1.invoke(RpcRace.kt)
+	at kotlinx.coroutines.intrinsics.UndispatchedKt.startUndispatchedOrReturn(Undispatched.kt:78)
+	at kotlinx.coroutines.BuildersKt__Builders_commonKt.withContext(Builders.common.kt:167)
+	at kotlinx.coroutines.BuildersKt.withContext(Unknown Source)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2.invokeSuspend(RpcRace.kt:106)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:108)
+	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:115)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.io.IOException: error=2, No such file or directory
+	at java.base/java.lang.ProcessImpl.forkAndExec(Native Method)
+	at java.base/java.lang.ProcessImpl.<init>(ProcessImpl.java:340)
+	at java.base/java.lang.ProcessImpl.start(ProcessImpl.java:271)
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1107)
+	... 40 more
+Total time for totalSupplyNonNegative-rule_not_vacuous: 1 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Violated: totalSupplyNonNegative-rule_not_vacuous
+totalSupplyNonNegative-rule_not_vacuous: A property is violated
+[ForkJoinPool-1-worker-15] WARN CALLTRACE - Value CANON16!!12:bv256 at offset 0, was not found in the model
+[ForkJoinPool-1-worker-15] WARN COMMON - Got a non-constant, non-variable operand (Operand(out=CANON62:int, exp=ERC3525.totalSupply(e))) that is not in the builderState. Failed to construct its complete syntax-tree
+Result for totalSupplyNonNegative: totalSupplyNonNegative: SUCCESS
+[ForkJoinPool-1-worker-13] WARN SKEY_DETECTION - One of the arguments of a TAC expression (Le(R586:bv256 R585:bv256)) that is not a store, select, eq, lt, gt was marked as an skey
+[ForkJoinPool-1-worker-13] WARN SKEY_DETECTION - One of the arguments of a TAC expression (Le(R586:bv256 R585:bv256)) that is not a store, select, eq, lt, gt was marked as an skey
+[ForkJoinPool-1-worker-13] WARN SKEY_DETECTION - One of the arguments of a TAC expression (Le(R586:bv256 R598:bv256)) that is not a store, select, eq, lt, gt was marked as an skey
+[ForkJoinPool-1-worker-13] WARN SKEY_DETECTION - One of the arguments of a TAC expression (Le(R586:bv256 R604:bv256)) that is not a store, select, eq, lt, gt was marked as an skey
+[ForkJoinPool-1-worker-13] WARN SKEY_DETECTION - One of the arguments of a TAC expression (Le(R586:bv256 R592:bv256)) that is not a store, select, eq, lt, gt was marked as an skey
+[ForkJoinPool-1-worker-13] WARN SKEY_DETECTION - One of the arguments of a TAC expression (Le(R586:bv256 R598:bv256)) that is not a store, select, eq, lt, gt was marked as an skey
+[ForkJoinPool-1-worker-13] WARN SKEY_DETECTION - One of the arguments of a TAC expression (Le(R586:bv256 R604:bv256)) that is not a store, select, eq, lt, gt was marked as an skey
+[ForkJoinPool-1-worker-13] WARN SKEY_DETECTION - One of the arguments of a TAC expression (Le(R586:bv256 R592:bv256)) that is not a store, select, eq, lt, gt was marked as an skey
+[pool-2-thread-12] WARN SMT_SMTFORMULACHECKERRESULT - solver process died; query: onlyAuthorizedCanTransfer
+java.io.IOException: Cannot run program "cvc4" (in directory "."): error=2, No such file or directory
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1128)
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1071)
+	at smtlibutils.algorithms.SubProcessInteraction.runCommand(SubProcessInteraction.kt:34)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor.startProcess(InteractingCmdProcessor.kt:202)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor.<init>(InteractingCmdProcessor.kt:207)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor.<init>(InteractingCmdProcessor.kt:172)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor$Companion.fromCommand(InteractingCmdProcessor.kt:247)
+	at smtlibutils.cmdprocessor.ExtraCommandsCmdProcessor$Companion.fromCommand(ExtraCommandsCmdProcessor.kt:70)
+	at smtlibutils.cmdprocessor.ExtraCommandsCmdProcessor$Companion.fromCommand$default(ExtraCommandsCmdProcessor.kt:61)
+	at smtlibutils.cmdprocessor.SmtQueryProcessor$Companion.fromSolverInstanceInfo(SmtQueryProcessor.kt:280)
+	at smtlibutils.cmdprocessor.SmtQueryProcessor$Companion.fromSolverInstanceInfo$default(SmtQueryProcessor.kt:272)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion.singleCheckerFromSolverInstanceInfo(SimpleFormulaChecker.kt:160)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion.singleCVC4or5(SimpleFormulaChecker.kt:347)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion.access$singleCVC4or5(SimpleFormulaChecker.kt:150)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion$singleCheckerSpawnerFromSolverInfoOrNull$2.invokeSuspend(SimpleFormulaChecker.kt:221)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion$singleCheckerSpawnerFromSolverInfoOrNull$2.invoke(SimpleFormulaChecker.kt)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion$singleCheckerSpawnerFromSolverInfoOrNull$2.invoke(SimpleFormulaChecker.kt)
+	at verifier.Executable.exec(Executable.kt:212)
+	at verifier.LExpVcChecker$raceSolvers$resultInfo$1$1$1$2.invokeSuspend(LExpVcChecker.kt:250)
+	at verifier.LExpVcChecker$raceSolvers$resultInfo$1$1$1$2.invoke(LExpVcChecker.kt)
+	at verifier.LExpVcChecker$raceSolvers$resultInfo$1$1$1$2.invoke(LExpVcChecker.kt)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1$1.invokeSuspend(RpcRace.kt:109)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1$1.invoke(RpcRace.kt)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1$1.invoke(RpcRace.kt)
+	at kotlinx.coroutines.intrinsics.UndispatchedKt.startUndispatchedOrReturnIgnoreTimeout(Undispatched.kt:89)
+	at kotlinx.coroutines.TimeoutKt.setupTimeout(Timeout.kt:151)
+	at kotlinx.coroutines.TimeoutKt.withTimeout(Timeout.kt:46)
+	at kotlinx.coroutines.TimeoutKt.withTimeout-KLykuaI(Timeout.kt:74)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1.invokeSuspend(RpcRace.kt:109)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1.invoke(RpcRace.kt)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1.invoke(RpcRace.kt)
+	at kotlinx.coroutines.intrinsics.UndispatchedKt.startUndispatchedOrReturn(Undispatched.kt:78)
+	at kotlinx.coroutines.BuildersKt__Builders_commonKt.withContext(Builders.common.kt:167)
+	at kotlinx.coroutines.BuildersKt.withContext(Unknown Source)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2.invokeSuspend(RpcRace.kt:106)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:108)
+	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:115)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.io.IOException: error=2, No such file or directory
+	at java.base/java.lang.ProcessImpl.forkAndExec(Native Method)
+	at java.base/java.lang.ProcessImpl.<init>(ProcessImpl.java:340)
+	at java.base/java.lang.ProcessImpl.start(ProcessImpl.java:271)
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1107)
+	... 40 more
+[pool-2-thread-3] WARN SMT_SMTFORMULACHECKERRESULT - solver process died; query: onlyAuthorizedCanTransfer
+java.io.IOException: Cannot run program "yices-smt2" (in directory "."): error=2, No such file or directory
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1128)
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1071)
+	at smtlibutils.algorithms.SubProcessInteraction.runCommand(SubProcessInteraction.kt:34)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor.startProcess(InteractingCmdProcessor.kt:202)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor.<init>(InteractingCmdProcessor.kt:207)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor.<init>(InteractingCmdProcessor.kt:172)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor$Companion.fromCommand(InteractingCmdProcessor.kt:247)
+	at smtlibutils.cmdprocessor.ExtraCommandsCmdProcessor$Companion.fromCommand(ExtraCommandsCmdProcessor.kt:70)
+	at smtlibutils.cmdprocessor.ExtraCommandsCmdProcessor$Companion.fromCommand$default(ExtraCommandsCmdProcessor.kt:61)
+	at smtlibutils.cmdprocessor.SmtQueryProcessor$Companion.fromSolverInstanceInfo(SmtQueryProcessor.kt:280)
+	at smtlibutils.cmdprocessor.SmtQueryProcessor$Companion.fromSolverInstanceInfo$default(SmtQueryProcessor.kt:272)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion.singleCheckerFromSolverInstanceInfo(SimpleFormulaChecker.kt:160)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion.singleYices(SimpleFormulaChecker.kt:398)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion.access$singleYices(SimpleFormulaChecker.kt:150)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion$singleCheckerSpawnerFromSolverInfoOrNull$3.invokeSuspend(SimpleFormulaChecker.kt:232)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion$singleCheckerSpawnerFromSolverInfoOrNull$3.invoke(SimpleFormulaChecker.kt)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion$singleCheckerSpawnerFromSolverInfoOrNull$3.invoke(SimpleFormulaChecker.kt)
+	at verifier.Executable.exec(Executable.kt:212)
+	at verifier.LExpVcChecker$raceSolvers$resultInfo$1$1$1$2.invokeSuspend(LExpVcChecker.kt:250)
+	at verifier.LExpVcChecker$raceSolvers$resultInfo$1$1$1$2.invoke(LExpVcChecker.kt)
+	at verifier.LExpVcChecker$raceSolvers$resultInfo$1$1$1$2.invoke(LExpVcChecker.kt)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1$1.invokeSuspend(RpcRace.kt:109)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1$1.invoke(RpcRace.kt)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1$1.invoke(RpcRace.kt)
+	at kotlinx.coroutines.intrinsics.UndispatchedKt.startUndispatchedOrReturnIgnoreTimeout(Undispatched.kt:89)
+	at kotlinx.coroutines.TimeoutKt.setupTimeout(Timeout.kt:151)
+	at kotlinx.coroutines.TimeoutKt.withTimeout(Timeout.kt:46)
+	at kotlinx.coroutines.TimeoutKt.withTimeout-KLykuaI(Timeout.kt:74)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1.invokeSuspend(RpcRace.kt:109)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1.invoke(RpcRace.kt)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1.invoke(RpcRace.kt)
+	at kotlinx.coroutines.intrinsics.UndispatchedKt.startUndispatchedOrReturn(Undispatched.kt:78)
+	at kotlinx.coroutines.BuildersKt__Builders_commonKt.withContext(Builders.common.kt:167)
+	at kotlinx.coroutines.BuildersKt.withContext(Unknown Source)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2.invokeSuspend(RpcRace.kt:106)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:108)
+	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:115)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.io.IOException: error=2, No such file or directory
+	at java.base/java.lang.ProcessImpl.forkAndExec(Native Method)
+	at java.base/java.lang.ProcessImpl.<init>(ProcessImpl.java:340)
+	at java.base/java.lang.ProcessImpl.start(ProcessImpl.java:271)
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1107)
+	... 40 more
+[pool-2-thread-3] WARN SMT_SMTFORMULACHECKERRESULT - solver process died; query: onlyAuthorizedCanTransfer
+java.io.IOException: Cannot run program "yices-smt2" (in directory "."): error=2, No such file or directory
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1128)
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1071)
+	at smtlibutils.algorithms.SubProcessInteraction.runCommand(SubProcessInteraction.kt:34)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor.startProcess(InteractingCmdProcessor.kt:202)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor.<init>(InteractingCmdProcessor.kt:207)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor.<init>(InteractingCmdProcessor.kt:172)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor$Companion.fromCommand(InteractingCmdProcessor.kt:247)
+	at smtlibutils.cmdprocessor.ExtraCommandsCmdProcessor$Companion.fromCommand(ExtraCommandsCmdProcessor.kt:70)
+	at smtlibutils.cmdprocessor.ExtraCommandsCmdProcessor$Companion.fromCommand$default(ExtraCommandsCmdProcessor.kt:61)
+	at smtlibutils.cmdprocessor.SmtQueryProcessor$Companion.fromSolverInstanceInfo(SmtQueryProcessor.kt:280)
+	at smtlibutils.cmdprocessor.SmtQueryProcessor$Companion.fromSolverInstanceInfo$default(SmtQueryProcessor.kt:272)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion.singleCheckerFromSolverInstanceInfo(SimpleFormulaChecker.kt:160)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion.singleYices(SimpleFormulaChecker.kt:398)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion.access$singleYices(SimpleFormulaChecker.kt:150)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion$singleCheckerSpawnerFromSolverInfoOrNull$3.invokeSuspend(SimpleFormulaChecker.kt:232)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion$singleCheckerSpawnerFromSolverInfoOrNull$3.invoke(SimpleFormulaChecker.kt)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion$singleCheckerSpawnerFromSolverInfoOrNull$3.invoke(SimpleFormulaChecker.kt)
+	at verifier.Executable.exec(Executable.kt:212)
+	at verifier.LExpVcChecker$raceSolvers$resultInfo$1$1$1$2.invokeSuspend(LExpVcChecker.kt:250)
+	at verifier.LExpVcChecker$raceSolvers$resultInfo$1$1$1$2.invoke(LExpVcChecker.kt)
+	at verifier.LExpVcChecker$raceSolvers$resultInfo$1$1$1$2.invoke(LExpVcChecker.kt)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1$1.invokeSuspend(RpcRace.kt:109)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1$1.invoke(RpcRace.kt)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1$1.invoke(RpcRace.kt)
+	at kotlinx.coroutines.intrinsics.UndispatchedKt.startUndispatchedOrReturnIgnoreTimeout(Undispatched.kt:89)
+	at kotlinx.coroutines.TimeoutKt.setupTimeout(Timeout.kt:151)
+	at kotlinx.coroutines.TimeoutKt.withTimeout(Timeout.kt:46)
+	at kotlinx.coroutines.TimeoutKt.withTimeout-KLykuaI(Timeout.kt:74)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1.invokeSuspend(RpcRace.kt:109)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1.invoke(RpcRace.kt)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1.invoke(RpcRace.kt)
+	at kotlinx.coroutines.intrinsics.UndispatchedKt.startUndispatchedOrReturn(Undispatched.kt:78)
+	at kotlinx.coroutines.BuildersKt__Builders_commonKt.withContext(Builders.common.kt:167)
+	at kotlinx.coroutines.BuildersKt.withContext(Unknown Source)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2.invokeSuspend(RpcRace.kt:106)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:108)
+	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:115)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.io.IOException: error=2, No such file or directory
+	at java.base/java.lang.ProcessImpl.forkAndExec(Native Method)
+	at java.base/java.lang.ProcessImpl.<init>(ProcessImpl.java:340)
+	at java.base/java.lang.ProcessImpl.start(ProcessImpl.java:271)
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1107)
+	... 40 more
+[pool-2-thread-9] WARN SMT_SMTFORMULACHECKERRESULT - solver process died; query: onlyAuthorizedCanTransfer
+java.io.IOException: Cannot run program "cvc4" (in directory "."): error=2, No such file or directory
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1128)
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1071)
+	at smtlibutils.algorithms.SubProcessInteraction.runCommand(SubProcessInteraction.kt:34)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor.startProcess(InteractingCmdProcessor.kt:202)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor.<init>(InteractingCmdProcessor.kt:207)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor.<init>(InteractingCmdProcessor.kt:172)
+	at smtlibutils.cmdprocessor.InteractingCmdProcessor$Companion.fromCommand(InteractingCmdProcessor.kt:247)
+	at smtlibutils.cmdprocessor.ExtraCommandsCmdProcessor$Companion.fromCommand(ExtraCommandsCmdProcessor.kt:70)
+	at smtlibutils.cmdprocessor.ExtraCommandsCmdProcessor$Companion.fromCommand$default(ExtraCommandsCmdProcessor.kt:61)
+	at smtlibutils.cmdprocessor.SmtQueryProcessor$Companion.fromSolverInstanceInfo(SmtQueryProcessor.kt:280)
+	at smtlibutils.cmdprocessor.SmtQueryProcessor$Companion.fromSolverInstanceInfo$default(SmtQueryProcessor.kt:272)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion.singleCheckerFromSolverInstanceInfo(SimpleFormulaChecker.kt:160)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion.singleCVC4or5(SimpleFormulaChecker.kt:347)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion.access$singleCVC4or5(SimpleFormulaChecker.kt:150)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion$singleCheckerSpawnerFromSolverInfoOrNull$2.invokeSuspend(SimpleFormulaChecker.kt:221)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion$singleCheckerSpawnerFromSolverInfoOrNull$2.invoke(SimpleFormulaChecker.kt)
+	at smtlibutils.cmdprocessor.SimpleFormulaChecker$Companion$singleCheckerSpawnerFromSolverInfoOrNull$2.invoke(SimpleFormulaChecker.kt)
+	at verifier.Executable.exec(Executable.kt:212)
+	at verifier.LExpVcChecker$raceSolvers$resultInfo$1$1$1$2.invokeSuspend(LExpVcChecker.kt:250)
+	at verifier.LExpVcChecker$raceSolvers$resultInfo$1$1$1$2.invoke(LExpVcChecker.kt)
+	at verifier.LExpVcChecker$raceSolvers$resultInfo$1$1$1$2.invoke(LExpVcChecker.kt)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1$1.invokeSuspend(RpcRace.kt:109)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1$1.invoke(RpcRace.kt)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1$1.invoke(RpcRace.kt)
+	at kotlinx.coroutines.intrinsics.UndispatchedKt.startUndispatchedOrReturnIgnoreTimeout(Undispatched.kt:89)
+	at kotlinx.coroutines.TimeoutKt.setupTimeout(Timeout.kt:151)
+	at kotlinx.coroutines.TimeoutKt.withTimeout(Timeout.kt:46)
+	at kotlinx.coroutines.TimeoutKt.withTimeout-KLykuaI(Timeout.kt:74)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1.invokeSuspend(RpcRace.kt:109)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1.invoke(RpcRace.kt)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2$finish$1.invoke(RpcRace.kt)
+	at kotlinx.coroutines.intrinsics.UndispatchedKt.startUndispatchedOrReturn(Undispatched.kt:78)
+	at kotlinx.coroutines.BuildersKt__Builders_commonKt.withContext(Builders.common.kt:167)
+	at kotlinx.coroutines.BuildersKt.withContext(Unknown Source)
+	at parallel.coroutines.RpcRaceKt$rpcRace$2$results$1$2.invokeSuspend(RpcRace.kt:106)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:108)
+	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:115)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.io.IOException: error=2, No such file or directory
+	at java.base/java.lang.ProcessImpl.forkAndExec(Native Method)
+	at java.base/java.lang.ProcessImpl.<init>(ProcessImpl.java:340)
+	at java.base/java.lang.ProcessImpl.start(ProcessImpl.java:271)
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1107)
+	... 40 more
+Total time for onlyAuthorizedCanTransfer: 3 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 2 seconds
+Violated: onlyAuthorizedCanTransfer
+onlyAuthorizedCanTransfer: A property is violated
+[ForkJoinPool-1-worker-1] WARN COMMON - Got a non-constant, non-variable operand (Operand(out=CANON28:int, exp=e.msg.sender)) that is not in the builderState. Failed to construct its complete syntax-tree
+[ForkJoinPool-1-worker-1] WARN COMMON - Got a non-constant, non-variable operand (Operand(out=B256:bool, exp=ERC3525.isApprovedForAll(e,ownerBefore,e.msg.sender))) that is not in the builderState. Failed to construct its complete syntax-tree
+[ForkJoinPool-1-worker-1] WARN COMMON - Got a non-constant, non-variable operand (Operand(out=R301:bv256, exp=ERC3525.getApproved(e,tokenId))) that is not in the builderState. Failed to construct its complete syntax-tree
+[ForkJoinPool-1-worker-1] WARN COMMON - Got a non-constant, non-variable operand (Operand(out=CANON28:int, exp=e.msg.sender)) that is not in the builderState. Failed to construct its complete syntax-tree
+received `signalSkip` for rule onlyAuthorizedCanTransfer-rule_not_vacuous
+[ForkJoinPool-1-worker-1] WARN REPORT_UTILS - if any child is a rule-sanity child, then all (non-skipped) children must be rule sanity children; instead got these children: [(onlyAuthorizedCanTransfer-rule_not_vacuous, SANITY), (null, VIOLATED_ASSERT)]
+Result for onlyAuthorizedCanTransfer: onlyAuthorizedCanTransfer: FAIL: !(changedOwner) || ownerTransfering - specs/ERC3525.spec line 25
+[ForkJoinPool-1-worker-1] WARN COMMON - No violated assertion found
+Results for all:
+*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+|Rule name                               |Verified     |Time (sec)|Description                                                 |Local vars                                        |
+|----------------------------------------|-------------|----------|------------------------------------------------------------|--------------------------------------------------|
+|totalSupplyNonNegative                  |Not violated |0         |                                                            |no local variables                                |
+|rule_not_vacuous                        |Violated     |3         |Assert message: sanity check for rule totalSupplyNonNega... |ERC3525=0x2711                                    |
+|                                        |             |          |- specs/ERC3525.spec line 2                                 |e.block.basefee=0x0                               |
+|                                        |             |          |                                                            |e.block.blobbasefee=0x0                           |
+|                                        |             |          |                                                            |e.block.coinbase=0x0                              |
+|                                        |             |          |                                                            |e.block.difficulty=0x0                            |
+|                                        |             |          |                                                            |e.block.gaslimit=0x0                              |
+|                                        |             |          |                                                            |e.block.number=0x0                                |
+|                                        |             |          |                                                            |e.block.timestamp=0x0                             |
+|                                        |             |          |                                                            |e.msg.sender=0x2712                               |
+|                                        |             |          |                                                            |e.msg.value=0x0                                   |
+|                                        |             |          |                                                            |e.tx.origin=0x0                                   |
+|                                        |             |          |                                                            |ecrecover=0x1                                     |
+|                                        |             |          |                                                            |identity=0x4                                      |
+|                                        |             |          |                                                            |sha256=0x2                                        |
+|onlyAuthorizedCanTransfer               |Violated     |12        |Assert message: !(changedOwner) || ownerTransfering -       |ERC3525=0x2e3a                                    |
+|                                        |             |          |specs/ERC3525.spec line 25                                  |changedOwner=true                                 |
+|                                        |             |          |                                                            |e.block.basefee=0x0                               |
+|                                        |             |          |                                                            |e.block.blobbasefee=0x0                           |
+|                                        |             |          |                                                            |e.block.coinbase=0x0                              |
+|                                        |             |          |                                                            |e.block.difficulty=0x0                            |
+|                                        |             |          |                                                            |e.block.gaslimit=0x0                              |
+|                                        |             |          |                                                            |e.block.number=0x0                                |
+|                                        |             |          |                                                            |e.block.timestamp=0x0                             |
+|                                        |             |          |                                                            |e.msg.sender=0x2e3b                               |
+|                                        |             |          |                                                            |e.msg.value=0x0                                   |
+|                                        |             |          |                                                            |e.tx.origin=0x0                                   |
+|                                        |             |          |                                                            |ecrecover=0x1                                     |
+|                                        |             |          |                                                            |from=0xffffffffffffffffffffffffffffffffffffe0d1   |
+|                                        |             |          |                                                            |identity=0x4                                      |
+|                                        |             |          |                                                            |ownerAfter=0x42aa                                 |
+|                                        |             |          |                                                            |ownerBefore=0xffffffffffffffffffffffffffffffffffff|
+|                                        |             |          |                                                            |e0d1                                              |
+|                                        |             |          |                                                            |ownerTransfering=false                            |
+|                                        |             |          |                                                            |sha256=0x2                                        |
+|                                        |             |          |                                                            |to=0x42aa                                         |
+|                                        |             |          |                                                            |tokenId=0x3833                                    |
+*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+
+Failures summary:
+Failed on rule_not_vacuous:
+Assert message: sanity check for rule totalSupplyNonNega... - specs/ERC3525.spec line 2
+
+sanity check (vacuity of rule) for rule totalSupplyNonNegative
+Failed on onlyAuthorizedCanTransfer:
+Assert message: !(changedOwner) || ownerTransfering - specs/ERC3525.spec line 25
+
+
+
+Duration 56741, RuleCheckResultsStats: numTotal = 2; numVerified = 1; numViolated = 1; numTimeout = 0; numError = 0
+Done 1m
+Event reporter: all events were sent without errors
+Reports in file:///home/pedro/Desktop/UFPE - Março/erc3525-certora/projeto_certora/certora/conf/emv-22-certora-06-abr--15-44/Reports
+Final report in emv-22-certora-06-abr--15-44/Reports/FinalResults.html
