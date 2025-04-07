@@ -1,0 +1,177 @@
+Calltrace Debug Information
+[StorageTitleInstance, 1492497988] Global State
+    [StorageTitleInstance, 1561420106] Storage State
+        [StorageTitleInstance, 70428585] ERC3525
+            [StorageStateValueInstance, 1292899083] _allTokens: ...
+    [StorageTitleInstance, 941808507] Balances
+        [BalanceValueInstance, 1852827140] ERC3525.balance: 0x0
+[LabelInstance, 947007111] rule parameters setup
+[LabelInstance, 135252063] Setup
+    [LabelInstance, 2029803174] multi contract setup
+    [LabelInstance, 1148080275] contract address vars initialized
+    [LabelInstance, 1830830463] setup read tracking instrumentation
+    [LabelInstance, 237829013] last storage initialize
+    [LabelInstance, 2070346517] assuming contracts in scene with non-empty bytecode have EXTCODESIZE larger than zero
+    [LabelInstance, 565988450] assuming address(0).code has no code deployed
+    [LabelInstance, 518517010] assumptions about contracts' addresses
+    [LabelInstance, 123225544] assumptions about static addresses
+    [LabelInstance, 1269479525] establish addresses of precompiled contracts
+    [LabelInstance, 146154030] assumptions about uniqueness of contracts' addresses
+    [LabelInstance, 695741771] static links
+    [LabelInstance, 1816873897] record starting nonces
+    [LabelInstance, 1924968405] cloned contracts have no balances
+    [LabelInstance, 1268929790] Linked immutable setup
+    [LabelInstance, 601369268] Constrain immutables
+    [LabelInstance, 360196965] establish equivalence of extension and base contract immutables
+[LabelInstance, 36563992] env e
+[LabelInstance, 1542544647] _ = ERC3525.totalSupply(e) >= 0
+    [External, 952836295] ERC3525.totalSupply()
+        [TransferInstance, 539387772] sender: ERC3525; receiver: ERC3525; transferred amount: 0x0
+            # snippet WithLocSym 327130458 ;
+               loc sym:  R32:bv256
+             value sym:  R52:bv256
+        [Load, 1540289531] Load from ERC3525.[raw storage address] ERC3525 ↪ 0x1
+        [Start, 1179962420] Evaluate branch condition
+        [Internal, 1839716766] (internal) ERC3525.totalSupply()
+                # snippet LoadSnippet 1604850224 ;
+                 disp. path:  _allTokens
+                  value sym:  CANON16!!12:bv256
+                # local storage change 1604850224
+            [Load, 456774507] Load from ERC3525._allTokens
+        [StorageTitleInstance, 1239458833] Global State
+            [StorageTitleInstance, 1134392347] Storage State
+                [StorageTitleInstance, 490159613] ERC3525
+                    [StorageStateValueInstance, 965136208] _allTokens: ...
+            [StorageTitleInstance, 1963598941] Balances
+                [BalanceValueInstance, 1570749259] ERC3525.balance: 0x0
+        [Return, 1401194277] Return
+[LabelInstance, 1301099695] assert false
+    [StorageTitleInstance, 1238367549] Global State
+        [StorageTitleInstance, 546779157] Storage State
+            [StorageTitleInstance, 384332503] ERC3525
+                [StorageStateValueInstance, 853804265] _allTokens: ...
+        [StorageTitleInstance, 74719645] Balances
+            [BalanceValueInstance, 494579358] ERC3525.balance: 0x0
+    -------- CVL model begin ------------
+    -- type: int --
+    CANON25                                       ~~>                                                             0x2711
+       cvl                 : true
+       cvl.display         : e.msg.sender
+       cvl.type            : address
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[msg, sender])
+       cvl.def.site        : Rule(range=ERC3525.spec:3:5)
+    CANON26                                       ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : e.msg.value
+       cvl.type            : uint256
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[msg, value])
+       cvl.def.site        : Rule(range=ERC3525.spec:3:5)
+    CANON27                                       ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : e.tx.origin
+       cvl.type            : address
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[tx, origin])
+       cvl.def.site        : Rule(range=ERC3525.spec:3:5)
+    CANON28                                       ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : e.block.basefee
+       cvl.type            : uint256
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[block, basefee])
+       cvl.def.site        : Rule(range=ERC3525.spec:3:5)
+    CANON29                                       ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : e.block.blobbasefee
+       cvl.type            : uint256
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[block, blobbasefee])
+       cvl.def.site        : Rule(range=ERC3525.spec:3:5)
+    CANON30                                       ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : e.block.coinbase
+       cvl.type            : address
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[block, coinbase])
+       cvl.def.site        : Rule(range=ERC3525.spec:3:5)
+    CANON31                                       ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : e.block.difficulty
+       cvl.type            : uint256
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[block, difficulty])
+       cvl.def.site        : Rule(range=ERC3525.spec:3:5)
+    CANON32                                       ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : e.block.gaslimit
+       cvl.type            : uint256
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[block, gaslimit])
+       cvl.def.site        : Rule(range=ERC3525.spec:3:5)
+    CANON33                                       ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : e.block.number
+       cvl.type            : uint256
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[block, number])
+       cvl.def.site        : Rule(range=ERC3525.spec:3:5)
+    CANON34                                       ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : e.block.timestamp
+       cvl.type            : uint256
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[block, timestamp])
+       cvl.def.site        : Rule(range=ERC3525.spec:3:5)
+    CANON                                         ~~>                                                             0x2711
+       cvl                 : true
+       cvl.display         : currentContract
+       cvl.type            : ERC3525
+    -------- CVL model end --------------
+    -------- TAC model begin ------------
+      from_skey:ghostmap((uninterp) skey->bv256)  -->                                          {[x:bv256] ->
+  x:bv256
+}
+      tacM0x40!!0:bv256  -->                                                                0x0
+      to_skey:ghostmap(bv256->(uninterp) skey)  -->                                          {[x:bv256] ->
+  x:bv256
+}
+      lastReverted:bool  -->                                                              false
+      CANON36.12892:bv256  -->                                                                0x0
+      ReachabilityCertora0_0_0_0_0_0:bool  -->                                                               true
+      ReachabilityCertora1_0_0_1_0_0:bool  -->                                                               true
+      ReachabilityCertora2_0_0_0_0_0:bool  -->                                                               true
+      tacCalldatasize!!39:bv256  -->                                                                0x4
+      tacCalldatabuf@1:bytemap  --> {[arg0:bv256] ->
+  Ite(
+    arg0:bv256 >= 0x4
+    0x0
+    0x18160ddd00000000000000000000000000000000000000000000000000000000
+  )
+}
+             R1:bv256  -->                                                                0x1
+             B37:bool  -->                                                               true
+             B56:bool  -->                                                              false
+             B57:bool  -->                                                               true
+             B58:bool  -->                                                              false
+            R19:bv256  -->                                                                0x1
+            R20:bv256  -->                                                                0x2
+            R21:bv256  -->                                                                0x4
+            R32:bv256  -->                                                             0x2711
+            R35:bv256  -->                                                                0x1
+            R40:bv256  --> 0x18160ddd00000000000000000000000000000000000000000000000000000000
+            R43:bv256  -->                                                             0x2711
+            R45:bv256  -->                                                                0x0
+            R48:bv256  -->                                                                0x0
+            R50:bv256  -->                                                                0x0
+            R52:bv256  -->                                                                0x1
+          CANON25:int  -->                                                             0x2711
+          CANON26:int  -->                                                                0x0
+          CANON27:int  -->                                                                0x0
+          CANON28:int  -->                                                                0x0
+          CANON29:int  -->                                                                0x0
+          CANON30:int  -->                                                                0x0
+          CANON31:int  -->                                                                0x0
+          CANON32:int  -->                                                                0x0
+          CANON33:int  -->                                                                0x0
+          CANON34:int  -->                                                                0x0
+      OK_0_0_0_0_0_0:bool  -->                                                              false
+      lastHasThrown!!41:bool  -->                                                              false
+      lastHasThrown!!55:bool  -->                                                              false
+      OK_1_0_0_1_0_0:bool  -->                                                              false
+      OK_2_0_0_0_0_0:bool  -->                                                              false
+      tacSighash!!34:bv256  -->                                                         0x18160ddd
+            CANON:int  -->                                                             0x2711
+    -------- TAC model end --------------
+    

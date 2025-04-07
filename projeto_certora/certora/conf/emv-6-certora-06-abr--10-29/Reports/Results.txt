@@ -1,7 +1,0 @@
-Reports in /home/pedro/Desktop/UFPE - Março/erc3525-certora/projeto_certora/certora/conf/emv-6-certora-06-abr--10-29/Reports
-Start Sun Apr 06 10:29:39 BRT 2025
-[ForkJoinPool-1-worker-3] WARN ALWAYS - The type `ERC3525.AddressData` will not be accessible in CVL code
-Reason(s):
-	struct field `ownedTokensIndex` cannot be expressed in CVL: [mapping types are not supported]
-	struct field `approvals` cannot be expressed in CVL: [mapping types are not supported]
-[ForkJoinPool-1-worker-3] ERROR ALWAYS - Error in spec file (ERC3525.spec:4:12): could not type expression "ERC3525", message: unknown variable "ERC3525"

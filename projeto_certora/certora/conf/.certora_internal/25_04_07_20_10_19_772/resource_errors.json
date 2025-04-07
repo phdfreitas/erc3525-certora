@@ -1,0 +1,17 @@
+{
+    "topics": [
+        {
+            "name": "type_check",
+            "messages": [
+                {
+                    "message": "Error in spec file (ERC3525.spec:69:5): Syntax error: unexpected token near `}`",
+                    "location": []
+                },
+                {
+                    "message": "Error in spec file (ERC3525.spec:92:1): Syntax error: unexpected token near `EOF`",
+                    "location": []
+                }
+            ]
+        }
+    ]
+}

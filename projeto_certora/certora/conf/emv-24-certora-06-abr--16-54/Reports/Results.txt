@@ -1,6 +1,0 @@
-Reports in /home/pedro/Desktop/UFPE - Março/erc3525-certora/projeto_certora/certora/conf/emv-24-certora-06-abr--16-54/Reports
-Start Sun Apr 06 16:54:59 BRT 2025
-[ForkJoinPool-1-worker-3] WARN ALWAYS - The type `ERC3525.AddressData` will not be accessible in CVL code
-Reason(s):
-	struct field `ownedTokensIndex` cannot be expressed in CVL: [mapping types are not supported]
-	struct field `approvals` cannot be expressed in CVL: [mapping types are not supported]

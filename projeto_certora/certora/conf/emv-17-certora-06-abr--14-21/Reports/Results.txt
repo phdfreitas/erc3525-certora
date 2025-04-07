@@ -1,7 +1,0 @@
-Reports in /home/pedro/Desktop/UFPE - Março/erc3525-certora/projeto_certora/certora/conf/emv-17-certora-06-abr--14-21/Reports
-Start Sun Apr 06 14:21:13 BRT 2025
-[ForkJoinPool-1-worker-3] WARN ALWAYS - The type `ERC3525.AddressData` will not be accessible in CVL code
-Reason(s):
-	struct field `ownedTokensIndex` cannot be expressed in CVL: [mapping types are not supported]
-	struct field `approvals` cannot be expressed in CVL: [mapping types are not supported]
-[ForkJoinPool-1-worker-3] ERROR ALWAYS - Error in spec file (ERC3525.spec:3:12): could not type expression "totalSupply()", message: Missing environment parameter to non-envfree function ERC3525.totalSupply() returns (uint256)

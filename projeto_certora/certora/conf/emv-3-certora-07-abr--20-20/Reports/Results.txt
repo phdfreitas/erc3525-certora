@@ -1,0 +1,7 @@
+Reports in /home/pedro/Desktop/UFPE - Março/erc3525-certora/projeto_certora/certora/conf/emv-3-certora-07-abr--20-20/Reports
+Start Mon Apr 07 20:20:12 BRT 2025
+[ForkJoinPool-1-worker-3] WARN ALWAYS - The type `ERC3525.AddressData` will not be accessible in CVL code
+Reason(s):
+	struct field `ownedTokensIndex` cannot be expressed in CVL: [mapping types are not supported]
+	struct field `approvals` cannot be expressed in CVL: [mapping types are not supported]
+[ForkJoinPool-1-worker-3] ERROR ALWAYS - Error in spec file (ERC3525.spec:38:12): could not type expression "reverted()", message: No function-like entry for reverted was found in the symbol table. Perhaps something was misspelled?

@@ -1,6 +1,0 @@
-{
-	"assertMessages": {},
-	"rules": {
-		"totalSupplyNonNegative": "SUCCESS"
-	}
-}

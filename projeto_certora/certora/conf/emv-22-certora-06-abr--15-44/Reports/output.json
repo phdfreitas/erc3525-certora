@@ -1,9 +1,0 @@
-{
-	"assertMessages": {
-		"onlyAuthorizedCanTransfer": "!(changedOwner) || ownerTransfering - specs/ERC3525.spec line 25"
-	},
-	"rules": {
-		"onlyAuthorizedCanTransfer": "FAIL",
-		"totalSupplyNonNegative": "SUCCESS"
-	}
-}
