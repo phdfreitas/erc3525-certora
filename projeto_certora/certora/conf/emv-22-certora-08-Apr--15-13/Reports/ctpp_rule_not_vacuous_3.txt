@@ -1,0 +1,871 @@
+Calltrace Debug Information
+[StorageTitleInstance, 275723279] Global State
+    [StorageTitleInstance, 1042918822] Storage State
+        [StorageTitleInstance, 2077264456] ERC3525
+            [StorageStateValueInstance, 1768474511] _addressData[ERC3525].approvals[0x309f]: true
+            [StorageStateValueInstance, 13523425] _allTokens: 0x1
+            [StorageStateValueInstance, 1945735363] _allTokens[0x0].balance: 0x0
+            [StorageStateValueInstance, 201639486] _allTokens[0x0].id: 0x32e0
+            [StorageStateValueInstance, 603929742] _allTokens[0x0].owner: ERC3525
+            [StorageStateValueInstance, 1359767617] _allTokensIndex[0x32e0]: 0x0
+            [StorageStateValueInstance, 1850508587] _approvedValues[0x32e0][0x309f]: 0x0
+            [StorageStateValueInstance, 1154718698] _tokenIdGenerator: MAX_UINT256
+    [StorageTitleInstance, 504546482] Balances
+        [BalanceValueInstance, 753858897] 0x309f.balance: 0x1
+        [BalanceValueInstance, 637617210] ERC3525.balance: 0x0
+[LabelInstance, 2127927259] rule parameters setup
+[LabelInstance, 1995111399] Setup
+    [LabelInstance, 764780570] multi contract setup
+    [LabelInstance, 18419974] contract address vars initialized
+    [LabelInstance, 1403004337] setup read tracking instrumentation
+    [LabelInstance, 1924454881] last storage initialize
+    [LabelInstance, 1923166941] assuming contracts in scene with non-empty bytecode have EXTCODESIZE larger than zero
+    [LabelInstance, 997825710] assuming address(0).code has no code deployed
+    [LabelInstance, 1772530653] assumptions about contracts' addresses
+    [LabelInstance, 1024007385] assumptions about static addresses
+    [LabelInstance, 1187378815] establish addresses of precompiled contracts
+    [LabelInstance, 825138917] assumptions about uniqueness of contracts' addresses
+    [LabelInstance, 1829385054] static links
+    [LabelInstance, 412091890] record starting nonces
+    [LabelInstance, 1896840849] cloned contracts have no balances
+    [LabelInstance, 873664483] Linked immutable setup
+    [LabelInstance, 146758396] Constrain immutables
+    [LabelInstance, 278425996] establish equivalence of extension and base contract immutables
+[LabelInstance, 451505912] env e
+[LabelInstance, 908662353] zeroAddr = 0x0
+[LabelInstance, 1152635602] value = ERC3525.balanceOf(e, fromTokenId)
+    [External, 401924057] ERC3525.balanceOf()
+            -> call data movement CalldataScalars(scalars=[Scalar(byteOffset=4, value=tacCalldatabufCANON0@1:bv256)])
+        [TransferInstance, 1178332529] sender: 0x309f; receiver: ERC3525; transferred amount: 0x0
+            # snippet WithLocSym 384537715 ;
+               loc sym:  R34:bv256
+             value sym:  R57:bv256
+        [Load, 945741945] Load from ERC3525.[raw storage address] ERC3525 ↪ 0x1
+        [Start, 1654755554] Evaluate branch condition
+        [Start, 1394246008] Evaluate branch condition
+            -> call data movement CalldataScalars(scalars=[Scalar(byteOffset=4, value=tacCalldatabufCANON0@1:bv256)])
+        [Internal, 1255386639] (internal) ERC3525.balanceOf(tokenId_=0x32e0)
+            [Internal, 96588292] (internal) ERC3525._requireMinted(tokenId_=0x32e0)
+                [Internal, 1804170462] (internal) ERC3525._exists(tokenId_=0x32e0)
+                        # snippet LoadSnippet 7467724 ;
+                         disp. path:  _allTokens
+                          value sym:  CANON17!!15:bv256
+                        # local storage change 7467724
+                    [Load, 1822370198] Load from ERC3525._allTokens ↪ 0x1
+                    [Start, 1005277660] Evaluate branch condition
+                        -> call data movement CalldataScalars(scalars=[Scalar(byteOffset=4, value=tacCalldatabufCANON0@1:bv256)])
+                        # snippet LoadSnippet 950845191 ;
+                         disp. path:  _allTokensIndex[k = tacCalldatabufCANON0@1:bv256]
+                          value sym:  R64:bv256
+                        # local storage change 950845191
+                    [Load, 816964951] Load from ERC3525._allTokensIndex[0x32e0] ↪ 0x0
+                        # snippet LoadSnippet 7494136 ;
+                         disp. path:  _allTokens
+                          value sym:  CANON17!!15:bv256
+                        # local storage change 7494136
+                    [Load, 280909851] Load from ERC3525._allTokens ↪ 0x1
+                    [Start, 100139011] Evaluate branch condition
+                        # snippet LoadSnippet 1781206365 ;
+                         disp. path:  _allTokens[i = R64:bv256].id
+                          value sym:  R71:bv256
+                        # local storage change 1781206365
+                    [Load, 1685902545] Load from ERC3525._allTokens[0x0].id ↪ 0x32e0
+                [StorageTitleInstance, 1540886100] Global State
+                    [StorageTitleInstance, 969206708] Storage State
+                        [StorageTitleInstance, 2096700567] ERC3525
+                            [StorageStateValueInstance, 2116130181] _addressData[ERC3525].approvals[0x309f]: true
+                            [StorageStateValueInstance, 1703976635] _allTokens: 0x1
+                            [StorageStateValueInstance, 2073510134] _allTokens[0x0].balance: 0x0
+                            [StorageStateValueInstance, 1329522359] _allTokens[0x0].id: 0x32e0
+                            [StorageStateValueInstance, 1036115816] _allTokens[0x0].owner: ERC3525
+                            [StorageStateValueInstance, 1548090157] _allTokensIndex[0x32e0]: 0x0
+                            [StorageStateValueInstance, 496271523] _approvedValues[0x32e0][0x309f]: 0x0
+                            [StorageStateValueInstance, 623363832] _tokenIdGenerator: MAX_UINT256
+                    [StorageTitleInstance, 372139947] Balances
+                        [BalanceValueInstance, 1698786000] 0x309f.balance: 0x1
+                        [BalanceValueInstance, 1558806339] ERC3525.balance: 0x0
+                [Start, 1206022688] Evaluate branch condition
+            [StorageTitleInstance, 580142664] Global State
+                [StorageTitleInstance, 1282256672] Storage State
+                    [StorageTitleInstance, 1542050441] ERC3525
+                        [StorageStateValueInstance, 256821414] _addressData[ERC3525].approvals[0x309f]: true
+                        [StorageStateValueInstance, 266889473] _allTokens: 0x1
+                        [StorageStateValueInstance, 786289523] _allTokens[0x0].balance: 0x0
+                        [StorageStateValueInstance, 993341883] _allTokens[0x0].id: 0x32e0
+                        [StorageStateValueInstance, 1112003971] _allTokens[0x0].owner: ERC3525
+                        [StorageStateValueInstance, 246090923] _allTokensIndex[0x32e0]: 0x0
+                        [StorageStateValueInstance, 1311576134] _approvedValues[0x32e0][0x309f]: 0x0
+                        [StorageStateValueInstance, 1552369873] _tokenIdGenerator: MAX_UINT256
+                [StorageTitleInstance, 546333967] Balances
+                    [BalanceValueInstance, 1988684770] 0x309f.balance: 0x1
+                    [BalanceValueInstance, 1342270037] ERC3525.balance: 0x0
+                -> call data movement CalldataScalars(scalars=[Scalar(byteOffset=4, value=tacCalldatabufCANON0@1:bv256)])
+                # snippet LoadSnippet 1942895786 ;
+                 disp. path:  _allTokensIndex[k = tacCalldatabufCANON0@1:bv256]
+                  value sym:  R78:bv256
+                # local storage change 1942895786
+            [Load, 916873540] Load from ERC3525._allTokensIndex[0x32e0] ↪ 0x0
+                # snippet LoadSnippet 1686968 ;
+                 disp. path:  _allTokens
+                  value sym:  CANON17!!15:bv256
+                # local storage change 1686968
+            [Load, 356369026] Load from ERC3525._allTokens ↪ 0x1
+            [Start, 618392636] Evaluate branch condition
+                # snippet LoadSnippet 1951131045 ;
+                 disp. path:  _allTokens[i = R78:bv256].balance
+                  value sym:  R85:bv256
+                # local storage change 1951131045
+            [Load, 2144565552] Load from ERC3525._allTokens[0x0].balance ↪ 0x0
+        [StorageTitleInstance, 2054855631] Global State
+            [StorageTitleInstance, 27815888] Storage State
+                [StorageTitleInstance, 2062141909] ERC3525
+                    [StorageStateValueInstance, 504833345] _addressData[ERC3525].approvals[0x309f]: true
+                    [StorageStateValueInstance, 807236015] _allTokens: 0x1
+                    [StorageStateValueInstance, 1913212563] _allTokens[0x0].balance: 0x0
+                    [StorageStateValueInstance, 1184536166] _allTokens[0x0].id: 0x32e0
+                    [StorageStateValueInstance, 1635819225] _allTokens[0x0].owner: ERC3525
+                    [StorageStateValueInstance, 986389327] _allTokensIndex[0x32e0]: 0x0
+                    [StorageStateValueInstance, 34518867] _approvedValues[0x32e0][0x309f]: 0x0
+                    [StorageStateValueInstance, 271919314] _tokenIdGenerator: MAX_UINT256
+            [StorageTitleInstance, 1973819995] Balances
+                [BalanceValueInstance, 399861443] 0x309f.balance: 0x1
+                [BalanceValueInstance, 1620508485] ERC3525.balance: 0x0
+        [Return, 1507600445] Return
+[LabelInstance, 485328287] ERC3525.transferFrom@withrevert(e, fromTokenId, zeroAddr, value)
+    [BalanceInstance, 548539327] 0x309f.balance ↪ 0x1
+    [External, 2005513275] ERC3525.transferFrom()
+            -> call data movement CalldataScalars(scalars=[Scalar(byteOffset=4, value=tacCalldatabufCANON0@2:bv256)])
+            -> call data movement CalldataScalars(scalars=[Scalar(byteOffset=36, value=tacCalldatabufCANON1@2:bool)])
+            -> call data movement CalldataScalars(scalars=[Scalar(byteOffset=68, value=tacCalldatabufCANON2@2:bv256)])
+        [TransferInstance, 1328342839] sender: 0x309f; receiver: ERC3525; transferred amount: 0x0
+            # snippet WithLocSym -801213500 ;
+               loc sym:  R34:bv256
+             value sym:  R137:bv256
+        [Load, 1058886192] Load from ERC3525.[raw storage address] ERC3525 ↪ 0x1
+        [Start, 256006559] Evaluate branch condition
+            -> call data movement CalldataScalars(scalars=[Scalar(byteOffset=4, value=tacCalldatabufCANON0@2:bv256)])
+            -> call data movement CalldataScalars(scalars=[Scalar(byteOffset=68, value=tacCalldatabufCANON2@2:bv256)])
+        [Internal, 894442528] (internal) ERC3525.transferFrom(fromTokenId_=0x32e0, to_=0x0, value_=0x0)
+            [Internal, 493703394] (internal) Context._msgSender()
+            [StorageTitleInstance, 1219759533] Global State
+                [StorageTitleInstance, 1428630405] Storage State
+                    [StorageTitleInstance, 1612942365] ERC3525
+                        [StorageStateValueInstance, 398342843] _addressData[ERC3525].approvals[0x309f]: true
+                        [StorageStateValueInstance, 2140116100] _allTokens: 0x1
+                        [StorageStateValueInstance, 328786931] _allTokens[0x0].balance: 0x0
+                        [StorageStateValueInstance, 1864877817] _allTokens[0x0].id: 0x32e0
+                        [StorageStateValueInstance, 153768516] _allTokens[0x0].owner: ERC3525
+                        [StorageStateValueInstance, 167959633] _allTokensIndex[0x32e0]: 0x0
+                        [StorageStateValueInstance, 1582379417] _approvedValues[0x32e0][0x309f]: 0x0
+                        [StorageStateValueInstance, 261104804] _tokenIdGenerator: MAX_UINT256
+                [StorageTitleInstance, 1425276768] Balances
+                    [BalanceValueInstance, 1217348091] 0x309f.balance: 0x1
+                    [BalanceValueInstance, 528841866] ERC3525.balance: 0x0
+            [Internal, 289328858] (internal) ERC3525._spendAllowance(operator_=0x309f, tokenId_=0x32e0, value_=0x0)
+                [Internal, 1526545250] (internal) ERC3525.allowance(tokenId_=0x32e0, operator_=0x309f)
+                    [Internal, 1758411103] (internal) ERC3525._requireMinted(tokenId_=0x32e0)
+                        [Internal, 1553627616] (internal) ERC3525._exists(tokenId_=0x32e0)
+                                # snippet LoadSnippet 7467724 ;
+                                 disp. path:  _allTokens
+                                  value sym:  CANON17!!15:bv256
+                                # local storage change 7467724
+                            [Load, 993338551] Load from ERC3525._allTokens ↪ 0x1
+                            [Start, 136330904] Evaluate branch condition
+                                -> call data movement CalldataScalars(scalars=[Scalar(byteOffset=4, value=tacCalldatabufCANON0@2:bv256)])
+                                # snippet LoadSnippet 1597456154 ;
+                                 disp. path:  _allTokensIndex[k = tacCalldatabufCANON0@2:bv256]
+                                  value sym:  R147:bv256
+                                # local storage change 1597456154
+                            [Load, 422898434] Load from ERC3525._allTokensIndex[0x32e0] ↪ 0x0
+                                # snippet LoadSnippet 7494136 ;
+                                 disp. path:  _allTokens
+                                  value sym:  CANON17!!15:bv256
+                                # local storage change 7494136
+                            [Load, 384750781] Load from ERC3525._allTokens ↪ 0x1
+                            [Start, 82598475] Evaluate branch condition
+                                # snippet LoadSnippet 1947282272 ;
+                                 disp. path:  _allTokens[i = R147:bv256].id
+                                  value sym:  R362:bv256
+                                # local storage change 1947282272
+                            [Load, 229732528] Load from ERC3525._allTokens[0x0].id ↪ 0x32e0
+                                -> call data movement CalldataScalars(scalars=[Scalar(byteOffset=4, value=tacCalldatabufCANON0@2:bv256)])
+                        [StorageTitleInstance, 870577919] Global State
+                            [StorageTitleInstance, 1405654786] Storage State
+                                [StorageTitleInstance, 898674994] ERC3525
+                                    [StorageStateValueInstance, 866280384] _addressData[ERC3525].approvals[0x309f]: true
+                                    [StorageStateValueInstance, 526004037] _allTokens: 0x1
+                                    [StorageStateValueInstance, 146660139] _allTokens[0x0].balance: 0x0
+                                    [StorageStateValueInstance, 949285423] _allTokens[0x0].id: 0x32e0
+                                    [StorageStateValueInstance, 411581086] _allTokens[0x0].owner: ERC3525
+                                    [StorageStateValueInstance, 1449533133] _allTokensIndex[0x32e0]: 0x0
+                                    [StorageStateValueInstance, 811918249] _approvedValues[0x32e0][0x309f]: 0x0
+                                    [StorageStateValueInstance, 796817920] _tokenIdGenerator: MAX_UINT256
+                            [StorageTitleInstance, 1987836347] Balances
+                                [BalanceValueInstance, 269287887] 0x309f.balance: 0x1
+                                [BalanceValueInstance, 132370892] ERC3525.balance: 0x0
+                        [Start, 1527846218] Evaluate branch condition
+                    [StorageTitleInstance, 1921948082] Global State
+                        [StorageTitleInstance, 183893333] Storage State
+                            [StorageTitleInstance, 318845046] ERC3525
+                                [StorageStateValueInstance, 1089063961] _addressData[ERC3525].approvals[0x309f]: true
+                                [StorageStateValueInstance, 1177325247] _allTokens: 0x1
+                                [StorageStateValueInstance, 1662442618] _allTokens[0x0].balance: 0x0
+                                [StorageStateValueInstance, 2039399150] _allTokens[0x0].id: 0x32e0
+                                [StorageStateValueInstance, 1997099202] _allTokens[0x0].owner: ERC3525
+                                [StorageStateValueInstance, 1441948138] _allTokensIndex[0x32e0]: 0x0
+                                [StorageStateValueInstance, 5411362] _approvedValues[0x32e0][0x309f]: 0x0
+                                [StorageStateValueInstance, 256162164] _tokenIdGenerator: MAX_UINT256
+                        [StorageTitleInstance, 846620446] Balances
+                            [BalanceValueInstance, 1951247755] 0x309f.balance: 0x1
+                            [BalanceValueInstance, 1612378786] ERC3525.balance: 0x0
+                        -> call data movement CalldataScalars(scalars=[Scalar(byteOffset=4, value=tacCalldatabufCANON0@2:bv256)])
+                        # snippet LoadSnippet -666158744 ;
+                         disp. path:  _approvedValues[k = tacCalldatabufCANON0@2:bv256][k = R127:bv256]
+                          value sym:  R240:bv256
+                        # local storage change -666158744
+                    [Load, 1245669580] Load from ERC3525._approvedValues[0x32e0][0x309f] ↪ 0x0
+                [StorageTitleInstance, 1274062850] Global State
+                    [StorageTitleInstance, 1380480258] Storage State
+                        [StorageTitleInstance, 1701839371] ERC3525
+                            [StorageStateValueInstance, 1412988769] _addressData[ERC3525].approvals[0x309f]: true
+                            [StorageStateValueInstance, 440827228] _allTokens: 0x1
+                            [StorageStateValueInstance, 188214131] _allTokens[0x0].balance: 0x0
+                            [StorageStateValueInstance, 1857212484] _allTokens[0x0].id: 0x32e0
+                            [StorageStateValueInstance, 2045147524] _allTokens[0x0].owner: ERC3525
+                            [StorageStateValueInstance, 1357072249] _allTokensIndex[0x32e0]: 0x0
+                            [StorageStateValueInstance, 1681605221] _approvedValues[0x32e0][0x309f]: 0x0
+                            [StorageStateValueInstance, 477335126] _tokenIdGenerator: MAX_UINT256
+                    [StorageTitleInstance, 1444150789] Balances
+                        [BalanceValueInstance, 469869361] 0x309f.balance: 0x1
+                        [BalanceValueInstance, 580383422] ERC3525.balance: 0x0
+                [LocalAssignmentInstance, 734448447] currentAllowance  ↪  0x0
+                [Internal, 445735196] (internal) ERC3525._isApprovedOrOwner(operator_=0x309f, tokenId_=0x32e0)
+                    [Internal, 1242923106] (internal) ERC3525.ownerOf(tokenId_=0x32e0)
+                        [Internal, 402518223] (internal) ERC3525._requireMinted(tokenId_=0x32e0)
+                            [Internal, 184503868] (internal) ERC3525._exists(tokenId_=0x32e0)
+                                    # snippet LoadSnippet 7467724 ;
+                                     disp. path:  _allTokens
+                                      value sym:  CANON17!!15:bv256
+                                    # local storage change 7467724
+                                [Load, 460806142] Load from ERC3525._allTokens ↪ 0x1
+                                [Start, 2097664610] Evaluate branch condition
+                                    -> call data movement CalldataScalars(scalars=[Scalar(byteOffset=4, value=tacCalldatabufCANON0@2:bv256)])
+                                    # snippet LoadSnippet -209998309 ;
+                                     disp. path:  _allTokensIndex[k = tacCalldatabufCANON0@2:bv256]
+                                      value sym:  R247:bv256
+                                    # local storage change -209998309
+                                [Load, 84160133] Load from ERC3525._allTokensIndex[0x32e0] ↪ 0x0
+                                    # snippet LoadSnippet 7494136 ;
+                                     disp. path:  _allTokens
+                                      value sym:  CANON17!!15:bv256
+                                    # local storage change 7494136
+                                [Load, 1970933431] Load from ERC3525._allTokens ↪ 0x1
+                                [Start, 1410563905] Evaluate branch condition
+                                    # snippet LoadSnippet -715478845 ;
+                                     disp. path:  _allTokens[i = R247:bv256].id
+                                      value sym:  R353:bv256
+                                    # local storage change -715478845
+                                [Load, 398730083] Load from ERC3525._allTokens[0x0].id ↪ 0x32e0
+                                    -> call data movement CalldataScalars(scalars=[Scalar(byteOffset=4, value=tacCalldatabufCANON0@2:bv256)])
+                            [StorageTitleInstance, 865097496] Global State
+                                [StorageTitleInstance, 381347947] Storage State
+                                    [StorageTitleInstance, 1503425674] ERC3525
+                                        [StorageStateValueInstance, 1869974497] _addressData[ERC3525].approvals[0x309f]: true
+                                        [StorageStateValueInstance, 1592535424] _allTokens: 0x1
+                                        [StorageStateValueInstance, 534014854] _allTokens[0x0].balance: 0x0
+                                        [StorageStateValueInstance, 634807506] _allTokens[0x0].id: 0x32e0
+                                        [StorageStateValueInstance, 1723848970] _allTokens[0x0].owner: ERC3525
+                                        [StorageStateValueInstance, 1495288948] _allTokensIndex[0x32e0]: 0x0
+                                        [StorageStateValueInstance, 1704232077] _approvedValues[0x32e0][0x309f]: 0x0
+                                        [StorageStateValueInstance, 1936890905] _tokenIdGenerator: MAX_UINT256
+                                [StorageTitleInstance, 1797094644] Balances
+                                    [BalanceValueInstance, 814075407] 0x309f.balance: 0x1
+                                    [BalanceValueInstance, 1903465598] ERC3525.balance: 0x0
+                            [Start, 377576477] Evaluate branch condition
+                        [StorageTitleInstance, 377190629] Global State
+                            [StorageTitleInstance, 143669651] Storage State
+                                [StorageTitleInstance, 1569885083] ERC3525
+                                    [StorageStateValueInstance, 1106199936] _addressData[ERC3525].approvals[0x309f]: true
+                                    [StorageStateValueInstance, 211726600] _allTokens: 0x1
+                                    [StorageStateValueInstance, 88821161] _allTokens[0x0].balance: 0x0
+                                    [StorageStateValueInstance, 1288487112] _allTokens[0x0].id: 0x32e0
+                                    [StorageStateValueInstance, 2008309652] _allTokens[0x0].owner: ERC3525
+                                    [StorageStateValueInstance, 240891547] _allTokensIndex[0x32e0]: 0x0
+                                    [StorageStateValueInstance, 1369605372] _approvedValues[0x32e0][0x309f]: 0x0
+                                    [StorageStateValueInstance, 2076361856] _tokenIdGenerator: MAX_UINT256
+                            [StorageTitleInstance, 778005651] Balances
+                                [BalanceValueInstance, 2112088237] 0x309f.balance: 0x1
+                                [BalanceValueInstance, 941819529] ERC3525.balance: 0x0
+                            -> call data movement CalldataScalars(scalars=[Scalar(byteOffset=4, value=tacCalldatabufCANON0@2:bv256)])
+                            # snippet LoadSnippet -293806788 ;
+                             disp. path:  _allTokensIndex[k = tacCalldatabufCANON0@2:bv256]
+                              value sym:  R226:bv256
+                            # local storage change -293806788
+                        [Load, 1428693961] Load from ERC3525._allTokensIndex[0x32e0] ↪ 0x0
+                            # snippet LoadSnippet 1842712 ;
+                             disp. path:  _allTokens
+                              value sym:  CANON17!!15:bv256
+                            # local storage change 1842712
+                        [Load, 13039115] Load from ERC3525._allTokens ↪ 0x1
+                        [Start, 1644351550] Evaluate branch condition
+                            # snippet LoadSnippet -528949808 ;
+                             disp. path:  _allTokens[i = R226:bv256].owner
+                              value sym:  R205:bv256
+                            # local storage change -528949808
+                        [Load, 1110803897] Load from ERC3525._allTokens[0x0].owner ↪ ERC3525
+                        [LocalAssignmentInstance, 1452789853] owner_  ↪  0x30a0
+                        [Start, 1641419306] Evaluate branch condition
+                    [StorageTitleInstance, 354528526] Global State
+                        [StorageTitleInstance, 2077747806] Storage State
+                            [StorageTitleInstance, 329959489] ERC3525
+                                [StorageStateValueInstance, 1119670108] _addressData[ERC3525].approvals[0x309f]: true
+                                [StorageStateValueInstance, 1517114328] _allTokens: 0x1
+                                [StorageStateValueInstance, 506255313] _allTokens[0x0].balance: 0x0
+                                [StorageStateValueInstance, 1535245461] _allTokens[0x0].id: 0x32e0
+                                [StorageStateValueInstance, 2145590934] _allTokens[0x0].owner: ERC3525
+                                [StorageStateValueInstance, 1335910689] _allTokensIndex[0x32e0]: 0x0
+                                [StorageStateValueInstance, 927638875] _approvedValues[0x32e0][0x309f]: 0x0
+                                [StorageStateValueInstance, 1669042803] _tokenIdGenerator: MAX_UINT256
+                        [StorageTitleInstance, 76228388] Balances
+                            [BalanceValueInstance, 1215231997] 0x309f.balance: 0x1
+                            [BalanceValueInstance, 711783382] ERC3525.balance: 0x0
+                    [LocalAssignmentInstance, 356189410] owner  ↪  0x30a0
+                    [Start, 1213510502] Evaluate branch condition
+                    [Internal, 2000315534] (internal) ERC3525.isApprovedForAll(owner_=ERC3525, operator_=0x309f)
+                            # snippet LoadSnippet 756504586 ;
+                             disp. path:  _addressData[k = R205:bv256].approvals[k = R127:bv256]
+                              value sym:  R279:bv256
+                            # local storage change 756504586
+                        [Load, 973462524] Load from ERC3525._addressData[ERC3525].approvals[0x309f] ↪ true
+                    [StorageTitleInstance, 2010432586] Global State
+                        [StorageTitleInstance, 443975253] Storage State
+                            [StorageTitleInstance, 1053593473] ERC3525
+                                [StorageStateValueInstance, 713193887] _addressData[ERC3525].approvals[0x309f]: true
+                                [StorageStateValueInstance, 2074418705] _allTokens: 0x1
+                                [StorageStateValueInstance, 1431268126] _allTokens[0x0].balance: 0x0
+                                [StorageStateValueInstance, 254105265] _allTokens[0x0].id: 0x32e0
+                                [StorageStateValueInstance, 911378507] _allTokens[0x0].owner: ERC3525
+                                [StorageStateValueInstance, 1708416262] _allTokensIndex[0x32e0]: 0x0
+                                [StorageStateValueInstance, 1273879865] _approvedValues[0x32e0][0x309f]: 0x0
+                                [StorageStateValueInstance, 1859689003] _tokenIdGenerator: MAX_UINT256
+                        [StorageTitleInstance, 1290422123] Balances
+                            [BalanceValueInstance, 185667485] 0x309f.balance: 0x1
+                            [BalanceValueInstance, 774905811] ERC3525.balance: 0x0
+                    [Start, 68407804] Evaluate branch condition
+                [StorageTitleInstance, 442244874] Global State
+                    [StorageTitleInstance, 431130171] Storage State
+                        [StorageTitleInstance, 936561753] ERC3525
+                            [StorageStateValueInstance, 768898926] _addressData[ERC3525].approvals[0x309f]: true
+                            [StorageStateValueInstance, 1460312465] _allTokens: 0x1
+                            [StorageStateValueInstance, 1510231573] _allTokens[0x0].balance: 0x0
+                            [StorageStateValueInstance, 2073420040] _allTokens[0x0].id: 0x32e0
+                            [StorageStateValueInstance, 1970574867] _allTokens[0x0].owner: ERC3525
+                            [StorageStateValueInstance, 1991331645] _allTokensIndex[0x32e0]: 0x0
+                            [StorageStateValueInstance, 238932760] _approvedValues[0x32e0][0x309f]: 0x0
+                            [StorageStateValueInstance, 1526005366] _tokenIdGenerator: MAX_UINT256
+                    [StorageTitleInstance, 199307061] Balances
+                        [BalanceValueInstance, 2010464723] 0x309f.balance: 0x1
+                        [BalanceValueInstance, 386984226] ERC3525.balance: 0x0
+                [Start, 1785377528] Evaluate branch condition
+                [Start, 1760604167] Evaluate branch condition
+            [StorageTitleInstance, 896970515] Global State
+                [StorageTitleInstance, 624892262] Storage State
+                    [StorageTitleInstance, 444432971] ERC3525
+                        [StorageStateValueInstance, 2002811275] _addressData[ERC3525].approvals[0x309f]: true
+                        [StorageStateValueInstance, 2003717699] _allTokens: 0x1
+                        [StorageStateValueInstance, 717725153] _allTokens[0x0].balance: 0x0
+                        [StorageStateValueInstance, 1549675816] _allTokens[0x0].id: 0x32e0
+                        [StorageStateValueInstance, 679918345] _allTokens[0x0].owner: ERC3525
+                        [StorageStateValueInstance, 765453324] _allTokensIndex[0x32e0]: 0x0
+                        [StorageStateValueInstance, 1000426699] _approvedValues[0x32e0][0x309f]: 0x0
+                        [StorageStateValueInstance, 381354490] _tokenIdGenerator: MAX_UINT256
+                [StorageTitleInstance, 192462551] Balances
+                    [BalanceValueInstance, 1502970928] 0x309f.balance: 0x1
+                    [BalanceValueInstance, 1759730909] ERC3525.balance: 0x0
+            [Internal, 639182058] (internal) ERC3525._createDerivedTokenId(fromTokenId_=0x32e0)
+                [Internal, 1750710520] (internal) ERC3525._createOriginalTokenId()
+                        # snippet LoadSnippet 1197014419 ;
+                         disp. path:  _tokenIdGenerator
+                          value sym:  CANON16!!14:bv256
+                        # local storage change 1197014419
+                    [Load, 488113607] Load from ERC3525._tokenIdGenerator ↪ MAX_UINT256
+                    [Start, 1877976845] Evaluate branch condition
+                    [RevertCauseHeaderInstance, 492908247] Why did this call revert?
+    [Revert, 421427740] Revert
+[LabelInstance, 693035354] _ = lastReverted
+[LabelInstance, 424494758] assert false
+    [StorageTitleInstance, 46087356] Global State
+        [StorageTitleInstance, 1373559148] Storage State
+            [StorageTitleInstance, 264545852] ERC3525
+                [StorageStateValueInstance, 2093984020] _addressData[ERC3525].approvals[0x309f]: true
+                [StorageStateValueInstance, 133046509] _allTokens: 0x1
+                [StorageStateValueInstance, 542936261] _allTokens[0x0].balance: 0x0
+                [StorageStateValueInstance, 176368564] _allTokens[0x0].id: 0x32e0
+                [StorageStateValueInstance, 184923385] _allTokens[0x0].owner: ERC3525
+                [StorageStateValueInstance, 2107245628] _allTokensIndex[0x32e0]: 0x0
+                [StorageStateValueInstance, 971277806] _approvedValues[0x32e0][0x309f]: 0x0
+                [StorageStateValueInstance, 715769837] _tokenIdGenerator: MAX_UINT256
+        [StorageTitleInstance, 212671549] Balances
+            [BalanceValueInstance, 557535856] 0x309f.balance: 0x1
+            [BalanceValueInstance, 1013807180] ERC3525.balance: 0x0
+    -------- CVL model begin ------------
+    -- type: int --
+    CANON39!!89                                   ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : value
+       cvl.type            : uint256
+       cvl.def.site        : Rule(range=ERC3525.spec:113:5)
+    CANON26                                       ~~>                                                             0x309f
+       cvl                 : true
+       cvl.display         : e.msg.sender
+       cvl.type            : address
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[msg, sender])
+       cvl.def.site        : Rule(range=ERC3525.spec:111:5)
+    CANON27                                       ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : e.msg.value
+       cvl.type            : uint256
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[msg, value])
+       cvl.def.site        : Rule(range=ERC3525.spec:111:5)
+    CANON28                                       ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : e.tx.origin
+       cvl.type            : address
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[tx, origin])
+       cvl.def.site        : Rule(range=ERC3525.spec:111:5)
+    CANON29                                       ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : e.block.basefee
+       cvl.type            : uint256
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[block, basefee])
+       cvl.def.site        : Rule(range=ERC3525.spec:111:5)
+    CANON30                                       ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : e.block.blobbasefee
+       cvl.type            : uint256
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[block, blobbasefee])
+       cvl.def.site        : Rule(range=ERC3525.spec:111:5)
+    CANON31                                       ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : e.block.coinbase
+       cvl.type            : address
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[block, coinbase])
+       cvl.def.site        : Rule(range=ERC3525.spec:111:5)
+    CANON32                                       ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : e.block.difficulty
+       cvl.type            : uint256
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[block, difficulty])
+       cvl.def.site        : Rule(range=ERC3525.spec:111:5)
+    CANON33                                       ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : e.block.gaslimit
+       cvl.type            : uint256
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[block, gaslimit])
+       cvl.def.site        : Rule(range=ERC3525.spec:111:5)
+    CANON34                                       ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : e.block.number
+       cvl.type            : uint256
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[block, number])
+       cvl.def.site        : Rule(range=ERC3525.spec:111:5)
+    CANON35                                       ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : e.block.timestamp
+       cvl.type            : uint256
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[block, timestamp])
+       cvl.def.site        : Rule(range=ERC3525.spec:111:5)
+    CANON1                                        ~~>                                                             0x30a0
+       cvl                 : true
+       cvl.display         : currentContract
+       cvl.type            : ERC3525
+    CANON                                         ~~>                                                             0x32e0
+       cvl                 : true
+       cvl.display         : fromTokenId
+       cvl.type            : uint256
+       cvl.def.site        : Rule(range=ERC3525.spec:110:33)
+    -- type: bool --
+    CANON36                                       ~~> false
+       cvl                 : true
+       cvl.display         : zeroAddr
+       cvl.type            : address
+       cvl.def.site        : Rule(range=ERC3525.spec:112:5)
+    -------- CVL model end --------------
+    -------- TAC model begin ------------
+      ReachabilityCertora10897_1014_0_2_0_0:bool  -->                                                              false
+      ReachabilityCertora19929_1001_0_2_0_10:bool  -->                                                              false
+      ReachabilityCertora19929_1001_0_2_0_17:bool  -->                                                              false
+      ReachabilityCertora19929_1001_0_2_0_18:bool  -->                                                              false
+      ReachabilityCertora19929_1001_0_2_0_22:bool  -->                                                              false
+      ReachabilityCertora15310_997_0_2_0_0:bool  -->                                                              false
+      OK_5_0_0_0_0_0:bool  -->                                                              false
+      ReachabilityCertora19837_1004_0_2_0_0:bool  -->                                                              false
+      ReachabilityCertora19837_1004_0_2_0_5:bool  -->                                                              false
+      ReachabilityCertora19837_1004_0_2_0_6:bool  -->                                                              false
+      ReachabilityCertora12778_1008_0_2_0_1:bool  -->                                                              false
+      ReachabilityCertora14002_1010_0_2_0_0:bool  -->                                                              false
+      tacCalldatabufCANON0@1:bv256  -->                                                             0x32e0
+      tacCalldatabufCANON0@2:bv256  -->                                                             0x32e0
+      tacCalldatabufCANON1@2:bool  -->                                                              false
+      tacCalldatabufCANON2@2:bv256  -->                                                                0x0
+      ReachabilityCertora9575_1011_0_2_0_0:bool  -->                                                              false
+      CANON16!!166:bv256  --> 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+      CANON16!!456:bv256  -->                                                                0x0
+      ReachabilityCertora5_0_0_2_0_1892:bool  -->                                                               true
+      ReachabilityCertora5_0_0_2_0_1895:bool  -->                                                              false
+      ReachabilityCertora5_0_0_2_0_1896:bool  -->                                                              false
+      CANON39!!89:int  -->                                                                0x0
+      from_skey:ghostmap((uninterp) skey->bv256)  -->                                          {[x:bv256] ->
+  x:bv256
+}
+      ReachabilityCertora20020_1004_0_2_0_0:bool  -->                                                              false
+      ReachabilityCertora20026_1006_0_2_0_0:bool  -->                                                              false
+      tacM0x40!!0:bv256  -->                                                                0x0
+      tacM0x40!!1:bv256  -->                                                                0x0
+      OK_19837_1004_0_2_0_24:bool  -->                                                              false
+      ReachabilityCertora19896_1001_0_2_0_0:bool  -->                                                              false
+      ReachabilityCertora19896_1001_0_2_0_7:bool  -->                                                              false
+      ReachabilityCertora19896_1001_0_2_0_8:bool  -->                                                              false
+      OK_5_0_0_2_0_1892:bool  -->                                                              false
+      OK_5_0_0_2_0_1895:bool  -->                                                               true
+      OK_5_0_0_2_0_1896:bool  -->                                                               true
+      ReachabilityCertora15310_1005_0_2_0_0:bool  -->                                                              false
+      ReachabilityCertora20007_1004_0_2_0_11:bool  -->                                                              false
+      ReachabilityCertora20007_1004_0_2_0_19:bool  -->                                                              false
+      OK_12941_1008_0_2_0_0:bool  -->                                                              false
+      ReachabilityCertora9575_1008_0_2_0_0:bool  -->                                                               true
+      to_skey:ghostmap(bv256->(uninterp) skey)  -->                                          {[x:bv256] ->
+  x:bv256
+}
+      ReachabilityCertora6104_1006_0_2_0_0:bool  -->                                                              false
+      ReachabilityCertora26205_1007_0_2_0_0:bool  -->                                                              false
+      ReachabilityCertora12885_1008_0_2_0_0:bool  -->                                                              false
+      OK_19997_1004_0_2_0_0:bool  -->                                                               true
+      tacCalldatasize!!124:bv256  -->                                                               0x64
+      ReachabilityCertora0_0_0_0_0_0:bool  -->                                                               true
+      OK_10920_1014_0_2_0_0:bool  -->                                                              false
+      ReachabilityCertora15310_1002_0_2_0_0:bool  -->                                                               true
+      CANON17!!167:bv256  -->                                                                0x1
+      OK_12879_1008_0_2_0_0:bool  -->                                                              false
+      ReachabilityCertora1_0_0_1_0_0:bool  -->                                                               true
+      ReachabilityCertora2_0_0_0_0_0:bool  -->                                                               true
+      ReachabilityCertora19929_1001_0_2_0_0:bool  -->                                                              false
+      ReachabilityCertora19929_1001_0_2_0_9:bool  -->                                                              false
+      CANON40.22975:bv256  -->                                                                0x0
+      ReachabilityCertora9575_1004_0_2_0_0:bool  -->                                                               true
+      ReachabilityCertora3_0_0_2_0_0:bool  -->                                                               true
+      OK_19896_1001_0_2_0_23:bool  -->                                                              false
+      ReachabilityCertora9575_1003_0_2_0_0:bool  -->                                                              false
+      tacCalldatasize!!44:bv256  -->                                                               0x24
+      ReachabilityCertora5_0_0_0_0_0:bool  -->                                                               true
+      ReachabilityCertora10839_1014_0_2_0_0:bool  -->                                                              false
+      ReachabilityCertora19767_1003_0_2_0_0:bool  -->                                                              false
+      ReachabilityCertora2835_1003_0_2_0_0:bool  -->                                                              false
+      CANON18!!168:bv256  -->                                                                0x0
+      ReachabilityCertora12868_1008_0_2_0_0:bool  -->                                                               true
+      tacCalldatabuf@1:bytemap  --> {[arg0:bv256] ->
+  Ite(
+    0x24 <= arg0:bv256
+    0x0
+    0x9cc7f70800000000000000000000000000000000000000000000000000000000
+  )
+}
+      tacCalldatabuf@2:bytemap  --> {[arg0:bv256] ->
+  Ite(
+    0x64 <= arg0:bv256
+    0x0
+    Ite(
+      arg0:bv256 == 0x0
+      0xf485c0200000000000000000000000000000000000000000000000000000000
+      0x9cc7f70800000000000000000000000000000000000000000000000000000000
+    )
+  )
+}
+      ReachabilityCertora26197_1007_0_2_0_0:bool  -->                                                              false
+             R2:bv256  -->                                                                0x1
+             B40:bool  -->                                                               true
+             B73:bool  -->                                                               true
+              I42:int  -->                                                             0x32e0
+              I91:int  -->                                                             0x32e0
+              I92:int  -->                                                                0x0
+              I93:int  -->                                                                0x0
+            R22:bv256  -->                                                                0x1
+            R23:bv256  -->                                                                0x2
+            R24:bv256  -->                                                                0x4
+            R34:bv256  -->                                                             0x30a0
+            R38:bv256  -->                                                                0x1
+            R45:bv256  --> 0x9cc7f70800000000000000000000000000000000000000000000000000000000
+            R48:bv256  -->                                                             0x309f
+            R50:bv256  -->                                                                0x1
+            R53:bv256  -->                                                                0x0
+            R55:bv256  -->                                                                0x0
+            R57:bv256  -->                                                                0x1
+            R58:bv256  -->                                                             0x32e0
+            R61:bv256  -->                                                                0x6
+      R62:(uninterp) skey  -->                                                             0x3096
+            R64:bv256  -->                                                                0x0
+      R67:(uninterp) skey  -->                                                             0x4538
+            R68:bv256  -->                                                                0x0
+      R69:(uninterp) skey  -->                                                             0x4538
+            R71:bv256  -->                                                             0x32e0
+            R75:bv256  -->                                                                0x6
+      R76:(uninterp) skey  -->                                                             0x3096
+            R78:bv256  -->                                                                0x0
+      R81:(uninterp) skey  -->                                                             0x4538
+            R82:bv256  -->                                                                0x0
+      R83:(uninterp) skey  -->                                                             0x4538
+      R84:(uninterp) skey  -->                                                             0x453a
+            R85:bv256  -->                                                                0x0
+            B139:bool  -->                                                              false
+            B149:bool  -->                                                              false
+            B177:bool  -->                                                               true
+            B178:bool  -->                                                              false
+            B196:bool  -->                                                              false
+            B207:bool  -->                                                              false
+            B213:bool  -->                                                              false
+            B221:bool  -->                                                              false
+            B228:bool  -->                                                              false
+            B249:bool  -->                                                              false
+            B256:bool  -->                                                              false
+            B257:bool  -->                                                              false
+            B260:bool  -->                                                              false
+            B262:bool  -->                                                               true
+            B282:bool  -->                                                              false
+            B292:bool  -->                                                              false
+            B294:bool  -->                                                              false
+            B296:bool  -->                                                               true
+            B297:bool  -->                                                              false
+            B306:bool  -->                                                              false
+            B313:bool  -->                                                              false
+            B345:bool  -->                                                              false
+            B354:bool  -->                                                               true
+            B363:bool  -->                                                               true
+            B372:bool  -->                                                              false
+            B382:bool  -->                                                              false
+            B390:bool  -->                                                              false
+            B398:bool  -->                                                              false
+            B406:bool  -->                                                              false
+            B413:bool  -->                                                              false
+            B420:bool  -->                                                              false
+            B427:bool  -->                                                              false
+            B432:bool  -->                                                              false
+            B437:bool  -->                                                              false
+            B442:bool  -->                                                              false
+            B444:bool  -->                                                              false
+            B446:bool  -->                                                              false
+            B448:bool  -->                                                              false
+            B454:bool  -->                                                              false
+            B466:bool  -->                                                              false
+           R121:bv256  -->                                                             0x309f
+           R123:bv256  -->                                                                0x1
+           R125:bv256  -->  0xf485c0200000000000000000000000000000000000000000000000000000000
+           R127:bv256  -->                                                             0x309f
+           R129:bv256  -->                                                             0x309f
+           R131:bv256  -->                                                                0x1
+           R134:bv256  -->                                                                0x0
+           R136:bv256  -->                                                                0x0
+           R137:bv256  -->                                                                0x1
+           R138:bv256  -->                                                             0x32e0
+           R140:bv256  -->                                                                0x0
+           R144:bv256  -->                                                                0x6
+      R145:(uninterp) skey  -->                                                             0x3096
+           R147:bv256  -->                                                                0x0
+      R179:(uninterp) skey  -->                                                             0x3e31
+           R180:bv256  -->                                                                0x0
+      R181:(uninterp) skey  -->                                                             0x22f1
+      R182:(uninterp) skey  -->                                                                0x0
+           R183:bv256  -->                                                                0x0
+           R189:bv256  -->                                                                0x2
+      R190:(uninterp) skey  -->                                                              0x476
+           R191:bv256  -->                                                                0x0
+      R192:(uninterp) skey  -->                                                              0x119
+      R193:(uninterp) skey  -->                                                                0x0
+           R194:bv256  -->                                                                0x0
+      R201:(uninterp) skey  -->                                                             0x4538
+           R202:bv256  -->                                                                0x0
+      R203:(uninterp) skey  -->                                                             0x4538
+      R204:(uninterp) skey  -->                                                             0x453b
+           R205:bv256  -->                                                             0x30a0
+           R216:bv256  -->                                                                0x0
+      R217:(uninterp) skey  -->                                                                0x0
+           R219:bv256  -->                                                                0x0
+           R223:bv256  -->                                                                0x6
+      R224:(uninterp) skey  -->                                                             0x3096
+           R226:bv256  -->                                                                0x0
+           R230:bv256  -->                                                                0x4
+      R231:(uninterp) skey  -->                                                             0x2737
+      R238:(uninterp) skey  -->                                                             0x49a8
+           R240:bv256  -->                                                                0x0
+           R244:bv256  -->                                                                0x6
+      R245:(uninterp) skey  -->                                                             0x3096
+           R247:bv256  -->                                                                0x0
+           R251:bv256  -->                                                                0x0
+      R252:(uninterp) skey  -->                                                                0x0
+           R254:bv256  -->                                                                0x0
+           R264:bv256  -->                                                                0x2
+           R268:bv256  -->                                                                0x7
+      R269:(uninterp) skey  -->                                                             0x7a07
+      R271:(uninterp) skey  -->                                                             0x7a09
+      R277:(uninterp) skey  -->                                                             0x5526
+           R279:bv256  -->                                                                0x2
+           R287:bv256  -->                                                                0x0
+      R288:(uninterp) skey  -->                                                                0x0
+           R290:bv256  -->                                                                0x0
+           R301:bv256  -->                                                                0x0
+      R302:(uninterp) skey  -->                                                                0x0
+           R304:bv256  -->                                                                0x0
+           R308:bv256  -->                                                                0x0
+      R309:(uninterp) skey  -->                                                                0x0
+           R311:bv256  -->                                                                0x0
+      R314:(uninterp) skey  -->                                                              0x8c0
+           R315:bv256  -->                                                                0x0
+      R316:(uninterp) skey  -->                                                             0x25fd
+      R317:(uninterp) skey  -->                                                                0x0
+           R319:bv256  -->                                                                0x0
+           R320:bv256  -->                                                                0x0
+      R323:(uninterp) skey  -->                                                             0x7e16
+      R324:(uninterp) skey  -->                                                                0x0
+           R329:bv256  -->                                                                0x0
+      R330:(uninterp) skey  -->                                                                0x0
+      R337:(uninterp) skey  -->                                                                0x0
+      R340:(uninterp) skey  -->                                                             0x5039
+           R341:bv256  -->                                                                0x0
+      R342:(uninterp) skey  -->                                                                0x0
+           R344:bv256  -->                                                                0x0
+      R349:(uninterp) skey  -->                                                             0x4538
+           R350:bv256  -->                                                                0x0
+      R351:(uninterp) skey  -->                                                             0x4538
+           R353:bv256  -->                                                             0x32e0
+      R358:(uninterp) skey  -->                                                             0x4538
+           R359:bv256  -->                                                                0x0
+      R360:(uninterp) skey  -->                                                             0x4538
+           R362:bv256  -->                                                             0x32e0
+      R367:(uninterp) skey  -->                                                             0x6dc4
+           R368:bv256  -->                                                                0x0
+      R369:(uninterp) skey  -->                                                                0x0
+           R371:bv256  -->                                                                0x0
+      R376:(uninterp) skey  -->                                                             0x66ad
+           R377:bv256  -->                                                                0x0
+      R378:(uninterp) skey  -->                                                              0xbb5
+      R379:(uninterp) skey  -->                                                                0x0
+           R380:bv256  -->                                                                0x0
+           R381:bv256  -->                                                                0x1
+           R385:bv256  -->                                                                0x0
+      R386:(uninterp) skey  -->                                                                0x0
+           R388:bv256  -->                                                                0x0
+           R393:bv256  -->                                                                0x0
+      R394:(uninterp) skey  -->                                                                0x0
+           R396:bv256  -->                                                                0x0
+           R401:bv256  -->                                                                0x0
+      R402:(uninterp) skey  -->                                                                0x0
+           R404:bv256  -->                                                                0x0
+      R407:(uninterp) skey  -->                                                             0x4819
+           R408:bv256  -->                                                                0x0
+      R409:(uninterp) skey  -->                                                              0x52b
+      R410:(uninterp) skey  -->                                                                0x0
+           R412:bv256  -->                                                                0x0
+      R414:(uninterp) skey  -->                                                             0x3958
+           R415:bv256  -->                                                                0x0
+      R416:(uninterp) skey  -->                                                             0x51f0
+      R417:(uninterp) skey  -->                                                                0x0
+           R419:bv256  -->                                                                0x0
+      R421:(uninterp) skey  -->                                                             0x7c93
+           R422:bv256  -->                                                                0x0
+      R423:(uninterp) skey  -->                                                             0x5497
+      R424:(uninterp) skey  -->                                                                0x0
+           R426:bv256  -->                                                                0x0
+      R429:(uninterp) skey  -->                                                             0x70d1
+      R430:(uninterp) skey  -->                                                                0x0
+           R431:bv256  -->                                                                0x0
+      R434:(uninterp) skey  -->                                                                0x0
+           R436:bv256  -->                                                                0x0
+      R439:(uninterp) skey  -->                                                             0x6532
+      R440:(uninterp) skey  -->                                                                0x0
+           R441:bv256  -->                                                                0x0
+           R445:bv256  -->                                                                0x0
+           R447:bv256  -->                                                                0x0
+           R452:bv256  -->                                                                0x0
+           R455:bv256  --> 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+           R461:bv256  -->                                                                0x5
+      R462:(uninterp) skey  -->                                                                0x0
+           R464:bv256  -->                                                                0x0
+      lastHasThrown!!126:bool  -->                                                              false
+      lastHasThrown!!197:bool  -->                                                              false
+      lastHasThrown!!199:bool  -->                                                              false
+      lastHasThrown!!208:bool  -->                                                              false
+      lastHasThrown!!258:bool  -->                                                              false
+      lastHasThrown!!298:bool  -->                                                              false
+      lastHasThrown!!467:bool  -->                                                              false
+      lastHasThrown!!469:bool  -->                                                              false
+      lastHasThrown!!471:bool  -->                                                              false
+      ReachabilityCertora19837_1004_0_2_0_13:bool  -->                                                              false
+      ReachabilityCertora19837_1004_0_2_0_14:bool  -->                                                              false
+      ReachabilityCertora19837_1004_0_2_0_20:bool  -->                                                              false
+      ReachabilityCertora19837_1004_0_2_0_24:bool  -->                                                              false
+      ReachabilityCertora12941_1008_0_2_0_0:bool  -->                                                               true
+      ReachabilityCertora4678_1011_0_2_0_0:bool  -->                                                              false
+      ReachabilityCertora10831_1014_0_2_0_0:bool  -->                                                              false
+      lastReverted!!198:bool  -->                                                              false
+      lastReverted!!200:bool  -->                                                              false
+      lastReverted!!209:bool  -->                                                              false
+      lastReverted!!259:bool  -->                                                              false
+      lastReverted!!299:bool  -->                                                              false
+      lastReverted!!468:bool  -->                                                               true
+      lastReverted!!470:bool  -->                                                              false
+      lastReverted!!472:bool  -->                                                              false
+      ReachabilityCertora13856_1010_0_2_0_0:bool  -->                                                              false
+      OK_14002_1010_0_2_0_0:bool  -->                                                               true
+      CANON14!!12:bv256  -->                                                                0x0
+      CANON15!!13:bv256  -->                                                                0x0
+      CANON16!!14:bv256  --> 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+      OK_20020_1004_0_2_0_0:bool  -->                                                               true
+      ReachabilityCertora19997_1004_0_2_0_0:bool  -->                                                              false
+      CANON17!!15:bv256  -->                                                                0x1
+          CANON26:int  -->                                                             0x309f
+          CANON27:int  -->                                                                0x0
+          CANON28:int  -->                                                                0x0
+          CANON29:int  -->                                                                0x0
+          CANON30:int  -->                                                                0x0
+          CANON31:int  -->                                                                0x0
+          CANON32:int  -->                                                                0x0
+          CANON33:int  -->                                                                0x0
+          CANON34:int  -->                                                                0x0
+          CANON35:int  -->                                                                0x0
+         CANON36:bool  -->                                                              false
+      CANON14!!164:bv256  -->                                                                0x0
+      CANON18!!16:bv256  -->                                                                0x0
+      OK_20026_1006_0_2_0_0:bool  -->                                                               true
+      CANON19!!17:bv256  -->                                                                0x0
+      CANON19!!169:bv256  -->                                                                0x0
+      CANON105.22976:bv256  -->                                                                0x0
+      ReachabilityCertora10920_1014_0_2_0_0:bool  -->                                                               true
+      ReachabilityCertora5968_1004_0_2_0_0:bool  -->                                                               true
+      ReachabilityCertora12879_1008_0_2_0_0:bool  -->                                                               true
+      ReachabilityCertora12879_1008_0_2_0_2:bool  -->                                                               true
+      ReachabilityCertora28084_1008_0_2_0_0:bool  -->                                                               true
+      ReachabilityCertora6162_1006_0_2_0_0:bool  -->                                                               true
+      ReachabilityCertora20007_1004_0_2_0_0:bool  -->                                                              false
+      ReachabilityCertora13892_1008_0_2_0_0:bool  -->                                                              false
+      lastReverted!!88:bool  -->                                                              false
+           CANON1:int  -->                                                             0x30a0
+      ReachabilityCertora19896_1001_0_2_0_15:bool  -->                                                              false
+      ReachabilityCertora19896_1001_0_2_0_16:bool  -->                                                              false
+      ReachabilityCertora19896_1001_0_2_0_21:bool  -->                                                              false
+      ReachabilityCertora19896_1001_0_2_0_23:bool  -->                                                              false
+      CANON15!!165:bv256  -->                                                                0x0
+      OK_0_0_0_0_0_0:bool  -->                                                              false
+      lastHasThrown!!46:bool  -->                                                              false
+      lastHasThrown!!87:bool  -->                                                              false
+      ReachabilityCertora5960_1004_0_2_0_0:bool  -->                                                              false
+      ReachabilityCertora13783_1010_0_2_0_0:bool  -->                                                              false
+      ReachabilityCertora28092_1008_0_2_0_0:bool  -->                                                              false
+      OK_1_0_0_1_0_0:bool  -->                                                              false
+      OK_2_0_0_0_0_0:bool  -->                                                              false
+      tacSighash!!36:bv256  -->                                                         0x9cc7f708
+      tacSighash!!37:bv256  -->                                                          0xf485c02
+            CANON:int  -->                                                             0x32e0
+      ReachabilityCertora15310_998_0_2_0_0:bool  -->                                                               true
+      ReachabilityCertora13841_1010_0_2_0_0:bool  -->                                                              false
+      OK_3_0_0_2_0_0:bool  -->                                                              false
+    -------- TAC model end --------------
+    

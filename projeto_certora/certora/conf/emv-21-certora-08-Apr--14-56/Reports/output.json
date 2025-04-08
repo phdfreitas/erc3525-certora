@@ -1,0 +1,17 @@
+{
+	"assertMessages": {
+		"onlyAuthorizedCanTransfer": "!(changedOwner) || ownerTransfering - specs/ERC3525.spec line 25"
+	},
+	"rules": {
+		"approveZeroAddressFails": "SUCCESS",
+		"derivedTokenInheritsSlot": "SUCCESS",
+		"mintOnTransferIncreasesSupply": "SUCCESS",
+		"onlyAuthorizedCanTransfer": "FAIL",
+		"slotDeveSerConsistente": "SUCCESS",
+		"totalSupplyNonNegative": "SUCCESS",
+		"transferToZeroAddressFails": "SUCCESS",
+		"transferValuePreservesTotal": "SUCCESS",
+		"transferValueToNewToken": "SUCCESS",
+		"unauthorazedTransfer": "SANITY_FAIL"
+	}
+}

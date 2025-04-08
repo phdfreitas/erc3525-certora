@@ -1,0 +1,900 @@
+{
+	"splitStats": [{
+    "ruleName": "slotDeveSerConsistente",
+    "splitStatistics": {
+        "[]": {
+            "address": "[]",
+            "splitName": "slotDeveSerConsistente",
+            "finalResult": "UNSAT",
+            "timeout": "PT5M",
+            "smtSolvingWallTime": "PT0.277398686S",
+            "tacStats": {
+                "cmdCounts": {
+                    "AssignHavocCmd": 50,
+                    "AssumeExpCmd": 39,
+                    "AnnotationCmd": 208,
+                    "AssignExpCmd": 69,
+                    "vc.data.TACExpr$Sym$Var": 9,
+                    "vc.data.TACExpr$Select": 9,
+                    "vc.data.TACExpr$BinRel$Eq": 2,
+                    "AssumeCmd": 1,
+                    "vc.data.TACExpr$MapDefinition": 2,
+                    "LabelCmd": 20,
+                    "AssertCmd": 29,
+                    "vc.data.TACExpr$Apply$Unary": 6,
+                    "vc.data.TACExpr$Sym$Const": 12,
+                    "vc.data.TACExpr$Store": 3,
+                    "vc.data.TACExpr$Apply$Nary": 4,
+                    "vc.data.TACExpr$AnnotationExp": 8,
+                    "vc.data.TACExpr$Apply$Binary": 10,
+                    "vc.data.TACExpr$Vec$Mul": 4
+                }
+            },
+            "solvers": {
+                "LIA": {
+                    "UNSAT": [
+                        "cvc5:linNoDio"
+                    ],
+                    "LostRace": [
+                        "z3:lia2",
+                        "z3:lia1",
+                        "cvc5:lin"
+                    ]
+                }
+            }
+        }
+    }
+}, {
+    "ruleName": "totalSupplyNonNegative-rule_not_vacuous",
+    "splitStatistics": {
+        "[]": {
+            "address": "[]",
+            "splitName": "totalSupplyNonNegative-rule_not_vacuous",
+            "finalResult": "SAT",
+            "timeout": "PT5M",
+            "smtSolvingWallTime": "PT0.591290549S",
+            "tacStats": {
+                "cmdCounts": {
+                    "AssignHavocCmd": 43,
+                    "AssumeExpCmd": 22,
+                    "AnnotationCmd": 78,
+                    "AssignExpCmd": 17,
+                    "vc.data.TACExpr$Sym$Var": 1,
+                    "vc.data.TACExpr$Select": 5,
+                    "vc.data.TACExpr$BinRel$Eq": 1,
+                    "AssumeCmd": 1,
+                    "vc.data.TACExpr$MapDefinition": 1,
+                    "vc.data.TACExpr$Sym$Const": 6,
+                    "AssertCmd": 13,
+                    "vc.data.TACExpr$Apply$Unary": 2,
+                    "vc.data.TACExpr$Store": 1,
+                    "LabelCmd": 6
+                }
+            },
+            "solvers": {
+                "NIA": {
+                    "LostRace": [
+                        "z3:def"
+                    ]
+                },
+                "LIA": {
+                    "LostRace": [
+                        "z3:lia2",
+                        "cvc5:linNoDio",
+                        "cvc5:lin"
+                    ],
+                    "Overapproximation(SAT)": [
+                        "z3:lia1"
+                    ]
+                }
+            }
+        }
+    }
+}, {
+    "ruleName": "slotDeveSerConsistente-rule_not_vacuous",
+    "splitStatistics": {
+        "[]": {
+            "address": "[]",
+            "splitName": "slotDeveSerConsistente-rule_not_vacuous",
+            "finalResult": "SAT",
+            "timeout": "PT5M",
+            "smtSolvingWallTime": "PT0.393314329S",
+            "tacStats": {
+                "cmdCounts": {
+                    "AssignHavocCmd": 50,
+                    "AssumeExpCmd": 39,
+                    "AnnotationCmd": 210,
+                    "AssignExpCmd": 70,
+                    "vc.data.TACExpr$Sym$Var": 9,
+                    "vc.data.TACExpr$Select": 9,
+                    "vc.data.TACExpr$BinRel$Eq": 2,
+                    "AssumeCmd": 1,
+                    "vc.data.TACExpr$MapDefinition": 2,
+                    "LabelCmd": 20,
+                    "AssertCmd": 29,
+                    "vc.data.TACExpr$Apply$Unary": 6,
+                    "vc.data.TACExpr$Sym$Const": 13,
+                    "vc.data.TACExpr$Store": 3,
+                    "vc.data.TACExpr$Apply$Nary": 4,
+                    "vc.data.TACExpr$AnnotationExp": 8,
+                    "vc.data.TACExpr$Apply$Binary": 10,
+                    "vc.data.TACExpr$Vec$Mul": 4
+                }
+            },
+            "solvers": {
+                "NIA": {
+                    "LostRace": [
+                        "z3:def",
+                        "cvc5:nonlinNoDio"
+                    ]
+                },
+                "LIA": {
+                    "LostRace": [
+                        "z3:lia2",
+                        "z3:lia1",
+                        "cvc5:linNoDio"
+                    ],
+                    "Overapproximation(SAT)": [
+                        "cvc5:lin"
+                    ]
+                }
+            }
+        }
+    }
+}, {
+    "ruleName": "transferToZeroAddressFails-rule_not_vacuous",
+    "splitStatistics": {
+        "[]": {
+            "address": "[]",
+            "splitName": "transferToZeroAddressFails-rule_not_vacuous",
+            "finalResult": "SAT",
+            "timeout": "PT5S",
+            "smtSolvingWallTime": "PT0.716749157S",
+            "tacStats": {
+                "cmdCounts": {
+                    "AssignHavocCmd": 50,
+                    "AssumeExpCmd": 41,
+                    "AnnotationCmd": 644,
+                    "AssignExpCmd": 267,
+                    "vc.data.TACExpr$Sym$Var": 33,
+                    "vc.data.TACExpr$Select": 10,
+                    "vc.data.TACExpr$BinRel$Eq": 14,
+                    "AssumeCmd": 1,
+                    "vc.data.TACExpr$Sym$Const": 53,
+                    "vc.data.TACExpr$MapDefinition": 2,
+                    "LabelCmd": 65,
+                    "AssertCmd": 35,
+                    "vc.data.TACExpr$Apply$Unary": 12,
+                    "vc.data.TACExpr$Store": 3,
+                    "vc.data.TACExpr$Apply$Nary": 20,
+                    "vc.data.TACExpr$AnnotationExp": 36,
+                    "vc.data.TACExpr$Apply$Binary": 45,
+                    "vc.data.TACExpr$Vec$Mul": 14,
+                    "vc.data.TACExpr$BinRel$Le": 20,
+                    "JumpiCmd": 34,
+                    "vc.data.TACExpr$TernaryExp$Ite": 1,
+                    "vc.data.TACExpr$BinRel$Ge": 1,
+                    "vc.data.TACExpr$UnaryExp$LNot": 1,
+                    "vc.data.TACExpr$BinBoolOp$LAnd": 1,
+                    "vc.data.TACExpr$Vec$Add$Binary": 1,
+                    "JumpCmd": 6
+                }
+            },
+            "solvers": {
+                "NIA": {
+                    "LostRace": [
+                        "z3:def",
+                        "cvc5:nonlin"
+                    ]
+                },
+                "LIA": {
+                    "LostRace": [
+                        "cvc5:lin",
+                        "z3:lia1",
+                        "z3:def",
+                        "z3:eq1",
+                        "z3:eq2",
+                        "z3:arith1",
+                        "z3:arith2"
+                    ],
+                    "Overapproximation(SAT)": [
+                        "z3:lia2"
+                    ]
+                }
+            }
+        }
+    }
+}, {
+    "ruleName": "mintOnTransferIncreasesSupply",
+    "splitStatistics": {
+        "[]": {
+            "address": "[]",
+            "splitName": "mintOnTransferIncreasesSupply",
+            "finalResult": "UNSAT",
+            "timeout": "PT5S",
+            "smtSolvingWallTime": "PT0.529293570S",
+            "tacStats": {
+                "cmdCounts": {
+                    "AssignHavocCmd": 76,
+                    "AssumeExpCmd": 122,
+                    "AssignExpCmd": 422,
+                    "vc.data.TACExpr$MapDefinition": 15,
+                    "AnnotationCmd": 990,
+                    "vc.data.TACExpr$Sym$Var": 16,
+                    "vc.data.TACExpr$Select": 19,
+                    "vc.data.TACExpr$BinRel$Eq": 11,
+                    "AssumeCmd": 3,
+                    "vc.data.TACExpr$Sym$Const": 68,
+                    "AssertCmd": 45,
+                    "vc.data.TACExpr$Apply$Unary": 21,
+                    "vc.data.TACExpr$Store": 19,
+                    "LabelCmd": 115,
+                    "vc.data.TACExpr$Apply$Nary": 32,
+                    "vc.data.TACExpr$AnnotationExp": 80,
+                    "vc.data.TACExpr$Apply$Binary": 85,
+                    "vc.data.TACExpr$Vec$Mul": 22,
+                    "JumpiCmd": 17,
+                    "vc.data.TACExpr$Vec$IntAdd$Binary": 1,
+                    "vc.data.TACExpr$LongStore": 3,
+                    "vc.data.TACExpr$TernaryExp$Ite": 10,
+                    "vc.data.TACExpr$BinRel$Le": 10,
+                    "vc.data.TACExpr$UnaryExp$LNot": 2,
+                    "vc.data.TACExpr$BinBoolOp$LAnd": 1,
+                    "vc.data.TACExpr$Vec$Add$Binary": 3,
+                    "vc.data.TACExpr$BinOp$BWAnd": 4,
+                    "JumpCmd": 1
+                }
+            },
+            "solvers": {
+                "LIA": {
+                    "UNSAT": [
+                        "cvc5:lin"
+                    ],
+                    "LostRace": [
+                        "z3:lia2",
+                        "z3:lia1",
+                        "z3:def",
+                        "z3:eq1",
+                        "z3:eq2",
+                        "z3:arith1"
+                    ]
+                }
+            }
+        }
+    }
+}, {
+    "ruleName": "onlyAuthorizedCanTransfer",
+    "splitStatistics": {
+        "[]": {
+            "address": "[]",
+            "splitName": "onlyAuthorizedCanTransfer",
+            "finalResult": "SAT",
+            "timeout": "PT5S",
+            "smtSolvingWallTime": "PT0.839987300S",
+            "tacStats": {
+                "cmdCounts": {
+                    "AssignHavocCmd": 67,
+                    "AssumeExpCmd": 129,
+                    "AnnotationCmd": 911,
+                    "AssignExpCmd": 410,
+                    "vc.data.TACExpr$Sym$Var": 36,
+                    "vc.data.TACExpr$Select": 22,
+                    "vc.data.TACExpr$BinRel$Eq": 6,
+                    "AssumeCmd": 1,
+                    "vc.data.TACExpr$MapDefinition": 5,
+                    "LabelCmd": 98,
+                    "AssertCmd": 79,
+                    "vc.data.TACExpr$Apply$Unary": 25,
+                    "vc.data.TACExpr$Sym$Const": 65,
+                    "vc.data.TACExpr$Store": 9,
+                    "vc.data.TACExpr$Apply$Nary": 41,
+                    "vc.data.TACExpr$AnnotationExp": 79,
+                    "vc.data.TACExpr$Apply$Binary": 84,
+                    "vc.data.TACExpr$Vec$Mul": 22,
+                    "JumpiCmd": 8,
+                    "vc.data.TACExpr$TernaryExp$Ite": 3,
+                    "vc.data.TACExpr$BinBoolOp$LOr": 3,
+                    "vc.data.TACExpr$BinBoolOp$LAnd": 1,
+                    "vc.data.TACExpr$UnaryExp$LNot": 1,
+                    "vc.data.TACExpr$BinRel$Le": 7,
+                    "vc.data.TACExpr$Vec$Add$Binary": 1
+                }
+            },
+            "solvers": {
+                "NIA": {
+                    "SAT": [
+                        "z3:def"
+                    ],
+                    "LostRace": [
+                        "cvc5:nonlin"
+                    ]
+                },
+                "LIA": {
+                    "LostRace": [
+                        "z3:lia2",
+                        "cvc5:lin",
+                        "z3:def",
+                        "z3:eq1",
+                        "z3:eq2",
+                        "z3:arith1"
+                    ],
+                    "Overapproximation(SAT)": [
+                        "z3:lia1"
+                    ]
+                }
+            }
+        }
+    }
+}, {
+    "ruleName": "derivedTokenInheritsSlot",
+    "splitStatistics": {
+        "[]": {
+            "address": "[]",
+            "splitName": "derivedTokenInheritsSlot",
+            "finalResult": "UNSAT",
+            "timeout": "PT5S",
+            "smtSolvingWallTime": "PT1.438451128S",
+            "tacStats": {
+                "cmdCounts": {
+                    "AssignHavocCmd": 77,
+                    "AssumeExpCmd": 133,
+                    "AssignExpCmd": 459,
+                    "vc.data.TACExpr$MapDefinition": 15,
+                    "AnnotationCmd": 1082,
+                    "vc.data.TACExpr$Sym$Var": 21,
+                    "vc.data.TACExpr$Select": 19,
+                    "vc.data.TACExpr$BinRel$Eq": 11,
+                    "AssumeCmd": 3,
+                    "LabelCmd": 125,
+                    "AssertCmd": 49,
+                    "vc.data.TACExpr$Apply$Unary": 23,
+                    "vc.data.TACExpr$Sym$Const": 73,
+                    "vc.data.TACExpr$Store": 19,
+                    "vc.data.TACExpr$Apply$Nary": 36,
+                    "vc.data.TACExpr$AnnotationExp": 88,
+                    "vc.data.TACExpr$Apply$Binary": 95,
+                    "vc.data.TACExpr$Vec$Mul": 26,
+                    "JumpiCmd": 17,
+                    "vc.data.TACExpr$LongStore": 3,
+                    "vc.data.TACExpr$TernaryExp$Ite": 10,
+                    "vc.data.TACExpr$BinRel$Le": 10,
+                    "vc.data.TACExpr$UnaryExp$LNot": 2,
+                    "vc.data.TACExpr$BinBoolOp$LAnd": 1,
+                    "vc.data.TACExpr$Vec$Add$Binary": 3,
+                    "vc.data.TACExpr$BinOp$BWAnd": 4,
+                    "JumpCmd": 1
+                }
+            },
+            "solvers": {
+                "LIA": {
+                    "UNSAT": [
+                        "z3:lia2"
+                    ],
+                    "LostRace": [
+                        "cvc5:lin",
+                        "z3:lia1",
+                        "z3:def",
+                        "z3:eq1",
+                        "z3:eq2",
+                        "z3:arith1",
+                        "z3:arith2"
+                    ]
+                }
+            }
+        }
+    }
+}, {
+    "ruleName": "transferValuePreservesTotal",
+    "splitStatistics": {
+        "[]": {
+            "address": "[]",
+            "splitName": "transferValuePreservesTotal",
+            "finalResult": "UNSAT",
+            "timeout": "PT5S",
+            "smtSolvingWallTime": "PT1.153105972S",
+            "tacStats": {
+                "cmdCounts": {
+                    "AssignHavocCmd": 87,
+                    "AssumeExpCmd": 165,
+                    "AssignExpCmd": 503,
+                    "vc.data.TACExpr$MapDefinition": 13,
+                    "AnnotationCmd": 1259,
+                    "vc.data.TACExpr$Sym$Var": 28,
+                    "vc.data.TACExpr$Select": 39,
+                    "vc.data.TACExpr$BinRel$Eq": 12,
+                    "AssumeCmd": 5,
+                    "LabelCmd": 151,
+                    "AssertCmd": 119,
+                    "vc.data.TACExpr$Apply$Unary": 31,
+                    "vc.data.TACExpr$Sym$Const": 86,
+                    "vc.data.TACExpr$Store": 27,
+                    "vc.data.TACExpr$Apply$Nary": 36,
+                    "vc.data.TACExpr$AnnotationExp": 81,
+                    "vc.data.TACExpr$Apply$Binary": 89,
+                    "vc.data.TACExpr$Vec$Mul": 30,
+                    "vc.data.TACExpr$BinRel$Ge": 1,
+                    "vc.data.TACExpr$Vec$IntAdd$Binary": 2,
+                    "JumpiCmd": 14,
+                    "vc.data.TACExpr$LongStore": 3,
+                    "vc.data.TACExpr$TernaryExp$Ite": 9,
+                    "vc.data.TACExpr$BinRel$Le": 7,
+                    "vc.data.TACExpr$BinOp$BWAnd": 4,
+                    "vc.data.TACExpr$UnaryExp$LNot": 2,
+                    "vc.data.TACExpr$BinBoolOp$LAnd": 1,
+                    "vc.data.TACExpr$Vec$Add$Binary": 2,
+                    "JumpCmd": 1
+                }
+            },
+            "solvers": {
+                "LIA": {
+                    "UNSAT": [
+                        "z3:lia1"
+                    ],
+                    "LostRace": [
+                        "z3:lia2",
+                        "cvc5:lin",
+                        "z3:def",
+                        "z3:eq1",
+                        "z3:eq2",
+                        "z3:arith1",
+                        "z3:arith2"
+                    ]
+                }
+            }
+        }
+    }
+}, {
+    "ruleName": "unauthorazedTransfer",
+    "splitStatistics": {
+        "[]": {
+            "address": "[]",
+            "splitName": "unauthorazedTransfer",
+            "finalResult": "UNSAT",
+            "timeout": "PT5S",
+            "smtSolvingWallTime": "PT0.474338447S",
+            "tacStats": {
+                "cmdCounts": {
+                    "AssignHavocCmd": 79,
+                    "AssumeExpCmd": 171,
+                    "AnnotationCmd": 1239,
+                    "AssignExpCmd": 527,
+                    "vc.data.TACExpr$Sym$Var": 39,
+                    "vc.data.TACExpr$Select": 38,
+                    "vc.data.TACExpr$BinRel$Eq": 6,
+                    "AssumeCmd": 1,
+                    "vc.data.TACExpr$MapDefinition": 9,
+                    "LabelCmd": 138,
+                    "AssertCmd": 136,
+                    "vc.data.TACExpr$Apply$Unary": 37,
+                    "vc.data.TACExpr$Sym$Const": 93,
+                    "vc.data.TACExpr$Store": 17,
+                    "vc.data.TACExpr$Apply$Nary": 49,
+                    "vc.data.TACExpr$AnnotationExp": 95,
+                    "vc.data.TACExpr$Apply$Binary": 104,
+                    "vc.data.TACExpr$Vec$Mul": 30,
+                    "AssumeNotCmd": 2,
+                    "JumpiCmd": 8,
+                    "vc.data.TACExpr$BinRel$Le": 7,
+                    "vc.data.TACExpr$TernaryExp$Ite": 2,
+                    "vc.data.TACExpr$Vec$Add$Binary": 1
+                }
+            },
+            "solvers": {
+                "LIA": {
+                    "UNSAT": [
+                        "z3:lia2"
+                    ],
+                    "LostRace": [
+                        "cvc5:lin",
+                        "z3:lia1",
+                        "z3:def",
+                        "z3:eq1",
+                        "z3:eq2",
+                        "z3:arith1"
+                    ]
+                }
+            }
+        }
+    }
+}, {
+    "ruleName": "transferValueToNewToken",
+    "splitStatistics": {
+        "[]": {
+            "address": "[]",
+            "splitName": "transferValueToNewToken",
+            "finalResult": "UNSAT",
+            "timeout": "PT5S",
+            "smtSolvingWallTime": "PT1.109709058S",
+            "tacStats": {
+                "cmdCounts": {
+                    "AssignHavocCmd": 103,
+                    "AssumeExpCmd": 206,
+                    "AssignExpCmd": 687,
+                    "vc.data.TACExpr$MapDefinition": 23,
+                    "AnnotationCmd": 1649,
+                    "vc.data.TACExpr$Sym$Var": 42,
+                    "vc.data.TACExpr$Select": 51,
+                    "vc.data.TACExpr$BinRel$Eq": 16,
+                    "AssumeCmd": 5,
+                    "LabelCmd": 197,
+                    "AssertCmd": 161,
+                    "vc.data.TACExpr$Apply$Unary": 45,
+                    "vc.data.TACExpr$Sym$Const": 116,
+                    "vc.data.TACExpr$Store": 35,
+                    "vc.data.TACExpr$Apply$Nary": 48,
+                    "vc.data.TACExpr$AnnotationExp": 112,
+                    "vc.data.TACExpr$Apply$Binary": 125,
+                    "vc.data.TACExpr$Vec$Mul": 38,
+                    "vc.data.TACExpr$BinRel$Ge": 1,
+                    "JumpiCmd": 17,
+                    "vc.data.TACExpr$BinOp$IntSub": 1,
+                    "vc.data.TACExpr$Vec$IntAdd$Binary": 1,
+                    "vc.data.TACExpr$LongStore": 3,
+                    "vc.data.TACExpr$TernaryExp$Ite": 10,
+                    "vc.data.TACExpr$BinRel$Le": 10,
+                    "vc.data.TACExpr$UnaryExp$LNot": 2,
+                    "vc.data.TACExpr$BinBoolOp$LAnd": 1,
+                    "vc.data.TACExpr$Vec$Add$Binary": 3,
+                    "vc.data.TACExpr$BinOp$BWAnd": 4,
+                    "JumpCmd": 1
+                }
+            },
+            "solvers": {
+                "LIA": {
+                    "UNSAT": [
+                        "z3:lia1"
+                    ],
+                    "LostRace": [
+                        "z3:lia2",
+                        "cvc5:lin",
+                        "z3:def",
+                        "z3:eq1",
+                        "z3:eq2",
+                        "z3:arith1",
+                        "z3:arith2"
+                    ]
+                }
+            }
+        }
+    }
+}, {
+    "ruleName": "mintOnTransferIncreasesSupply-rule_not_vacuous",
+    "splitStatistics": {
+        "[]": {
+            "address": "[]",
+            "splitName": "mintOnTransferIncreasesSupply-rule_not_vacuous",
+            "finalResult": "SAT",
+            "timeout": "PT5S",
+            "smtSolvingWallTime": "PT0.965359002S",
+            "tacStats": {
+                "cmdCounts": {
+                    "AssignHavocCmd": 76,
+                    "AssumeExpCmd": 122,
+                    "AssignExpCmd": 423,
+                    "vc.data.TACExpr$MapDefinition": 15,
+                    "AnnotationCmd": 992,
+                    "vc.data.TACExpr$Sym$Var": 16,
+                    "vc.data.TACExpr$Select": 19,
+                    "vc.data.TACExpr$BinRel$Eq": 11,
+                    "AssumeCmd": 3,
+                    "vc.data.TACExpr$Sym$Const": 69,
+                    "AssertCmd": 45,
+                    "vc.data.TACExpr$Apply$Unary": 21,
+                    "vc.data.TACExpr$Store": 19,
+                    "LabelCmd": 115,
+                    "vc.data.TACExpr$Apply$Nary": 32,
+                    "vc.data.TACExpr$AnnotationExp": 80,
+                    "vc.data.TACExpr$Apply$Binary": 85,
+                    "vc.data.TACExpr$Vec$Mul": 22,
+                    "JumpiCmd": 17,
+                    "vc.data.TACExpr$Vec$IntAdd$Binary": 1,
+                    "vc.data.TACExpr$LongStore": 3,
+                    "vc.data.TACExpr$TernaryExp$Ite": 10,
+                    "vc.data.TACExpr$BinRel$Le": 10,
+                    "vc.data.TACExpr$UnaryExp$LNot": 2,
+                    "vc.data.TACExpr$BinBoolOp$LAnd": 1,
+                    "vc.data.TACExpr$Vec$Add$Binary": 3,
+                    "vc.data.TACExpr$BinOp$BWAnd": 4,
+                    "JumpCmd": 1
+                }
+            },
+            "solvers": {
+                "NIA": {
+                    "LostRace": [
+                        "z3:def",
+                        "cvc5:nonlin",
+                        "z3:arith2",
+                        "z3:eq1"
+                    ]
+                },
+                "LIA": {
+                    "LostRace": [
+                        "cvc5:lin",
+                        "z3:lia1",
+                        "z3:def",
+                        "z3:eq1",
+                        "z3:eq2",
+                        "z3:arith1",
+                        "z3:arith2"
+                    ],
+                    "Overapproximation(SAT)": [
+                        "z3:lia2"
+                    ]
+                }
+            }
+        }
+    }
+}, {
+    "ruleName": "derivedTokenInheritsSlot-rule_not_vacuous",
+    "splitStatistics": {
+        "[]": {
+            "address": "[]",
+            "splitName": "derivedTokenInheritsSlot-rule_not_vacuous",
+            "finalResult": "SAT",
+            "timeout": "PT5S",
+            "smtSolvingWallTime": "PT1.488693532S",
+            "tacStats": {
+                "cmdCounts": {
+                    "AssignHavocCmd": 77,
+                    "AssumeExpCmd": 133,
+                    "AssignExpCmd": 460,
+                    "vc.data.TACExpr$MapDefinition": 15,
+                    "AnnotationCmd": 1084,
+                    "vc.data.TACExpr$Sym$Var": 21,
+                    "vc.data.TACExpr$Select": 19,
+                    "vc.data.TACExpr$BinRel$Eq": 11,
+                    "AssumeCmd": 3,
+                    "LabelCmd": 125,
+                    "AssertCmd": 49,
+                    "vc.data.TACExpr$Apply$Unary": 23,
+                    "vc.data.TACExpr$Sym$Const": 74,
+                    "vc.data.TACExpr$Store": 19,
+                    "vc.data.TACExpr$Apply$Nary": 36,
+                    "vc.data.TACExpr$AnnotationExp": 88,
+                    "vc.data.TACExpr$Apply$Binary": 95,
+                    "vc.data.TACExpr$Vec$Mul": 26,
+                    "JumpiCmd": 17,
+                    "vc.data.TACExpr$LongStore": 3,
+                    "vc.data.TACExpr$TernaryExp$Ite": 10,
+                    "vc.data.TACExpr$BinRel$Le": 10,
+                    "vc.data.TACExpr$UnaryExp$LNot": 2,
+                    "vc.data.TACExpr$BinBoolOp$LAnd": 1,
+                    "vc.data.TACExpr$Vec$Add$Binary": 3,
+                    "vc.data.TACExpr$BinOp$BWAnd": 4,
+                    "JumpCmd": 1
+                }
+            },
+            "solvers": {
+                "NIA": {
+                    "LostRace": [
+                        "z3:def",
+                        "cvc5:nonlin",
+                        "z3:arith2",
+                        "z3:eq1",
+                        "cvc5:def",
+                        "z3:arith1"
+                    ]
+                },
+                "LIA": {
+                    "LostRace": [
+                        "cvc5:lin",
+                        "z3:lia1",
+                        "z3:def",
+                        "z3:eq1",
+                        "z3:eq2",
+                        "z3:arith1",
+                        "z3:arith2",
+                        "cvc5:linNoDio"
+                    ],
+                    "Overapproximation(SAT)": [
+                        "z3:lia2"
+                    ]
+                }
+            }
+        }
+    }
+}, {
+    "ruleName": "unauthorazedTransfer-rule_not_vacuous",
+    "splitStatistics": {
+        "[]": {
+            "address": "[]",
+            "splitName": "unauthorazedTransfer-rule_not_vacuous",
+            "finalResult": "UNSAT",
+            "timeout": "PT5S",
+            "smtSolvingWallTime": "PT0.760428996S",
+            "tacStats": {
+                "cmdCounts": {
+                    "AssignHavocCmd": 79,
+                    "AssumeExpCmd": 171,
+                    "AnnotationCmd": 1241,
+                    "AssignExpCmd": 528,
+                    "vc.data.TACExpr$Sym$Var": 39,
+                    "vc.data.TACExpr$Select": 38,
+                    "vc.data.TACExpr$BinRel$Eq": 6,
+                    "AssumeCmd": 1,
+                    "vc.data.TACExpr$MapDefinition": 9,
+                    "LabelCmd": 138,
+                    "AssertCmd": 135,
+                    "vc.data.TACExpr$Apply$Unary": 37,
+                    "vc.data.TACExpr$Sym$Const": 94,
+                    "vc.data.TACExpr$Store": 17,
+                    "vc.data.TACExpr$Apply$Nary": 49,
+                    "vc.data.TACExpr$AnnotationExp": 95,
+                    "vc.data.TACExpr$Apply$Binary": 104,
+                    "vc.data.TACExpr$Vec$Mul": 30,
+                    "AssumeNotCmd": 2,
+                    "JumpiCmd": 8,
+                    "vc.data.TACExpr$BinRel$Le": 7,
+                    "vc.data.TACExpr$TernaryExp$Ite": 2,
+                    "vc.data.TACExpr$Vec$Add$Binary": 1
+                }
+            },
+            "solvers": {
+                "LIA": {
+                    "UNSAT": [
+                        "z3:lia2"
+                    ],
+                    "LostRace": [
+                        "cvc5:lin",
+                        "z3:lia1",
+                        "z3:def",
+                        "z3:eq1",
+                        "z3:eq2",
+                        "z3:arith1",
+                        "z3:arith2",
+                        "cvc5:linNoDio"
+                    ]
+                }
+            }
+        }
+    }
+}, {
+    "ruleName": "transferValuePreservesTotal-rule_not_vacuous",
+    "splitStatistics": {
+        "[]": {
+            "address": "[]",
+            "splitName": "transferValuePreservesTotal-rule_not_vacuous",
+            "finalResult": "SAT",
+            "timeout": "PT5S",
+            "smtSolvingWallTime": "PT1.238056349S",
+            "tacStats": {
+                "cmdCounts": {
+                    "AssignHavocCmd": 87,
+                    "AssumeExpCmd": 165,
+                    "AssignExpCmd": 504,
+                    "vc.data.TACExpr$MapDefinition": 13,
+                    "AnnotationCmd": 1261,
+                    "vc.data.TACExpr$Sym$Var": 28,
+                    "vc.data.TACExpr$Select": 39,
+                    "vc.data.TACExpr$BinRel$Eq": 12,
+                    "AssumeCmd": 5,
+                    "LabelCmd": 151,
+                    "AssertCmd": 119,
+                    "vc.data.TACExpr$Apply$Unary": 31,
+                    "vc.data.TACExpr$Sym$Const": 87,
+                    "vc.data.TACExpr$Store": 27,
+                    "vc.data.TACExpr$Apply$Nary": 36,
+                    "vc.data.TACExpr$AnnotationExp": 81,
+                    "vc.data.TACExpr$Apply$Binary": 89,
+                    "vc.data.TACExpr$Vec$Mul": 30,
+                    "vc.data.TACExpr$BinRel$Ge": 1,
+                    "vc.data.TACExpr$Vec$IntAdd$Binary": 2,
+                    "JumpiCmd": 14,
+                    "vc.data.TACExpr$LongStore": 3,
+                    "vc.data.TACExpr$TernaryExp$Ite": 9,
+                    "vc.data.TACExpr$BinRel$Le": 7,
+                    "vc.data.TACExpr$BinOp$BWAnd": 4,
+                    "vc.data.TACExpr$UnaryExp$LNot": 2,
+                    "vc.data.TACExpr$BinBoolOp$LAnd": 1,
+                    "vc.data.TACExpr$Vec$Add$Binary": 2,
+                    "JumpCmd": 1
+                }
+            },
+            "solvers": {
+                "NIA": {
+                    "LostRace": [
+                        "z3:def",
+                        "cvc5:nonlin",
+                        "z3:arith2",
+                        "z3:eq1",
+                        "cvc5:def",
+                        "z3:arith1",
+                        "z3:eq2"
+                    ]
+                },
+                "LIA": {
+                    "LostRace": [
+                        "cvc5:lin",
+                        "z3:lia1",
+                        "z3:def",
+                        "z3:eq1",
+                        "z3:eq2",
+                        "z3:arith1",
+                        "z3:arith2",
+                        "cvc5:linNoDio",
+                        "cvc5:def"
+                    ],
+                    "Overapproximation(SAT)": [
+                        "z3:lia2"
+                    ]
+                }
+            }
+        }
+    }
+}, {
+    "ruleName": "transferValueToNewToken-rule_not_vacuous",
+    "splitStatistics": {
+        "[]": {
+            "address": "[]",
+            "splitName": "transferValueToNewToken-rule_not_vacuous",
+            "finalResult": "SAT",
+            "timeout": "PT5S",
+            "smtSolvingWallTime": "PT0.992331406S",
+            "tacStats": {
+                "cmdCounts": {
+                    "AssignHavocCmd": 103,
+                    "AssumeExpCmd": 206,
+                    "AssignExpCmd": 688,
+                    "vc.data.TACExpr$MapDefinition": 23,
+                    "AnnotationCmd": 1651,
+                    "vc.data.TACExpr$Sym$Var": 42,
+                    "vc.data.TACExpr$Select": 51,
+                    "vc.data.TACExpr$BinRel$Eq": 16,
+                    "AssumeCmd": 5,
+                    "LabelCmd": 197,
+                    "AssertCmd": 157,
+                    "vc.data.TACExpr$Apply$Unary": 45,
+                    "vc.data.TACExpr$Sym$Const": 117,
+                    "vc.data.TACExpr$Store": 35,
+                    "vc.data.TACExpr$Apply$Nary": 48,
+                    "vc.data.TACExpr$AnnotationExp": 112,
+                    "vc.data.TACExpr$Apply$Binary": 125,
+                    "vc.data.TACExpr$Vec$Mul": 38,
+                    "vc.data.TACExpr$BinRel$Ge": 1,
+                    "JumpiCmd": 17,
+                    "vc.data.TACExpr$BinOp$IntSub": 1,
+                    "vc.data.TACExpr$Vec$IntAdd$Binary": 1,
+                    "vc.data.TACExpr$LongStore": 3,
+                    "vc.data.TACExpr$TernaryExp$Ite": 10,
+                    "vc.data.TACExpr$BinRel$Le": 10,
+                    "vc.data.TACExpr$UnaryExp$LNot": 2,
+                    "vc.data.TACExpr$BinBoolOp$LAnd": 1,
+                    "vc.data.TACExpr$Vec$Add$Binary": 3,
+                    "vc.data.TACExpr$BinOp$BWAnd": 4,
+                    "JumpCmd": 1
+                }
+            },
+            "solvers": {
+                "NIA": {
+                    "LostRace": [
+                        "z3:def",
+                        "cvc5:nonlin",
+                        "z3:arith2",
+                        "z3:eq1",
+                        "cvc5:def",
+                        "z3:arith1",
+                        "z3:eq2",
+                        "cvc5:nonlinNoDio"
+                    ]
+                },
+                "LIA": {
+                    "LostRace": [
+                        "z3:lia2",
+                        "cvc5:lin",
+                        "z3:def",
+                        "z3:eq1",
+                        "z3:eq2",
+                        "z3:arith1",
+                        "z3:arith2",
+                        "cvc5:linNoDio",
+                        "cvc5:def"
+                    ],
+                    "Overapproximation(SAT)": [
+                        "z3:lia1"
+                    ]
+                }
+            }
+        }
+    }
+}]
+}

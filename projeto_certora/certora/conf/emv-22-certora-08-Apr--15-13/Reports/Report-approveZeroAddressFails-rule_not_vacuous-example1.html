@@ -1,0 +1,856 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>approveZeroAddressFails-rule_not_vacuous - Code Map</title>
+    <meta charset="utf-8"/>
+    <style>
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted black;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 900px;
+            background-color: red;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+
+            /* Position the tooltip */
+            position: fixed;
+            z-index: 100000;
+            top: 0;
+            left: 25%;
+            margin-left: -60px;
+        }
+
+        .deflink {
+            color: inherit;
+        }
+
+        /* By default, tac commands within uc-only are hidden */
+        .uc-enabled.cmds-list.uc-only > .tac-cmd {
+           display: none;
+        }
+
+        /* but override the above (this is a more specific selector) and "unset" the `none` specified above
+           end result: only `cmd-in-uc` commands within `uc-only` are displayed */
+        .uc-enabled.cmds-list.uc-only > .tac-cmd.cmd-in-uc {
+           display: unset;
+        }
+
+        /*
+           Don't show "close-skipped-lines" warnings
+         */
+        .uc-enabled.cmds-list.uc-only > .close-skipped-lines-warning {
+           display: none;
+        }
+
+        /*
+           if we have .uc-only, hide all `br` nodes that immediately follow a command that is hidden (i.e., not cmd-in-uc)
+        */
+        .uc-enabled.cmds-list.uc-only > span.tac-cmd:not(.cmd-in-uc) + br {
+           display:none;
+        }
+
+        /*
+           by default, commands in close-to-uc are hidden
+        */
+        .uc-enabled.cmds-list.close-to-uc > .tac-cmd {
+           display:none;
+        }
+
+        /*
+          Carve out an exception to the above (this selector is more specific, and thus overrides.
+          Commands with cmd-in-uc or cmd-close-to-uc have the display status unset, i.e., `inline` AKA visible
+        */
+        .uc-enabled.cmds-list.close-to-uc > :is(.cmd-in-uc,.cmd-close-to-uc).tac-cmd {
+           display:unset;
+        }
+
+        /*
+          Like in the uc-only case, hide BR commands that follow a command that is hidden, i.e., NOT cmd-in-uc or cmd-close-to-uc
+        */
+        .uc-enabled.cmds-list.close-to-uc > span.tac-cmd:not(:is(.cmd-in-uc,.cmd-close-to-uc)) + br {
+           display: none;
+        }
+
+        /*
+           Within close-to-uc, hide the "skipped-lines-warning", close-skipped-lines-lines will show instead
+        */
+        .uc-enabled.cmds-list.close-to-uc > .skipped-lines-warning {
+           display:none;
+        }
+
+        /*
+          Hide all warning with `.all`
+        */
+        .uc-enabled.cmds-list.all > :is(.close-skipped-lines-warning,.skipped-lines-warning) {
+            display:none;
+         }
+         /*
+           NB: we don't have a case for `uc-enables.cmds-list.all` because by default everything will use the default
+           display attribute
+         */
+
+        .skipped-lines-warning, .close-skipped-lines-warning {
+            background-color: #fffaca;
+            display:block;
+            padding: 10px 10px 10px 10px;
+        }
+
+        button.uc-close {
+            background-color: rgb(255, 237, 78);
+        }
+    </style>
+        <script type="text/javascript">
+        function showCmd(cmdId) {
+            document.getElementById(cmdId).style.display = "block"
+        }
+
+        function setDisplayClass(elem, className) {
+           var wrapper = elem.closest(".cmds-list");
+           wrapper.classList.remove("all", "uc-only", "close-to-uc");
+           wrapper.classList.add(className);
+        }
+
+        function highlighActiveButton(elem, classNameToHighlight = 'uc-toggle-button', wrapper = '.uc-toggle-buttons') {
+            var elems = elem.closest(wrapper).getElementsByClassName(classNameToHighlight);
+            for (var i = 0; i < elems.length; ++i) {
+                elems[i].style.backgroundColor = 'buttonface';
+            }
+            elem.style.backgroundColor = 'rgb(255, 237, 78)';
+        }
+
+        var showUcCmdsOnly = function() {
+            highlighActiveButton(this)
+            setDisplayClass(this, "uc-only")
+        }
+
+        var showCmdsCloseToUc = function() {
+            highlighActiveButton(this)
+            setDisplayClass(this, "close-to-uc")
+        }
+
+
+        var showAllCmds = function() {
+            highlighActiveButton(this)
+            setDisplayClass(this, "all");
+        }
+    </script>
+    <script src="https://certora-web-resources.s3-us-west-2.amazonaws.com/svg-pan-zoom.min.js"></script>
+    <script type="text/javascript">
+        var highlightedAnchor = null;
+        var lastNodeColor = "white";
+        var lastStrokeWidth = "2px";
+        var lastStrokeDashArray = "none";
+
+        function highlightAnchor(anchorId) {
+            var messagesDiv = document.getElementById("messages"); // must be not null
+            messagesDiv.innerHTML = "";
+            if (highlightedAnchor != null) {
+                var lastBlock = document.getElementById("block"+highlightedAnchor);
+                var lastEdgeS = document.getElementById("edgeS"+highlightedAnchor);
+                var lastEdgeT = document.getElementById("edgeT"+highlightedAnchor);
+                var lastEdgeP = document.getElementById("edgeP"+highlightedAnchor);
+                var lastNode = document.getElementById(highlightedAnchor);
+                if (lastBlock != null) {
+                    lastBlock.style.backgroundColor="white";
+                    if (lastEdgeS != null) lastEdgeS.style.backgroundColor="white";
+                    if (lastEdgeT != null) lastEdgeT.style.backgroundColor="white";
+                    if (lastEdgeP != null) lastEdgeP.style.backgroundColor="white";
+                } else {
+                    //messagesDiv.innerHTML += "block " + highlightedAnchor + " does not exist.<br/>";
+                }
+                if (lastNode != null) {
+                    lastNode.children[1].setAttribute("fill", lastNodeColor);
+                    lastNode.children[1].setAttribute("stroke-width", lastStrokeWidth);
+                    lastNode.children[1].setAttribute("stroke-dasharray", lastStrokeWidth);
+                }
+            }
+            highlightedAnchor = anchorId;
+            var newBlock = document.getElementById("block"+highlightedAnchor);
+            var newEdgeS = document.getElementById("edgeS"+highlightedAnchor);
+            var newEdgeT = document.getElementById("edgeT"+highlightedAnchor);
+            var newEdgeP = document.getElementById("edgeP"+highlightedAnchor);
+            var newNode = document.getElementById(highlightedAnchor);
+            if (newBlock != null) {
+                newBlock.style.backgroundColor="yellow";
+                if (newEdgeS != null) newEdgeS.style.backgroundColor="yellow";
+                if (newEdgeT != null) newEdgeT.style.backgroundColor="yellow";
+                if (newEdgeP != null) newEdgeP.style.backgroundColor="yellow";
+            } else {
+                messagesDiv.innerHTML += "block " + highlightedAnchor + " does not exist.<br/>";
+            }
+            if (newNode != null) {
+                lastNodeColor = newNode.children[1].getAttribute("fill");
+                newNode.children[1].setAttribute("fill", "yellow");
+                lastStrokeWidth = newNode.children[1].getAttribute("stroke-width");
+                newNode.children[1].setAttribute("stroke-width", "3px");
+                lastStrokeWidth = newNode.children[1].getAttribute("stroke-dasharray");
+                newNode.children[1].setAttribute("stroke-dasharray", "10,4");
+            }
+            if (newEdgeS != null) {
+                newEdgeS.scrollIntoView();
+                //location.href = "#"+newEdgeS.id;
+            }
+            if (newEdgeP != null) {
+                newEdgeP.scrollIntoView();
+            }
+        }
+
+        function toggleSize() {
+            var divCex = document.getElementById("cex");
+            if (divCex != null) {
+                if (divCex.style.width == "250px") {
+                    divCex.style.width = "900px";
+                } else {
+                    divCex.style.width = "250px";
+                }
+            }
+        }
+
+        var lastSvgEventListener = null;
+
+        var currentSVG = "0";
+        function toggleSVG(svgId) {
+            var _svgcurrent = document.getElementById("svgOf"+currentSVG);
+            var _svgnew = document.getElementById("svgOf"+svgId);
+            _svgcurrent.style.visibility = "hidden";
+            _svgnew.style.visibility = "visible";
+
+            var _blockscurrent = document.getElementById("blocksAndEdges"+currentSVG);
+            var _blocksnew = document.getElementById("blocksAndEdges"+svgId);
+            _blockscurrent.style.visibility = "hidden";
+            _blocksnew.style.visibility = "visible";
+
+            var _magCurrent = document.getElementById("mag_" + currentSVG);
+            var _magNew = document.getElementById("mag_" + svgId);
+            _magCurrent.style.visibility = "hidden";
+            _magNew.style.visibility = "visible";
+
+            if (currentSVG != "0")
+                var _pannedsvgcurrent = document.getElementById("theSVG"+currentSVG)
+            else
+                var _pannedsvgcurrent = document.getElementById("theSVG");
+            if (svgId != "0")
+                var svgsuffix = svgId
+            else
+                var svgsuffix = "";
+            var _pannedsvgnew = document.getElementById("theSVG"+svgsuffix);
+
+            if (_pannedsvgcurrent != null) {
+                svgPanZoom(_pannedsvgcurrent).destroy();
+            }
+
+            if (_pannedsvgnew != null) {
+                lastSvgEventListener = svgPanZoom('#theSVG'+svgsuffix, {
+                                zoomEnabled: true,
+                                controlIconsEnabled: true,
+                                fit: true,
+                                center: true,
+                                // viewportSelector: document.getElementById('theSVG').querySelector('#g4') // this option will make library to misbehave. Viewport should have no transform attribute
+                            });
+            }
+
+            currentSVG = svgId;
+        }
+
+        var highlightedDef = null;
+        var highlightedUseCls = null;
+        var lastNodeColor = "white";
+        function highlightDef(def) {
+            var messagesDiv = document.getElementById("messages"); // must be not null
+            messagesDiv.innerHTML = "";
+            if (highlightedDef != null) {
+                var lastDef = document.getElementById(highlightedDef);
+                if (lastDef != null) {
+                    lastDef.style.backgroundColor = "white";
+                }
+                var useElements = document.getElementsByClassName(highlightedUseCls);
+                for (var i = 0 ; i < useElements.length; i++) {
+                    useElements[i].style.backgroundColor = "white";
+                }
+            }
+            highlightedDef = "def_" + def;
+            highlightedUseCls = "use_" + def;
+            var newDef = document.getElementById(highlightedDef);
+            if (newDef != null) {
+                newDef.style.backgroundColor = "yellow";
+                var useElements = document.getElementsByClassName(highlightedUseCls);
+                for (var i = 0 ; i < useElements.length; i++) {
+                    useElements[i].style.backgroundColor = "yellow";
+                }
+            } else {
+                messagesDiv.innerHTML += "def " + def + " does not exist in this method.<br/>"
+            }
+        }
+
+        var highlightedIntFun = null;
+        function toggleInternalFun(id) {
+            if (highlightedIntFun != null) {
+                var lastStart = document.getElementById("intfunStart_"+highlightedIntFun);
+                var lastEnd = document.getElementById("intfunEnd_"+highlightedIntFun);
+                if (lastStart != null) {
+                    lastStart.style.backgroundColor="white";
+                }
+                if (lastEnd != null) {
+                    lastEnd.style.backgroundColor="white";
+                }
+            }
+
+            highlightedIntFun = id;
+            var newStart = document.getElementById("intfunStart_"+highlightedIntFun);
+            var newEnd = document.getElementById("intfunEnd_"+highlightedIntFun);
+            if (newStart != null) {
+                newStart.style.backgroundColor="#ffccff"
+            }
+            if (newEnd != null) {
+                newEnd.style.backgroundColor="#ffccff"
+            }
+        }
+    </script>
+    <style>
+        html {
+            height:100%;
+            margin:0;
+            padding:0;
+        }
+        body {
+            font-family: monospace;
+            height:100%;
+            overflow: hidden;
+            margin:0;
+            padding:0;
+        }
+        svg { width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+
+    <div style="position:fixed;width:250px;top:0;right:0;color:black;background-color:#e6e6e6;z-index:100;overflow-y: auto;max-height:400px;" id="cex" ondblclick="toggleSize()">
+        <div style="display:inline-block;z-index:100;">
+        Full variable assignments<br/>
+        
+        <b>Double click to show/hide</b>
+        <br/><br/>
+        tacCalldatabufCANON0@1=0x4819<br/>
+tacCalldatabufCANON1@1=false<br/>
+tacCalldatabufCANON2@1=0x0<br/>
+CANON16!!118=0x0<br/>
+from_skey={[x:bv256] ->
+  x:bv256
+}<br/>
+ReachabilityCertora9575_1009_0_1_0_0=false<br/>
+ReachabilityCertora4_0_0_1_0_1140=false<br/>
+ReachabilityCertora4_0_0_1_0_1141=false<br/>
+ReachabilityCertora4_0_0_1_0_1142=false<br/>
+ReachabilityCertora4_0_0_1_0_1143=false<br/>
+ReachabilityCertora15108_1012_0_1_0_1=false<br/>
+ReachabilityCertora9575_1008_0_1_0_0=false<br/>
+to_skey={[x:bv256] ->
+  x:bv256
+}<br/>
+ReachabilityCertora2835_1008_0_1_0_0=false<br/>
+ReachabilityCertora15310_1003_0_1_0_0=false<br/>
+ReachabilityCertora0_0_0_0_0_0=true<br/>
+ReachabilityCertora15310_1002_0_1_0_0=false<br/>
+ReachabilityCertora5968_1014_0_1_0_0=false<br/>
+CANON17!!119=0x1<br/>
+ReachabilityCertora15327_1010_0_1_0_0=false<br/>
+ReachabilityCertora12868_1013_0_1_0_0=false<br/>
+ReachabilityCertora1_0_0_1_0_0=true<br/>
+ReachabilityCertora2_0_0_1_0_0=false<br/>
+ReachabilityCertora6162_1016_0_1_0_0=false<br/>
+ReachabilityCertora15108_1007_0_1_0_3=false<br/>
+ReachabilityCertora3_0_0_1_0_0=true<br/>
+ReachabilityCertora4_0_0_0_0_0=true<br/>
+ReachabilityCertora15108_1006_0_1_0_6=false<br/>
+ReachabilityCertora12941_1013_0_1_0_0=false<br/>
+ReachabilityCertora6862_1019_0_1_0_0=false<br/>
+tacCalldatasize!!76=0x0<br/>
+ReachabilityCertora5_0_0_1_0_2=false<br/>
+ReachabilityCertora5968_1009_0_1_0_0=false<br/>
+ReachabilityCertora15327_1005_0_1_0_0=false<br/>
+ReachabilityCertora6920_1019_0_1_0_0=false<br/>
+CANON18!!120=0x0<br/>
+R1=0x1<br/>
+B38=true<br/>
+B75=false<br/>
+B94=false<br/>
+B97=false<br/>
+I41=0x0<br/>
+I42=0x0<br/>
+I43=0x64<br/>
+I86=0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9c5<br/>
+I89=0x0<br/>
+R21=0x1<br/>
+R22=0x2<br/>
+R23=0x4<br/>
+R33=0x2fdf<br/>
+R36=0x1<br/>
+R71=0xfffffffffffffffffffffffffffffffffffffe8a<br/>
+R73=0x0<br/>
+R77=0x0<br/>
+R79=0xfffffffffffffffffffffffffffffffffffffe8b<br/>
+R81=0x2<br/>
+R82=0x2fdf<br/>
+R85=0x0<br/>
+R88=0x0<br/>
+R91=0x0<br/>
+R92=0x2<br/>
+R93=0x481a<br/>
+R95=0x0<br/>
+B129=true<br/>
+B130=false<br/>
+B150=false<br/>
+B157=false<br/>
+B161=false<br/>
+B166=false<br/>
+B179=false<br/>
+B186=false<br/>
+B193=false<br/>
+B213=false<br/>
+B217=false<br/>
+B221=false<br/>
+B223=false<br/>
+B225=false<br/>
+B227=false<br/>
+B234=false<br/>
+B241=false<br/>
+B248=false<br/>
+ReachabilityCertora15327_1004_0_1_0_0=false<br/>
+R133=0x32c7<br/>
+R134=0x8ea<br/>
+R135=0x1c1<br/>
+R136=0x0<br/>
+R137=0xfffffffffffffffffffffffffffffffffffffe8b<br/>
+R143=0x1<br/>
+R144=0x32c7<br/>
+R145=0x16dd<br/>
+R146=0x476<br/>
+R147=0x0<br/>
+R148=0xfffffffffffffffffffffffffffffffffffffe8c<br/>
+R151=0x32c7<br/>
+R152=0x1720<br/>
+R153=0x188b<br/>
+R154=0x0<br/>
+R155=0x1<br/>
+R174=0x0<br/>
+R175=0x0<br/>
+R177=0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc9c<br/>
+R181=0x0<br/>
+R182=0x0<br/>
+R184=0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff668<br/>
+R188=0x0<br/>
+R189=0x0<br/>
+R191=0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5c7<br/>
+R195=0x0<br/>
+R199=0x0<br/>
+R200=0x2acb<br/>
+R202=0x1ade<br/>
+R208=0x0<br/>
+R210=0x1<br/>
+R229=0x0<br/>
+R230=0x0<br/>
+R232=0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdac4<br/>
+R236=0x0<br/>
+R237=0x0<br/>
+R239=0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdfe2<br/>
+R243=0x0<br/>
+R244=0x0<br/>
+R246=0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe131<br/>
+R249=0x32c7<br/>
+R250=0x704<br/>
+R251=0x0<br/>
+R253=0x481a<br/>
+R256=0x32c7<br/>
+R257=0x1247<br/>
+R258=0x0<br/>
+R260=0x481a<br/>
+R263=0x2b65<br/>
+R264=0x0<br/>
+R265=0x0<br/>
+R267=0x481a<br/>
+lastHasThrown!!100=false<br/>
+lastHasThrown!!131=false<br/>
+lastHasThrown!!169=false<br/>
+lastHasThrown!!171=false<br/>
+lastHasThrown!!276=false<br/>
+lastHasThrown!!278=false<br/>
+lastHasThrown!!280=false<br/>
+lastHasThrown!!282=false<br/>
+ReachabilityCertora12879_1013_0_1_0_0=false<br/>
+ReachabilityCertora12879_1013_0_1_0_5=false<br/>
+ReachabilityCertora6162_1011_0_1_0_0=false<br/>
+ReachabilityCertora15272_1010_0_1_0_0=false<br/>
+lastReverted!!101=true<br/>
+lastReverted!!132=false<br/>
+lastReverted!!170=false<br/>
+lastReverted!!172=false<br/>
+lastReverted!!277=false<br/>
+lastReverted!!279=false<br/>
+lastReverted!!281=false<br/>
+lastReverted!!283=false<br/>
+CANON14!!11=0x0<br/>
+CANON15!!12=0x0<br/>
+CANON16!!13=0x0<br/>
+CANON17!!14=0x1<br/>
+CANON26=0xfffffffffffffffffffffffffffffffffffffe8a<br/>
+CANON27=0x1<br/>
+CANON28=0x0<br/>
+CANON29=0x0<br/>
+CANON30=0x0<br/>
+CANON31=0x0<br/>
+CANON32=0x0<br/>
+CANON33=0x0<br/>
+CANON34=0x0<br/>
+CANON35=0x0<br/>
+CANON36=false<br/>
+CANON37=0x64<br/>
+CANON80.22091=0x0<br/>
+CANON14!!116=0x0<br/>
+CANON18!!15=0x0<br/>
+CANON19!!16=0x0<br/>
+CANON19!!121=0x0<br/>
+CANON1=0x2fdf<br/>
+ReachabilityCertora15272_1005_0_1_0_0=false<br/>
+ReachabilityCertora15272_1004_0_1_0_0=false<br/>
+ReachabilityCertora12778_1013_0_1_0_4=false<br/>
+CANON15!!117=0x0<br/>
+lastHasThrown!!78=false<br/>
+ReachabilityCertora9575_1014_0_1_0_0=false<br/>
+tacSighash!!35=0x0<br/>
+CANON=0x0<br/>
+ReachabilityCertora15310_1008_0_1_0_0=false<br/>
+ReachabilityCertora12885_1013_0_1_0_0=false
+        </div>
+    </div>
+
+    <div style="position:fixed;width:300px;top:420px;right:0;color:blue;background-color:#e6e6e6;z-index:100;overflow-y:auto;max-height:200px;" id="tabs">
+        <div style="display:inline-block;z-index:100;">
+            Method calls quick lookup:<br/>
+            <a style="background-color: lightgray};" href="#blank0" onclick="toggleSVG('0')">0:  main<span id="mag_0" style="visibility:visible;">&nbsp;🔍</span></a><br/>
+<a style="background-color: lightgray};" href="#blank1" onclick="toggleSVG('1')">1: <span style="color:#15942a;"><b>→</b></span> ERC3525.approve<span id="mag_1" style="visibility:hidden;">&nbsp;🔍</span></a>
+        </div>
+    </div>
+
+    <div style="position:fixed;bottom:0;left:0;color:white;background-color:red;" id="messages"></div>
+
+    <!-- SVG -->
+    
+<div id="svgOf0" style="position:absolute;left:40%;top:0;overflow:scroll;height:90%;visibility:visible">Graphviz was interrupted: java.io.IOException: Cannot run program "dot": error=2, No such file or directory</div>
+
+    
+<div id="svgOf1" style="position:absolute;left:40%;top:0;overflow:scroll;height:90%;visibility:hidden">Graphviz was interrupted: java.io.IOException: Cannot run program "dot": error=2, No such file or directory</div>
+
+
+    <!-- BLOCKS -->
+    <div id="blocksAndEdges0" style="position:fixed;height:100%;width:40%;display:inline-block;border:1px">
+        
+<div id="blocksHtml0" style="overflow: scroll; height: 90%;">
+<a name="block0_0_0_0_0_0" id="block0_0_0_0_0_0" href="#block0_0_0_0_0_0" onclick="highlightAnchor('0_0_0_0_0_0')">Block 0_0_0_0_0_0:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-0_0_0_0_0_0-0' data-block-id='0_0_0_0_0_0' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">&nbsp;&nbsp;0:&nbsp;</span><span id="def_tacM0x40!!0">tacM0x40!!0</span> = havoc (0x0)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-1' data-block-id='0_0_0_0_0_0' data-cmd-id='1' class='tac-cmd'><span style="color:#737373;">&nbsp;&nbsp;1:&nbsp;</span><span id="def_R1">R1</span> = havoc (0x1)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-2' data-block-id='0_0_0_0_0_0' data-cmd-id='2' class='tac-cmd'><span style="color:#737373;">&nbsp;&nbsp;2:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_R1" class="deflink use_R1" onclick="highlightDef('R1')">R1</a>&gt;=0x1</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-3' data-block-id='0_0_0_0_0_0' data-cmd-id='3' class='tac-cmd'><span style="color:#737373;">&nbsp;&nbsp;3:&nbsp;</span><span id="def_tacCalldatasize!!3">tacCalldatasize!!3</span> = havoc ()</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-4' data-block-id='0_0_0_0_0_0' data-cmd-id='4' class='tac-cmd'><span style="color:#737373;">&nbsp;&nbsp;4:&nbsp;</span><span id="def_tacExtcodesize!!5">tacExtcodesize!!5</span> = havoc ()</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-5' data-block-id='0_0_0_0_0_0' data-cmd-id='5' class='tac-cmd'><span style="color:#737373;">&nbsp;&nbsp;5:&nbsp;</span><span id="def_tacBalance!!6">tacBalance!!6</span> = havoc ()</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-6' data-block-id='0_0_0_0_0_0' data-cmd-id='6' class='tac-cmd'><span style="color:#737373;">&nbsp;&nbsp;6:&nbsp;</span><span id="def_CANON10!!7">CANON10!!7</span> = havoc ()</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-7' data-block-id='0_0_0_0_0_0' data-cmd-id='7' class='tac-cmd'><span style="color:#737373;">&nbsp;&nbsp;7:&nbsp;</span><span id="def_CANON11!!8">CANON11!!8</span> = havoc ()</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-8' data-block-id='0_0_0_0_0_0' data-cmd-id='8' class='tac-cmd'><span style="color:#737373;">&nbsp;&nbsp;8:&nbsp;</span><span id="def_CANON12!!9">CANON12!!9</span> = havoc ()</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-9' data-block-id='0_0_0_0_0_0' data-cmd-id='9' class='tac-cmd'><span style="color:#737373;">&nbsp;&nbsp;9:&nbsp;</span><span id="def_CANON13!!10">CANON13!!10</span> = havoc ()</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-10' data-block-id='0_0_0_0_0_0' data-cmd-id='10' class='tac-cmd'><span style="color:#737373;">&nbsp;10:&nbsp;</span><span id="def_CANON14!!11">CANON14!!11</span> = havoc (0x0)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-11' data-block-id='0_0_0_0_0_0' data-cmd-id='11' class='tac-cmd'><span style="color:#737373;">&nbsp;11:&nbsp;</span><span id="def_CANON15!!12">CANON15!!12</span> = havoc (0x0)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-12' data-block-id='0_0_0_0_0_0' data-cmd-id='12' class='tac-cmd'><span style="color:#737373;">&nbsp;12:&nbsp;</span><span id="def_CANON16!!13">CANON16!!13</span> = havoc (0x0)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-13' data-block-id='0_0_0_0_0_0' data-cmd-id='13' class='tac-cmd'><span style="color:#737373;">&nbsp;13:&nbsp;</span><span id="def_CANON17!!14">CANON17!!14</span> = havoc (0x1)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-14' data-block-id='0_0_0_0_0_0' data-cmd-id='14' class='tac-cmd'><span style="color:#737373;">&nbsp;14:&nbsp;</span><span id="def_CANON18!!15">CANON18!!15</span> = havoc (0x0)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-15' data-block-id='0_0_0_0_0_0' data-cmd-id='15' class='tac-cmd'><span style="color:#737373;">&nbsp;15:&nbsp;</span><span id="def_CANON19!!16">CANON19!!16</span> = havoc (0x0)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-16' data-block-id='0_0_0_0_0_0' data-cmd-id='16' class='tac-cmd'><span style="color:#737373;">&nbsp;16:&nbsp;</span><span id="def_CANON20!!17">CANON20!!17</span> = havoc ()</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-17' data-block-id='0_0_0_0_0_0' data-cmd-id='17' class='tac-cmd'><span style="color:#737373;">&nbsp;17:&nbsp;</span><span id="def_CANON21!!18">CANON21!!18</span> = havoc ()</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-18' data-block-id='0_0_0_0_0_0' data-cmd-id='18' class='tac-cmd'><span style="color:#737373;">&nbsp;18:&nbsp;</span><span id="def_CANON22!!19">CANON22!!19</span> = havoc ()</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-19' data-block-id='0_0_0_0_0_0' data-cmd-id='19' class='tac-cmd'><span style="color:#737373;">&nbsp;19:&nbsp;</span><span id="def_CANON26">CANON26</span> = havoc (0xfffffffffffffffffffffffffffffffffffffe8a)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-20' data-block-id='0_0_0_0_0_0' data-cmd-id='20' class='tac-cmd'><span style="color:#737373;">&nbsp;20:&nbsp;</span><span style="color:#863F91;">assume (<a href="#def_CANON26" class="deflink use_CANON26" onclick="highlightDef('CANON26')">CANON26</a>&gt;=0x0)&&(<a href="#def_CANON26" class="deflink use_CANON26" onclick="highlightDef('CANON26')">CANON26</a>&lt;=0xffffffffffffffffffffffffffffffffffffffff)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-21' data-block-id='0_0_0_0_0_0' data-cmd-id='21' class='tac-cmd'><span style="color:#737373;">&nbsp;21:&nbsp;</span><span id="def_CANON27">CANON27</span> = havoc (0x1)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-22' data-block-id='0_0_0_0_0_0' data-cmd-id='22' class='tac-cmd'><span style="color:#737373;">&nbsp;22:&nbsp;</span><span style="color:#863F91;">assume (<a href="#def_CANON27" class="deflink use_CANON27" onclick="highlightDef('CANON27')">CANON27</a>&gt;=0x0)&&(<a href="#def_CANON27" class="deflink use_CANON27" onclick="highlightDef('CANON27')">CANON27</a>&lt;=0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-23' data-block-id='0_0_0_0_0_0' data-cmd-id='23' class='tac-cmd'><span style="color:#737373;">&nbsp;23:&nbsp;</span><span id="def_CANON28">CANON28</span> = havoc (0x0)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-24' data-block-id='0_0_0_0_0_0' data-cmd-id='24' class='tac-cmd'><span style="color:#737373;">&nbsp;24:&nbsp;</span><span style="color:#863F91;">assume (<a href="#def_CANON28" class="deflink use_CANON28" onclick="highlightDef('CANON28')">CANON28</a>&gt;=0x0)&&(<a href="#def_CANON28" class="deflink use_CANON28" onclick="highlightDef('CANON28')">CANON28</a>&lt;=0xffffffffffffffffffffffffffffffffffffffff)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-25' data-block-id='0_0_0_0_0_0' data-cmd-id='25' class='tac-cmd'><span style="color:#737373;">&nbsp;25:&nbsp;</span><span id="def_CANON29">CANON29</span> = havoc (0x0)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-26' data-block-id='0_0_0_0_0_0' data-cmd-id='26' class='tac-cmd'><span style="color:#737373;">&nbsp;26:&nbsp;</span><span style="color:#863F91;">assume (<a href="#def_CANON29" class="deflink use_CANON29" onclick="highlightDef('CANON29')">CANON29</a>&gt;=0x0)&&(<a href="#def_CANON29" class="deflink use_CANON29" onclick="highlightDef('CANON29')">CANON29</a>&lt;=0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-27' data-block-id='0_0_0_0_0_0' data-cmd-id='27' class='tac-cmd'><span style="color:#737373;">&nbsp;27:&nbsp;</span><span id="def_CANON30">CANON30</span> = havoc (0x0)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-28' data-block-id='0_0_0_0_0_0' data-cmd-id='28' class='tac-cmd'><span style="color:#737373;">&nbsp;28:&nbsp;</span><span style="color:#863F91;">assume (<a href="#def_CANON30" class="deflink use_CANON30" onclick="highlightDef('CANON30')">CANON30</a>&gt;=0x0)&&(<a href="#def_CANON30" class="deflink use_CANON30" onclick="highlightDef('CANON30')">CANON30</a>&lt;=0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-29' data-block-id='0_0_0_0_0_0' data-cmd-id='29' class='tac-cmd'><span style="color:#737373;">&nbsp;29:&nbsp;</span><span id="def_CANON31">CANON31</span> = havoc (0x0)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-30' data-block-id='0_0_0_0_0_0' data-cmd-id='30' class='tac-cmd'><span style="color:#737373;">&nbsp;30:&nbsp;</span><span style="color:#863F91;">assume (<a href="#def_CANON31" class="deflink use_CANON31" onclick="highlightDef('CANON31')">CANON31</a>&gt;=0x0)&&(<a href="#def_CANON31" class="deflink use_CANON31" onclick="highlightDef('CANON31')">CANON31</a>&lt;=0xffffffffffffffffffffffffffffffffffffffff)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-31' data-block-id='0_0_0_0_0_0' data-cmd-id='31' class='tac-cmd'><span style="color:#737373;">&nbsp;31:&nbsp;</span><span id="def_CANON32">CANON32</span> = havoc (0x0)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-32' data-block-id='0_0_0_0_0_0' data-cmd-id='32' class='tac-cmd'><span style="color:#737373;">&nbsp;32:&nbsp;</span><span style="color:#863F91;">assume (<a href="#def_CANON32" class="deflink use_CANON32" onclick="highlightDef('CANON32')">CANON32</a>&gt;=0x0)&&(<a href="#def_CANON32" class="deflink use_CANON32" onclick="highlightDef('CANON32')">CANON32</a>&lt;=0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-33' data-block-id='0_0_0_0_0_0' data-cmd-id='33' class='tac-cmd'><span style="color:#737373;">&nbsp;33:&nbsp;</span><span id="def_CANON33">CANON33</span> = havoc (0x0)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-34' data-block-id='0_0_0_0_0_0' data-cmd-id='34' class='tac-cmd'><span style="color:#737373;">&nbsp;34:&nbsp;</span><span style="color:#863F91;">assume (<a href="#def_CANON33" class="deflink use_CANON33" onclick="highlightDef('CANON33')">CANON33</a>&gt;=0x0)&&(<a href="#def_CANON33" class="deflink use_CANON33" onclick="highlightDef('CANON33')">CANON33</a>&lt;=0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-35' data-block-id='0_0_0_0_0_0' data-cmd-id='35' class='tac-cmd'><span style="color:#737373;">&nbsp;35:&nbsp;</span><span id="def_CANON34">CANON34</span> = havoc (0x0)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-36' data-block-id='0_0_0_0_0_0' data-cmd-id='36' class='tac-cmd'><span style="color:#737373;">&nbsp;36:&nbsp;</span><span style="color:#863F91;">assume (<a href="#def_CANON34" class="deflink use_CANON34" onclick="highlightDef('CANON34')">CANON34</a>&gt;=0x0)&&(<a href="#def_CANON34" class="deflink use_CANON34" onclick="highlightDef('CANON34')">CANON34</a>&lt;=0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-37' data-block-id='0_0_0_0_0_0' data-cmd-id='37' class='tac-cmd'><span style="color:#737373;">&nbsp;37:&nbsp;</span><span id="def_CANON35">CANON35</span> = havoc (0x0)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-38' data-block-id='0_0_0_0_0_0' data-cmd-id='38' class='tac-cmd'><span style="color:#737373;">&nbsp;38:&nbsp;</span><span style="color:#863F91;">assume (<a href="#def_CANON35" class="deflink use_CANON35" onclick="highlightDef('CANON35')">CANON35</a>&gt;=0x0)&&(<a href="#def_CANON35" class="deflink use_CANON35" onclick="highlightDef('CANON35')">CANON35</a>&lt;=0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-39' data-block-id='0_0_0_0_0_0' data-cmd-id='39' class='tac-cmd'><span style="color:#737373;">&nbsp;39:&nbsp;</span><span id="def_CANON81!20">CANON81!20</span> = havoc ()</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-40' data-block-id='0_0_0_0_0_0' data-cmd-id='40' class='tac-cmd'><span style="color:#737373;">&nbsp;40:&nbsp;</span><span id="def_R21">R21</span> = havoc (0x1)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-41' data-block-id='0_0_0_0_0_0' data-cmd-id='41' class='tac-cmd'><span style="color:#737373;">&nbsp;41:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_R21" class="deflink use_R21" onclick="highlightDef('R21')">R21</a>==0x1</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-42' data-block-id='0_0_0_0_0_0' data-cmd-id='42' class='tac-cmd'><span style="color:#737373;">&nbsp;42:&nbsp;</span><span id="def_R22">R22</span> = havoc (0x2)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-43' data-block-id='0_0_0_0_0_0' data-cmd-id='43' class='tac-cmd'><span style="color:#737373;">&nbsp;43:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_R22" class="deflink use_R22" onclick="highlightDef('R22')">R22</a>==0x2</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-44' data-block-id='0_0_0_0_0_0' data-cmd-id='44' class='tac-cmd'><span style="color:#737373;">&nbsp;44:&nbsp;</span><span id="def_R23">R23</span> = havoc (0x4)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-45' data-block-id='0_0_0_0_0_0' data-cmd-id='45' class='tac-cmd'><span style="color:#737373;">&nbsp;45:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_R23" class="deflink use_R23" onclick="highlightDef('R23')">R23</a>==0x4</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-46' data-block-id='0_0_0_0_0_0' data-cmd-id='46' class='tac-cmd'><span style="color:#737373;">&nbsp;46:&nbsp;</span><span id="def_CANON2!!25">CANON2!!25</span> = havoc ()</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-47' data-block-id='0_0_0_0_0_0' data-cmd-id='47' class='tac-cmd'><span style="color:#737373;">&nbsp;47:&nbsp;</span><span id="def_CANON3!!26">CANON3!!26</span> = havoc ()</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-48' data-block-id='0_0_0_0_0_0' data-cmd-id='48' class='tac-cmd'><span style="color:#737373;">&nbsp;48:&nbsp;</span><span id="def_CANON4!!27">CANON4!!27</span> = havoc ()</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-49' data-block-id='0_0_0_0_0_0' data-cmd-id='49' class='tac-cmd'><span style="color:#737373;">&nbsp;49:&nbsp;</span><span id="def_CANON5!!28">CANON5!!28</span> = havoc ()</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-50' data-block-id='0_0_0_0_0_0' data-cmd-id='50' class='tac-cmd'><span style="color:#737373;">&nbsp;50:&nbsp;</span><span id="def_CANON6!!29">CANON6!!29</span> = havoc ()</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-51' data-block-id='0_0_0_0_0_0' data-cmd-id='51' class='tac-cmd'><span style="color:#737373;">&nbsp;51:&nbsp;</span><span id="def_CANON7!!30">CANON7!!30</span> = havoc ()</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-52' data-block-id='0_0_0_0_0_0' data-cmd-id='52' class='tac-cmd'><span style="color:#737373;">&nbsp;52:&nbsp;</span><span id="def_CANON8!!31">CANON8!!31</span> = havoc ()</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-53' data-block-id='0_0_0_0_0_0' data-cmd-id='53' class='tac-cmd'><span style="color:#737373;">&nbsp;53:&nbsp;</span><span id="def_CANON9!!32">CANON9!!32</span> = havoc ()</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-54' data-block-id='0_0_0_0_0_0' data-cmd-id='54' class='tac-cmd'><span style="color:#737373;">&nbsp;54:&nbsp;</span><span id="def_R33">R33</span> = havoc (0x2fdf)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-55' data-block-id='0_0_0_0_0_0' data-cmd-id='55' class='tac-cmd'><span style="color:#737373;">&nbsp;55:&nbsp;</span><span style="color:#863F91;">assume (<a href="#def_R33" class="deflink use_R33" onclick="highlightDef('R33')">R33</a>&gt;=0x1)&&(<a href="#def_R33" class="deflink use_R33" onclick="highlightDef('R33')">R33</a>&lt;=2^160 - 1)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-56' data-block-id='0_0_0_0_0_0' data-cmd-id='56' class='tac-cmd'><span style="color:#737373;">&nbsp;56:&nbsp;</span><span id="def_tacSCANON0!!34">tacSCANON0!!34</span> = havoc ()</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-57' data-block-id='0_0_0_0_0_0' data-cmd-id='57' class='tac-cmd'><span style="color:#737373;">&nbsp;57:&nbsp;</span><span id="def_tacSighash!!35">tacSighash!!35</span> = havoc (0x0)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-58' data-block-id='0_0_0_0_0_0' data-cmd-id='58' class='tac-cmd'><span style="color:#737373;">&nbsp;58:&nbsp;</span><span style="color:#737373;">TRANSIENT::tac.state.extension=ExtendedStateVars(instanceToExtendedVars&#61;{274184521717934524641157099916833587223&#61;{}})::</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-59' data-block-id='0_0_0_0_0_0' data-cmd-id='59' class='tac-cmd'><span style="color:#737373;">&nbsp;59:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (0) rule parameters setup</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-60' data-block-id='0_0_0_0_0_0' data-cmd-id='60' class='tac-cmd'><span style="color:#737373;">&nbsp;60:&nbsp;</span><span id="def_CANON">CANON</span> = havoc (0x0)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-61' data-block-id='0_0_0_0_0_0' data-cmd-id='61' class='tac-cmd'><span style="color:#737373;">&nbsp;61:&nbsp;</span><span style="color:#863F91;">assume (<a href="#def_CANON" class="deflink use_CANON" onclick="highlightDef('CANON')">CANON</a>&gt;=0x0)&&(<a href="#def_CANON" class="deflink use_CANON" onclick="highlightDef('CANON')">CANON</a>&lt;=0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-62' data-block-id='0_0_0_0_0_0' data-cmd-id='62' class='tac-cmd'><span style="color:#737373;">&nbsp;62:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=PrimitiveArg(callIndex&#61;0, index&#61;0, sym&#61;CANON:int, param&#61;uint256 tokenId)::</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-63' data-block-id='0_0_0_0_0_0' data-cmd-id='63' class='tac-cmd'><span style="color:#737373;">&nbsp;63:&nbsp;</span><span style="color:#737373;">TRANSIENT::cvl.trace.declaration=VariableDeclaration(v&#61;TACVar(t&#61;CANON:int), t&#61;uint256, type&#61;Parameter(sourceName&#61;tokenId), fields&#61;null)::</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-64' data-block-id='0_0_0_0_0_0' data-cmd-id='64' class='tac-cmd'><span style="color:#737373;">&nbsp;64:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (0)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-65' data-block-id='0_0_0_0_0_0' data-cmd-id='65' class='tac-cmd'><span style="color:#737373;">&nbsp;65:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (1) Setup</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-66' data-block-id='0_0_0_0_0_0' data-cmd-id='66' class='tac-cmd'><span style="color:#737373;">&nbsp;66:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (2) multi contract setup</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-67' data-block-id='0_0_0_0_0_0' data-cmd-id='67' class='tac-cmd'><span style="color:#737373;">&nbsp;67:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (2)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-68' data-block-id='0_0_0_0_0_0' data-cmd-id='68' class='tac-cmd'><span style="color:#737373;">&nbsp;68:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (3) contract address vars initialized</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-69' data-block-id='0_0_0_0_0_0' data-cmd-id='69' class='tac-cmd'><span style="color:#737373;">&nbsp;69:&nbsp;</span><span id="def_CANON1">CANON1</span> = <a href="#def_R33" class="deflink use_R33" onclick="highlightDef('R33')">R33</a> (0x2fdf)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-70' data-block-id='0_0_0_0_0_0' data-cmd-id='70' class='tac-cmd'><span style="color:#737373;">&nbsp;70:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (3)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-71' data-block-id='0_0_0_0_0_0' data-cmd-id='71' class='tac-cmd'><span style="color:#737373;">&nbsp;71:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (4) setup read tracking instrumentation</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-72' data-block-id='0_0_0_0_0_0' data-cmd-id='72' class='tac-cmd'><span style="color:#737373;">&nbsp;72:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (4)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-73' data-block-id='0_0_0_0_0_0' data-cmd-id='73' class='tac-cmd'><span style="color:#737373;">&nbsp;73:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (5) last storage initialize</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-74' data-block-id='0_0_0_0_0_0' data-cmd-id='74' class='tac-cmd'><span style="color:#737373;">&nbsp;74:&nbsp;</span><span style="color:#FF8C00;">Take snapshot of storage  in <a href="#def_lastStorage" class="deflink use_lastStorage" onclick="highlightDef('lastStorage')">lastStorage</a></span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-75' data-block-id='0_0_0_0_0_0' data-cmd-id='75' class='tac-cmd'><span style="color:#737373;">&nbsp;75:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (5)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-76' data-block-id='0_0_0_0_0_0' data-cmd-id='76' class='tac-cmd'><span style="color:#737373;">&nbsp;76:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (6) assuming contracts in scene with non-empty bytecode have EXTCODESIZE larger than zero</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-77' data-block-id='0_0_0_0_0_0' data-cmd-id='77' class='tac-cmd'><span style="color:#737373;">&nbsp;77:&nbsp;</span><span id="def_R36">R36</span> = <a href="#def_tacExtcodesize!!5" class="deflink use_tacExtcodesize!!5" onclick="highlightDef('tacExtcodesize!!5')">tacExtcodesize!!5</a>[to_skey:bif(<a href="#def_R33" class="deflink use_R33" onclick="highlightDef('R33')">R33</a>)] (0x1)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-78' data-block-id='0_0_0_0_0_0' data-cmd-id='78' class='tac-cmd'><span style="color:#737373;">&nbsp;78:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_R36" class="deflink use_R36" onclick="highlightDef('R36')">R36</a>&gt;=0x1</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-79' data-block-id='0_0_0_0_0_0' data-cmd-id='79' class='tac-cmd'><span style="color:#737373;">&nbsp;79:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_R36" class="deflink use_R36" onclick="highlightDef('R36')">R36</a>==<a href="#def_R1" class="deflink use_R1" onclick="highlightDef('R1')">R1</a></span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-80' data-block-id='0_0_0_0_0_0' data-cmd-id='80' class='tac-cmd'><span style="color:#737373;">&nbsp;80:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (6)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-81' data-block-id='0_0_0_0_0_0' data-cmd-id='81' class='tac-cmd'><span style="color:#737373;">&nbsp;81:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (7) assuming address(0).code has no code deployed</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-82' data-block-id='0_0_0_0_0_0' data-cmd-id='82' class='tac-cmd'><span style="color:#737373;">&nbsp;82:&nbsp;</span><span id="def_B38">B38</span> = <a href="#def_tacExtcodesize!!5" class="deflink use_tacExtcodesize!!5" onclick="highlightDef('tacExtcodesize!!5')">tacExtcodesize!!5</a>[skey_basic:bif(0x0)]==0x0 (true)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-83' data-block-id='0_0_0_0_0_0' data-cmd-id='83' class='tac-cmd'><span style="color:#737373;">&nbsp;83:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_B38" class="deflink use_B38" onclick="highlightDef('B38')">B38</a></span> (true)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-84' data-block-id='0_0_0_0_0_0' data-cmd-id='84' class='tac-cmd'><span style="color:#737373;">&nbsp;84:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (7)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-85' data-block-id='0_0_0_0_0_0' data-cmd-id='85' class='tac-cmd'><span style="color:#737373;">&nbsp;85:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (8) assumptions about contracts&#39; addresses</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-86' data-block-id='0_0_0_0_0_0' data-cmd-id='86' class='tac-cmd'><span style="color:#737373;">&nbsp;86:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (8)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-87' data-block-id='0_0_0_0_0_0' data-cmd-id='87' class='tac-cmd'><span style="color:#737373;">&nbsp;87:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (9) assumptions about static addresses</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-88' data-block-id='0_0_0_0_0_0' data-cmd-id='88' class='tac-cmd'><span style="color:#737373;">&nbsp;88:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (9)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-89' data-block-id='0_0_0_0_0_0' data-cmd-id='89' class='tac-cmd'><span style="color:#737373;">&nbsp;89:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (10) establish addresses of precompiled contracts</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-90' data-block-id='0_0_0_0_0_0' data-cmd-id='90' class='tac-cmd'><span style="color:#737373;">&nbsp;90:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (10)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-91' data-block-id='0_0_0_0_0_0' data-cmd-id='91' class='tac-cmd'><span style="color:#737373;">&nbsp;91:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (11) assumptions about uniqueness of contracts&#39; addresses</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-92' data-block-id='0_0_0_0_0_0' data-cmd-id='92' class='tac-cmd'><span style="color:#737373;">&nbsp;92:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (11)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-93' data-block-id='0_0_0_0_0_0' data-cmd-id='93' class='tac-cmd'><span style="color:#737373;">&nbsp;93:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (12) static links</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-94' data-block-id='0_0_0_0_0_0' data-cmd-id='94' class='tac-cmd'><span style="color:#737373;">&nbsp;94:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (12)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-95' data-block-id='0_0_0_0_0_0' data-cmd-id='95' class='tac-cmd'><span style="color:#737373;">&nbsp;95:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (13) record starting nonces</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-96' data-block-id='0_0_0_0_0_0' data-cmd-id='96' class='tac-cmd'><span style="color:#737373;">&nbsp;96:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (13)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-97' data-block-id='0_0_0_0_0_0' data-cmd-id='97' class='tac-cmd'><span style="color:#737373;">&nbsp;97:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (14) cloned contracts have no balances</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-98' data-block-id='0_0_0_0_0_0' data-cmd-id='98' class='tac-cmd'><span style="color:#737373;">&nbsp;98:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (14)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-99' data-block-id='0_0_0_0_0_0' data-cmd-id='99' class='tac-cmd'><span style="color:#737373;">&nbsp;99:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (15) Linked immutable setup</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-100' data-block-id='0_0_0_0_0_0' data-cmd-id='100' class='tac-cmd'><span style="color:#737373;">100:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (15)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-101' data-block-id='0_0_0_0_0_0' data-cmd-id='101' class='tac-cmd'><span style="color:#737373;">101:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (16) Constrain immutables</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-102' data-block-id='0_0_0_0_0_0' data-cmd-id='102' class='tac-cmd'><span style="color:#737373;">102:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (16)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-103' data-block-id='0_0_0_0_0_0' data-cmd-id='103' class='tac-cmd'><span style="color:#737373;">103:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (17) establish equivalence of extension and base contract immutables</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-104' data-block-id='0_0_0_0_0_0' data-cmd-id='104' class='tac-cmd'><span style="color:#737373;">104:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (17)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-105' data-block-id='0_0_0_0_0_0' data-cmd-id='105' class='tac-cmd'><span style="color:#737373;">105:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (1)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-106' data-block-id='0_0_0_0_0_0' data-cmd-id='106' class='tac-cmd'><span style="color:#737373;">106:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (18) env e</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-107' data-block-id='0_0_0_0_0_0' data-cmd-id='107' class='tac-cmd'><span style="color:#737373;">107:&nbsp;</span><span style="color:#737373;">TRANSIENT::cvl.trace.declaration=VariableDeclaration(v&#61;CVLVar(id&#61;e11501), t&#61;env, type&#61;spec.CVLCompiler$Companion$TraceMeta$DeclarationType$Variable&#64;ea978add, fields&#61;{[StructField(field&#61;block), StructField(field&#61;coinbase)]&#61;CANON31:int, [StructField(field&#61;block), StructField(field&#61;basefee)]&#61;CANON29:int, [StructField(field&#61;block), StructField(field&#61;timestamp)]&#61;CANON35:int, [StructField(field&#61;block), StructField(field&#61;blobbasefee)]&#61;CANON30:int, [StructField(field&#61;tx), StructField(field&#61;origin)]&#61;CANON28:int, [StructField(field&#61;msg), StructField(field&#61;sender)]&#61;CANON26:int, [StructField(field&#61;msg), StructField(field&#61;value)]&#61;CANON27:int, [StructField(field&#61;block), StructField(field&#61;difficulty)]&#61;CANON32:int, [StructField(field&#61;block), StructField(field&#61;gaslimit)]&#61;CANON33:int, [StructField(field&#61;block), StructField(field&#61;number)]&#61;CANON34:int})::</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-108' data-block-id='0_0_0_0_0_0' data-cmd-id='108' class='tac-cmd'><span style="color:#737373;">108:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (18)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-109' data-block-id='0_0_0_0_0_0' data-cmd-id='109' class='tac-cmd'><span style="color:#737373;">109:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (19) zeroAddr &#61; 0x0</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-110' data-block-id='0_0_0_0_0_0' data-cmd-id='110' class='tac-cmd'><span style="color:#737373;">110:&nbsp;</span><span id="def_CANON36">CANON36</span> = false (false)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-111' data-block-id='0_0_0_0_0_0' data-cmd-id='111' class='tac-cmd'><span style="color:#737373;">111:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (19)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-112' data-block-id='0_0_0_0_0_0' data-cmd-id='112' class='tac-cmd'><span style="color:#737373;">112:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (20) value &#61; 100</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-113' data-block-id='0_0_0_0_0_0' data-cmd-id='113' class='tac-cmd'><span style="color:#737373;">113:&nbsp;</span><span id="def_CANON37">CANON37</span> = 0x64 (0x64)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-114' data-block-id='0_0_0_0_0_0' data-cmd-id='114' class='tac-cmd'><span style="color:#737373;">114:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (20)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-115' data-block-id='0_0_0_0_0_0' data-cmd-id='115' class='tac-cmd'><span style="color:#737373;">115:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (21) ERC3525.approve&#64;withrevert(e, tokenId, zeroAddr, value)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-116' data-block-id='0_0_0_0_0_0' data-cmd-id='116' class='tac-cmd'><span style="color:#737373;">116:&nbsp;</span><span style="color:#737373;">TRANSIENT::cvl.trace.data.movement=CVLMovement(dst&#61;CVLVar(id&#61;certoraArg1151711518), src&#61;CVLVar(id&#61;e11501))::</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-117' data-block-id='0_0_0_0_0_0' data-cmd-id='117' class='tac-cmd'><span style="color:#737373;">117:&nbsp;</span><span id="def_I41">I41</span> = <a href="#def_CANON" class="deflink use_CANON" onclick="highlightDef('CANON')">CANON</a> (0x0)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-118' data-block-id='0_0_0_0_0_0' data-cmd-id='118' class='tac-cmd'><span style="color:#737373;">118:&nbsp;</span><span id="def_I42">I42</span> = 0x0 (0x0)</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-119' data-block-id='0_0_0_0_0_0' data-cmd-id='119' class='tac-cmd'><span style="color:#737373;">119:&nbsp;</span><span id="def_I43">I43</span> = 0x64 (0x64)</span></span>
+<br/>
+</br>
+<a name="block1_0_0_1_0_0" id="block1_0_0_1_0_0" href="#block1_0_0_1_0_0" onclick="highlightAnchor('1_0_0_1_0_0')">Block 1_0_0_1_0_0:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-1_0_0_1_0_0-0' data-block-id='1_0_0_1_0_0' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">0:&nbsp;</span><span style="color:#737373;">::1: ERC3525.approve::</span></span></span>
+<br/>
+</br>
+<a name="block4_0_0_0_0_0" id="block4_0_0_0_0_0" href="#block4_0_0_0_0_0" onclick="highlightAnchor('4_0_0_0_0_0')">Block 4_0_0_0_0_0:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-4_0_0_0_0_0-0' data-block-id='4_0_0_0_0_0' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">&nbsp;0:&nbsp;</span><span id="def_CANON2!!102">CANON2!!102</span> = <a href="#def_CANON2!!25" class="deflink use_CANON2!!25" onclick="highlightDef('CANON2!!25')">CANON2!!25</a> ()</span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-1' data-block-id='4_0_0_0_0_0' data-cmd-id='1' class='tac-cmd'><span style="color:#737373;">&nbsp;1:&nbsp;</span><span id="def_CANON3!!103">CANON3!!103</span> = <a href="#def_CANON3!!26" class="deflink use_CANON3!!26" onclick="highlightDef('CANON3!!26')">CANON3!!26</a> ()</span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-2' data-block-id='4_0_0_0_0_0' data-cmd-id='2' class='tac-cmd'><span style="color:#737373;">&nbsp;2:&nbsp;</span><span id="def_CANON4!!104">CANON4!!104</span> = <a href="#def_CANON4!!27" class="deflink use_CANON4!!27" onclick="highlightDef('CANON4!!27')">CANON4!!27</a> ()</span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-3' data-block-id='4_0_0_0_0_0' data-cmd-id='3' class='tac-cmd'><span style="color:#737373;">&nbsp;3:&nbsp;</span><span id="def_tacSCANON0!!105">tacSCANON0!!105</span> = <a href="#def_tacSCANON0!!34" class="deflink use_tacSCANON0!!34" onclick="highlightDef('tacSCANON0!!34')">tacSCANON0!!34</a> ()</span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-4' data-block-id='4_0_0_0_0_0' data-cmd-id='4' class='tac-cmd'><span style="color:#737373;">&nbsp;4:&nbsp;</span><span id="def_CANON5!!106">CANON5!!106</span> = <a href="#def_CANON5!!28" class="deflink use_CANON5!!28" onclick="highlightDef('CANON5!!28')">CANON5!!28</a> ()</span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-5' data-block-id='4_0_0_0_0_0' data-cmd-id='5' class='tac-cmd'><span style="color:#737373;">&nbsp;5:&nbsp;</span><span id="def_CANON6!!107">CANON6!!107</span> = <a href="#def_CANON6!!29" class="deflink use_CANON6!!29" onclick="highlightDef('CANON6!!29')">CANON6!!29</a> ()</span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-6' data-block-id='4_0_0_0_0_0' data-cmd-id='6' class='tac-cmd'><span style="color:#737373;">&nbsp;6:&nbsp;</span><span id="def_CANON7!!108">CANON7!!108</span> = <a href="#def_CANON7!!30" class="deflink use_CANON7!!30" onclick="highlightDef('CANON7!!30')">CANON7!!30</a> ()</span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-7' data-block-id='4_0_0_0_0_0' data-cmd-id='7' class='tac-cmd'><span style="color:#737373;">&nbsp;7:&nbsp;</span><span id="def_CANON8!!109">CANON8!!109</span> = <a href="#def_CANON8!!31" class="deflink use_CANON8!!31" onclick="highlightDef('CANON8!!31')">CANON8!!31</a> ()</span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-8' data-block-id='4_0_0_0_0_0' data-cmd-id='8' class='tac-cmd'><span style="color:#737373;">&nbsp;8:&nbsp;</span><span id="def_CANON9!!110">CANON9!!110</span> = <a href="#def_CANON9!!32" class="deflink use_CANON9!!32" onclick="highlightDef('CANON9!!32')">CANON9!!32</a> ()</span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-9' data-block-id='4_0_0_0_0_0' data-cmd-id='9' class='tac-cmd'><span style="color:#737373;">&nbsp;9:&nbsp;</span><span id="def_CANON10!!111">CANON10!!111</span> = <a href="#def_CANON10!!7" class="deflink use_CANON10!!7" onclick="highlightDef('CANON10!!7')">CANON10!!7</a> ()</span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-10' data-block-id='4_0_0_0_0_0' data-cmd-id='10' class='tac-cmd'><span style="color:#737373;">10:&nbsp;</span><span id="def_CANON11!!112">CANON11!!112</span> = <a href="#def_CANON11!!8" class="deflink use_CANON11!!8" onclick="highlightDef('CANON11!!8')">CANON11!!8</a> ()</span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-11' data-block-id='4_0_0_0_0_0' data-cmd-id='11' class='tac-cmd'><span style="color:#737373;">11:&nbsp;</span><span id="def_CANON12!!113">CANON12!!113</span> = <a href="#def_CANON12!!9" class="deflink use_CANON12!!9" onclick="highlightDef('CANON12!!9')">CANON12!!9</a> ()</span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-12' data-block-id='4_0_0_0_0_0' data-cmd-id='12' class='tac-cmd'><span style="color:#737373;">12:&nbsp;</span><span id="def_CANON13!!114">CANON13!!114</span> = <a href="#def_CANON13!!10" class="deflink use_CANON13!!10" onclick="highlightDef('CANON13!!10')">CANON13!!10</a> ()</span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-13' data-block-id='4_0_0_0_0_0' data-cmd-id='13' class='tac-cmd'><span style="color:#737373;">13:&nbsp;</span><span id="def_CANON14!!116">CANON14!!116</span> = <a href="#def_CANON14!!11" class="deflink use_CANON14!!11" onclick="highlightDef('CANON14!!11')">CANON14!!11</a> (0x0)</span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-14' data-block-id='4_0_0_0_0_0' data-cmd-id='14' class='tac-cmd'><span style="color:#737373;">14:&nbsp;</span><span id="def_CANON15!!117">CANON15!!117</span> = <a href="#def_CANON15!!12" class="deflink use_CANON15!!12" onclick="highlightDef('CANON15!!12')">CANON15!!12</a> (0x0)</span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-15' data-block-id='4_0_0_0_0_0' data-cmd-id='15' class='tac-cmd'><span style="color:#737373;">15:&nbsp;</span><span id="def_CANON16!!118">CANON16!!118</span> = <a href="#def_CANON16!!13" class="deflink use_CANON16!!13" onclick="highlightDef('CANON16!!13')">CANON16!!13</a> (0x0)</span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-16' data-block-id='4_0_0_0_0_0' data-cmd-id='16' class='tac-cmd'><span style="color:#737373;">16:&nbsp;</span><span id="def_CANON17!!119">CANON17!!119</span> = <a href="#def_CANON17!!14" class="deflink use_CANON17!!14" onclick="highlightDef('CANON17!!14')">CANON17!!14</a> (0x1)</span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-17' data-block-id='4_0_0_0_0_0' data-cmd-id='17' class='tac-cmd'><span style="color:#737373;">17:&nbsp;</span><span id="def_CANON18!!120">CANON18!!120</span> = <a href="#def_CANON18!!15" class="deflink use_CANON18!!15" onclick="highlightDef('CANON18!!15')">CANON18!!15</a> (0x0)</span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-18' data-block-id='4_0_0_0_0_0' data-cmd-id='18' class='tac-cmd'><span style="color:#737373;">18:&nbsp;</span><span id="def_CANON19!!121">CANON19!!121</span> = <a href="#def_CANON19!!16" class="deflink use_CANON19!!16" onclick="highlightDef('CANON19!!16')">CANON19!!16</a> (0x0)</span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-19' data-block-id='4_0_0_0_0_0' data-cmd-id='19' class='tac-cmd'><span style="color:#737373;">19:&nbsp;</span><span id="def_CANON20!!122">CANON20!!122</span> = <a href="#def_CANON20!!17" class="deflink use_CANON20!!17" onclick="highlightDef('CANON20!!17')">CANON20!!17</a> ()</span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-20' data-block-id='4_0_0_0_0_0' data-cmd-id='20' class='tac-cmd'><span style="color:#737373;">20:&nbsp;</span><span id="def_CANON21!!123">CANON21!!123</span> = <a href="#def_CANON21!!18" class="deflink use_CANON21!!18" onclick="highlightDef('CANON21!!18')">CANON21!!18</a> ()</span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-21' data-block-id='4_0_0_0_0_0' data-cmd-id='21' class='tac-cmd'><span style="color:#737373;">21:&nbsp;</span><span id="def_CANON22!!124">CANON22!!124</span> = <a href="#def_CANON22!!19" class="deflink use_CANON22!!19" onclick="highlightDef('CANON22!!19')">CANON22!!19</a> ()</span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-22' data-block-id='4_0_0_0_0_0' data-cmd-id='22' class='tac-cmd'><span style="color:#737373;">22:&nbsp;</span><span style="color:#FF8C00;">Restore snapshot of storage from <a href="#def_CANON70" class="deflink use_CANON70" onclick="highlightDef('CANON70')">CANON70</a></span></span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-23' data-block-id='4_0_0_0_0_0' data-cmd-id='23' class='tac-cmd'><span style="color:#737373;">23:&nbsp;</span><span style="color:#FF8C00;">Take snapshot of storage  in <a href="#def_lastStorage" class="deflink use_lastStorage" onclick="highlightDef('lastStorage')">lastStorage</a></span></span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-24' data-block-id='4_0_0_0_0_0' data-cmd-id='24' class='tac-cmd'><span style="color:#737373;">24:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (21)</span></span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-25' data-block-id='4_0_0_0_0_0' data-cmd-id='25' class='tac-cmd'><span style="color:#737373;">25:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (22) _ &#61; lastReverted</span></span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-26' data-block-id='4_0_0_0_0_0' data-cmd-id='26' class='tac-cmd'><span style="color:#737373;">26:&nbsp;</span><span id="def_B129">B129</span> = true (true)</span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-27' data-block-id='4_0_0_0_0_0' data-cmd-id='27' class='tac-cmd'><span style="color:#737373;">27:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (22)</span></span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-28' data-block-id='4_0_0_0_0_0' data-cmd-id='28' class='tac-cmd'><span style="color:#737373;">28:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (23) assert false</span></span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-29' data-block-id='4_0_0_0_0_0' data-cmd-id='29' class='tac-cmd'><span style="color:#737373;">29:&nbsp;</span><span id="def_B130">B130</span> = false (false)</span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-30' data-block-id='4_0_0_0_0_0' data-cmd-id='30' class='tac-cmd'><span style="color:#737373;">30:&nbsp;</span><span style='background-color:#ffcccc;'><span style="color:#FF0000;">assert false, sanity check for rule approveZeroAddress... - specs/ERC3525.spec line 121</span> (false)</span></span></span>
+<br/>
+</div>
+<div id="edgesHtml0" style="overflow: scroll; height: 10%;">Successor map:<br/>
+Edge <a name="edgeS0_0_0_0_0_0" id="edgeS0_0_0_0_0_0" href="#block0_0_0_0_0_0" onclick="highlightAnchor('0_0_0_0_0_0')">0_0_0_0_0_0</a>
+    -> <a name="edgeT1_0_0_1_0_0" id="edgeT1_0_0_1_0_0" href="#block1_0_0_1_0_0" onclick="highlightAnchor('1_0_0_1_0_0')">1_0_0_1_0_0</a>:
+ 
+</br>
+Edge <a name="edgeS1_0_0_1_0_0" id="edgeS1_0_0_1_0_0" href="#block1_0_0_1_0_0" onclick="highlightAnchor('1_0_0_1_0_0')">1_0_0_1_0_0</a>
+    -> <a name="edgeT4_0_0_0_0_0" id="edgeT4_0_0_0_0_0" href="#block4_0_0_0_0_0" onclick="highlightAnchor('4_0_0_0_0_0')">4_0_0_0_0_0</a>:
+ 
+</div>
+
+    </div>
+    
+<div id="blocksAndEdges1" style="position:fixed;height:100%;width:40%;display:inline-block;border:1px;visibility:hidden;">
+
+<div id="blocksHtml1" style="overflow: scroll; height: 90%;">
+<a name="block1_0_0_1_0_0" id="block1_0_0_1_0_0" href="#block1_0_0_1_0_0" onclick="highlightAnchor('1_0_0_1_0_0')">Block 1_0_0_1_0_0:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-1_0_0_1_0_0-0' data-block-id='1_0_0_1_0_0' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">0:&nbsp;</span><span style="color:#FF8C00;">Take snapshot of storage  in <a href="#def_CANON70" class="deflink use_CANON70" onclick="highlightDef('CANON70')">CANON70</a></span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-1' data-block-id='1_0_0_1_0_0' data-cmd-id='1' class='tac-cmd'><span style="color:#737373;">1:&nbsp;</span><span style='background-color:#ffcccc;color:green'>assert true, sanity bounds check on cvl to vm encoding (unsigned int) of CANON71:int failed (true)</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-2' data-block-id='1_0_0_1_0_0' data-cmd-id='2' class='tac-cmd'><span style="color:#737373;">2:&nbsp;</span><span id="def_R71">R71</span> = safe_math_narrow_bv256:bif(<a href="#def_CANON26" class="deflink use_CANON26" onclick="highlightDef('CANON26')">CANON26</a>) (0xfffffffffffffffffffffffffffffffffffffe8a)</span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-3' data-block-id='1_0_0_1_0_0' data-cmd-id='3' class='tac-cmd'><span style="color:#737373;">3:&nbsp;</span><span id="def_R73">R73</span> = <a href="#def_tacBalance!!6" class="deflink use_tacBalance!!6" onclick="highlightDef('tacBalance!!6')">tacBalance!!6</a>[to_skey:bif(<a href="#def_R71" class="deflink use_R71" onclick="highlightDef('R71')">R71</a>)] (0x0)</span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-4' data-block-id='1_0_0_1_0_0' data-cmd-id='4' class='tac-cmd'><span style="color:#737373;">4:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=ReadBalanceSnippet(balance&#61;R73:bv256, addr&#61;R71:bv256)::</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-5' data-block-id='1_0_0_1_0_0' data-cmd-id='5' class='tac-cmd'><span style="color:#737373;">5:&nbsp;</span><span style='background-color:#ffcccc;color:green'>assert true, sanity bounds check on cvl to vm encoding (unsigned int) of CANON75:int failed (true)</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-6' data-block-id='1_0_0_1_0_0' data-cmd-id='6' class='tac-cmd'><span style="color:#737373;">6:&nbsp;</span><span id="def_B75">B75</span> = safe_math_narrow_bv256:bif(<a href="#def_CANON27" class="deflink use_CANON27" onclick="highlightDef('CANON27')">CANON27</a>)&lt;=<a href="#def_R73" class="deflink use_R73" onclick="highlightDef('R73')">R73</a> (false)</span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-7' data-block-id='1_0_0_1_0_0' data-cmd-id='7' class='tac-cmd'><span style="color:#737373;">7:&nbsp;</span>if <a href="#def_B75" class="deflink use_B75" onclick="highlightDef('B75')">B75</a> goto <a href="#block2_0_0_1_0_0" onclick="highlightAnchor('2_0_0_1_0_0')">2_0_0_1_0_0</a> else goto <a href="#block3_0_0_1_0_0" onclick="highlightAnchor('3_0_0_1_0_0')">3_0_0_1_0_0</a></span></span>
+<br/>
+</br>
+<a name="block3_0_0_1_0_0" id="block3_0_0_1_0_0" href="#block3_0_0_1_0_0" onclick="highlightAnchor('3_0_0_1_0_0')">Block 3_0_0_1_0_0:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-3_0_0_1_0_0-0' data-block-id='3_0_0_1_0_0' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">0:&nbsp;</span><span id="def_lastHasThrown!!100">lastHasThrown!!100</span> = false (false)</span><br/>
+<span id='tac-cmd-3_0_0_1_0_0-1' data-block-id='3_0_0_1_0_0' data-cmd-id='1' class='tac-cmd'><span style="color:#737373;">1:&nbsp;</span><span id="def_lastReverted!!101">lastReverted!!101</span> = true (true)</span><br/>
+<span id='tac-cmd-3_0_0_1_0_0-2' data-block-id='3_0_0_1_0_0' data-cmd-id='2' class='tac-cmd'><span style="color:#737373;">2:&nbsp;</span><span style="color:#863F91;">From here we definitely revert</span></span><br/>
+<span id='tac-cmd-3_0_0_1_0_0-3' data-block-id='3_0_0_1_0_0' data-cmd-id='3' class='tac-cmd'><span style="color:#737373;">3:&nbsp;</span><span style="color:#737373;">::Jump to 4_0_0_0_0_0::</span></span></span>
+<br/>
+</div>
+<div id="edgesHtml1" style="overflow: scroll; height: 10%;">Successor map:<br/>
+Edge <a name="edgeS1_0_0_1_0_0" id="edgeS1_0_0_1_0_0" href="#block1_0_0_1_0_0" onclick="highlightAnchor('1_0_0_1_0_0')">1_0_0_1_0_0</a>
+    -> <a name="edgeT2_0_0_1_0_0" id="edgeT2_0_0_1_0_0" href="#block2_0_0_1_0_0" onclick="highlightAnchor('2_0_0_1_0_0')">2_0_0_1_0_0</a>:
+ 
+</br>
+Edge <a name="edgeS1_0_0_1_0_0" id="edgeS1_0_0_1_0_0" href="#block1_0_0_1_0_0" onclick="highlightAnchor('1_0_0_1_0_0')">1_0_0_1_0_0</a>
+    -> <a name="edgeT3_0_0_1_0_0" id="edgeT3_0_0_1_0_0" href="#block3_0_0_1_0_0" onclick="highlightAnchor('3_0_0_1_0_0')">3_0_0_1_0_0</a>:
+ 
+</br>
+Edge <a name="edgeS0_0_0_0_0_0" id="edgeS0_0_0_0_0_0" href="#block0_0_0_0_0_0" onclick="highlightAnchor('0_0_0_0_0_0')">0_0_0_0_0_0</a>
+    -> <a name="edgeT1_0_0_1_0_0" id="edgeT1_0_0_1_0_0" href="#block1_0_0_1_0_0" onclick="highlightAnchor('1_0_0_1_0_0')">1_0_0_1_0_0</a>:
+ 
+</br>
+Edge <a name="edgeS1_0_0_1_0_0" id="edgeS1_0_0_1_0_0" href="#block1_0_0_1_0_0" onclick="highlightAnchor('1_0_0_1_0_0')">1_0_0_1_0_0</a>
+    -> <a name="edgeT4_0_0_0_0_0" id="edgeT4_0_0_0_0_0" href="#block4_0_0_0_0_0" onclick="highlightAnchor('4_0_0_0_0_0')">4_0_0_0_0_0</a>:
+ 
+</div>
+
+</div>
+
+    <div style="position:fixed;left:40%;top:90%;width:60%;overflow:scroll;height:10%;">
+    Predecessor map:<br/>
+    
+
+                <a name="edgeP2_0_0_1_0_0" id="edgeP2_0_0_1_0_0" href="#block2_0_0_1_0_0" onclick="highlightAnchor('2_0_0_1_0_0')">2_0_0_1_0_0</a>
+             <- 
+                <a href="#block1_0_0_1_0_0" onclick="highlightAnchor('1_0_0_1_0_0')">1_0_0_1_0_0</a>
+            
+
+<br/>
+
+
+                <a name="edgeP3_0_0_1_0_0" id="edgeP3_0_0_1_0_0" href="#block3_0_0_1_0_0" onclick="highlightAnchor('3_0_0_1_0_0')">3_0_0_1_0_0</a>
+             <- 
+                <a href="#block1_0_0_1_0_0" onclick="highlightAnchor('1_0_0_1_0_0')">1_0_0_1_0_0</a>
+            
+
+<br/>
+
+
+                <a name="edgeP1_0_0_1_0_0" id="edgeP1_0_0_1_0_0" href="#block1_0_0_1_0_0" onclick="highlightAnchor('1_0_0_1_0_0')">1_0_0_1_0_0</a>
+             <- 
+                <a href="#block0_0_0_0_0_0" onclick="highlightAnchor('0_0_0_0_0_0')">0_0_0_0_0_0</a>
+            
+
+<br/>
+
+
+                <a name="edgeP4_0_0_0_0_0" id="edgeP4_0_0_0_0_0" href="#block4_0_0_0_0_0" onclick="highlightAnchor('4_0_0_0_0_0')">4_0_0_0_0_0</a>
+             <- 
+                <a href="#block1_0_0_1_0_0" onclick="highlightAnchor('1_0_0_1_0_0')">1_0_0_1_0_0</a>
+            
+
+<br/>
+
+
+                <a name="edgeP0_0_0_0_0_0" id="edgeP0_0_0_0_0_0" href="#block0_0_0_0_0_0" onclick="highlightAnchor('0_0_0_0_0_0')">0_0_0_0_0_0</a>
+             <- 
+
+    </div>
+
+    <script>
+    // Load tooltips callbacks
+    var tooltip_cache = {};
+
+    var tooltips_spans = document.getElementsByClassName('tooltip');
+    for (var i=0; i<tooltips_spans.length; ++i) {
+        var me = tooltips_spans[i];
+        tooltips_spans[i].addEventListener("mouseover", function() {
+                for (var j=0; j < this.children.length ; ++j) {
+                if (this.children[j].className=="tooltiptext") {
+                    var attribs = this.children[j].attributes;
+                    if (attribs["tooltipatt"] != null) {
+                        var id = attribs["tooltipatt"].value;
+                        this.children[j].innerHTML = tooltip_cache[id];
+                        this.children[j].style.visibility = "visible";
+                    }
+                }
+            }
+        }.bind(me));
+        tooltips_spans[i].addEventListener("mouseout", function() {
+            for (var j=0; j < this.children.length ; ++j) {
+                if (this.children[j].className=="tooltiptext") {
+                    this.children[j].innerHTML = "";
+                    this.children[j].style.visibility="hidden";
+                }
+            }
+        }.bind(me));
+    }
+
+
+    lastSvgEventListener = svgPanZoom('#theSVG', {
+                            zoomEnabled: true,
+                            controlIconsEnabled: true,
+                            fit: true,
+                            center: true,
+                            // viewportSelector: document.getElementById('theSVG').querySelector('#g4') // this option will make library to misbehave. Viewport should have no transform attribute
+                        });
+        
+    </script>
+</body>
+</html>

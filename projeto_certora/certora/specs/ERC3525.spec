@@ -78,5 +78,67 @@ rule transferValueToNewToken(uint256 fromTokenId, address recipient, uint256 val
     assert totalSupply(e) == supplyBefore + 1;
 }
 
+// Transferência entre tokens do mesmo slot deve preservar o saldo total (versão segura)
+rule transferValuePreservesTotal(uint256 fromId, uint256 toId, uint256 value) {
+    env e;
+    require slotOf(e, fromId) == slotOf(e, toId);
+    require balanceOf(e, fromId) >= value;
+    
+    // Usando mathint para evitar overflow
+    mathint totalBefore = balanceOf(e, fromId) + balanceOf(e, toId);
+    transferFrom(e, fromId, toId, value);
+    assert balanceOf(e, fromId) + balanceOf(e, toId) == totalBefore;
+}
 
+// Transferência para novo token deve incrementar totalSupply
+rule mintOnTransferIncreasesSupply(uint256 fromId, address to, uint256 value) {
+    env e;
+    uint256 supplyBefore = totalSupply(e);
+    transferFrom(e, fromId, to, value);
+    assert totalSupply(e) == supplyBefore + 1;
+}
 
+// Tokens derivados devem herdar o slot do token original
+rule derivedTokenInheritsSlot(uint256 fromId, address to, uint256 value) {
+    env e;
+    uint256 originalSlot = slotOf(e, fromId);
+    uint256 newId = transferFrom(e, fromId, to, value);
+    assert slotOf(e, newId) == originalSlot;
+}
+
+// Transferência para address(0) deve falhar (versão final)
+rule transferToZeroAddressFails(uint256 fromTokenId) {
+    env e;
+    address zeroAddr = 0x0000000000000000000000000000000000000000;
+    uint256 value = balanceOf(e, fromTokenId);
+    
+    transferFrom@withrevert(e, fromTokenId, zeroAddr, value);
+    
+    assert lastReverted, "Transferência para address(0) deve reverter";
+}
+
+// Aprovação para address(0) deve falhar
+rule approveZeroAddressFails(uint256 tokenId) {
+    env e;
+    address zeroAddr = 0x0000000000000000000000000000000000000000;
+    uint256 value = 100;
+    
+    approve@withrevert(e, tokenId, zeroAddr, value);
+    
+    assert lastReverted, 
+        "Aprovação para address(0) deve reverter";
+}
+
+// Aprovação e revogação concorrentes
+rule concurrentApprovalChange {
+    env e;
+    uint256 tokenId = 1;
+    address operator = 0x555555;
+    
+    // Aprova e revoga simultaneamente
+    approve(e, tokenId, operator, 100);
+    approve(e, tokenId, operator, 0);
+    
+    assert allowance(e, tokenId, operator) == 0,
+        "Aprovação concorrente pode deixar allowance inconsistente";
+}

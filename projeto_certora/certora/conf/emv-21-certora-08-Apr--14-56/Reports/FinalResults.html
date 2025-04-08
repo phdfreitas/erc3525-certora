@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+<a name='PageTop'><h2>Certora Prover results for contract</h2></a>
+<a href='#AvailableContracts'>Go to available contracts listing</a>
+<h3>Results for main:</h3>
+<table class="table table-bordered table-hover">
+<tr class="thead-light">
+<th><a href='' target='_blank'>Rule name</a></th><th>Result</th><th>Time (seconds)</th><th>Details</th><th>Local variables</th></tr>
+<tr class="table-success">
+<td><a href='#totalSupplyNonNegative'>totalSupplyNonNegative</a></td><td>&#128077;</td><td>0</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#approveZeroAddressFails'>approveZeroAddressFails</a></td><td>&#128077;</td><td>0</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#slotDeveSerConsistente'>slotDeveSerConsistente</a></td><td>&#128077;</td><td>2</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#transferToZeroAddressFails'>transferToZeroAddressFails</a></td><td>&#128077;</td><td>0</td><td></td><td>no local variables</td></tr>
+<tr class="table-danger">
+<td><a href='#onlyAuthorizedCanTransfer'>onlyAuthorizedCanTransfer</a></td><td>&#128078;</td><td>5</td><td>Assert message: !(changedOwner) || ownerTransfering - specs/ERC3525.spec line 25<br/></td><td>ERC3525=0x35d1<br>changedOwner=true<br>e.block.basefee=0x0<br>e.block.blobbasefee=0x0<br>e.block.coinbase=0x0<br>e.block.difficulty=0x0<br>e.block.gaslimit=0x0<br>e.block.number=0x0<br>e.block.timestamp=0x0<br>e.msg.sender=0x606a<br>e.msg.value=0x0<br>e.tx.origin=0x0<br>ecrecover=0x1<br>from=0x606b<br>identity=0x4<br>ownerAfter=0x6f2a<br>ownerBefore=0x606b<br>ownerTransfering=false<br>sha256=0x2<br>to=0x6f2a<br>tokenId=0x7901</td></tr>
+<tr class="table-success">
+<td><a href='#mintOnTransferIncreasesSupply'>mintOnTransferIncreasesSupply</a></td><td>&#128077;</td><td>5</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#derivedTokenInheritsSlot'>derivedTokenInheritsSlot</a></td><td>&#128077;</td><td>5</td><td></td><td>no local variables</td></tr>
+<tr class="table-warning">
+<td><a href='#unauthorazedTransfer'>unauthorazedTransfer</a></td><td>Sanity check failed</td><td>6</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#transferValuePreservesTotal'>transferValuePreservesTotal</a></td><td>&#128077;</td><td>6</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#transferValueToNewToken'>transferValueToNewToken</a></td><td>&#128077;</td><td>9</td><td></td><td>no local variables</td></tr>
+</table>
+<br/>
+<a name='AvailableContracts'><h2>Available contracts</h2></a>
+<table class="table table-bordered table-hover">
+<tr><th>Name</th><th>Address</th><th>Pre-state</th><th colspan='2'>Methods</th></tr>
+<tr>
+<td>ERC3525</td>
+<td>ce4604a0000000000000000000000017</td>
+<td>{}</td>
+<td>constructor(string,string,uint8) /*(0)*/ <br/>transferFrom(uint256,address,uint256) returns (uint256) /*(0f485c02)*/  /*potentially_payable*/ <br/>name() returns (string) /*(06fdde03)*/ <br/>contractURI() returns (string) /*(e8a3d485)*/ <br/>slotURI(uint256) returns (string) /*(09c3dd87)*/ <br/>balanceOf(uint256) returns (uint256) /*(9cc7f708)*/ <br/>safeTransferFrom(address,address,uint256) /*(42842e0e)*/  /*potentially_payable*/ <br/>approve(uint256,address,uint256) /*(8cb0a511)*/  /*potentially_payable*/ <br/>metadataDescriptor() returns (Contract IERC3525MetadataDescriptor) /*(840f7113)*/ <br/>ownerOf(uint256) returns (address) /*(6352211e)*/ <br/>supportsInterface(bytes4) returns (bool) /*(01ffc9a7)*/ <br/>balanceOf(address) returns (uint256) /*(70a08231)*/ <br/>approve(address,uint256) /*(095ea7b3)*/  /*potentially_payable*/ <br/>allowance(uint256,address) returns (uint256) /*(e345e0bc)*/ <br/>symbol() returns (string) /*(95d89b41)*/ <br/>isApprovedForAll(address,address) returns (bool) /*(e985e9c5)*/ <br/>tokenOfOwnerByIndex(address,uint256) returns (uint256) /*(2f745c59)*/ <br/>transferFrom(address,address,uint256) /*(23b872dd)*/  /*potentially_payable*/ <br/>safeTransferFrom(address,address,uint256,bytes) /*(b88d4fde)*/  /*potentially_payable*/ <br/>tokenURI(uint256) returns (string) /*(c87b56dd)*/ <br/>totalSupply() returns (uint256) /*(18160ddd)*/ <br/>setApprovalForAll(address,bool) /*(a22cb465)*/ <br/>tokenByIndex(uint256) returns (uint256) /*(4f6ccce7)*/ <br/>valueDecimals() returns (uint8) /*(3e7e8669)*/ <br/>transferFrom(uint256,uint256,uint256) /*(310ed7f0)*/  /*potentially_payable*/ <br/>getApproved(uint256) returns (address) /*(081812fc)*/ <br/>slotOf(uint256) returns (uint256) /*(263f3e7e)*/ </td><td><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></td>
+</tr>
