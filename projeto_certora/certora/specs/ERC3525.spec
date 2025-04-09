@@ -1,11 +1,5 @@
-// Regra para testar a configuração do certora. 
-rule totalSupplyNonNegative() {
-    env e;
-    assert totalSupply(e) >= 0;
-}
-
 /** Um token só pode ser transferido por seu proprietário (teste válido) */
-rule onlyAuthorizedCanTransfer(address from, address to, uint256 tokenId) {
+rule onlyAuthorizedCanTransferSpec(address from, address to, uint256 tokenId) {
     env e;
     address ownerBefore = ownerOf(e, tokenId);
     transferFrom(e, from, to, tokenId);
@@ -25,7 +19,7 @@ rule onlyAuthorizedCanTransfer(address from, address to, uint256 tokenId) {
     assert !changedOwner || ownerTransfering;
 }
 
-rule unauthorazedTransfer(address from, address to, uint256 tokenId) {
+rule unauthorazedTransferSpec(address from, address to, uint256 tokenId) {
     env e;
 
     // Garante que o remetente não é o dono e não tem aprovação
@@ -45,7 +39,7 @@ rule unauthorazedTransfer(address from, address to, uint256 tokenId) {
 
 
 // escrevendo essa função pois outras estavam dando erro de sintaxe
-rule slotDeveSerConsistente(uint256 tokenId) {
+rule slotConsistencySpec(uint256 tokenId) {
     env e;
 
     uint256 slotAntes = slotOf(e, tokenId);
@@ -55,7 +49,7 @@ rule slotDeveSerConsistente(uint256 tokenId) {
 }
 
 // teste valido
-rule transferValueToNewToken(uint256 fromTokenId, address recipient, uint256 value) {
+rule transferValueToNewTokenSpec(uint256 fromTokenId, address recipient, uint256 value) {
     env e;
 
     // Pré-condições usando require
@@ -141,4 +135,17 @@ rule concurrentApprovalChange {
     
     assert allowance(e, tokenId, operator) == 0,
         "Aprovação concorrente pode deixar allowance inconsistente";
+}
+
+ghost mathint sum_of_values {
+    init_state axiom sum_of_values == 0;
+}
+
+hook Sstore _values[KEY uint256 tokenId] uint new_value (uint old_value) {
+    sum_of_values = sum_of_values + new_value - old_value;
+}
+
+// garante que a soma de todos os tokens é igual ao totalSupply
+invariant totalSupplyMatchesSumOfValues() {
+    totalSupply() == sum_of_values;
 }
