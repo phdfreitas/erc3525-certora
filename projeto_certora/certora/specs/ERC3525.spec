@@ -72,7 +72,7 @@ rule transferValueToNewTokenSpec(uint256 fromTokenId, address recipient, uint256
     assert totalSupply(e) == supplyBefore + 1;
 }
 
-// Transferência entre tokens do mesmo slot deve preservar o saldo total (versão segura)
+// Transferência entre tokens do mesmo slot deve preservar o saldo total
 rule transferValuePreservesTotal(uint256 fromId, uint256 toId, uint256 value) {
     env e;
     require slotOf(e, fromId) == slotOf(e, toId);
@@ -100,7 +100,7 @@ rule derivedTokenInheritsSlot(uint256 fromId, address to, uint256 value) {
     assert slotOf(e, newId) == originalSlot;
 }
 
-// Transferência para address(0) deve falhar (versão final)
+// Transferência para address(0) deve falhar
 rule transferToZeroAddressFails(uint256 fromTokenId) {
     env e;
     address zeroAddr = 0x0000000000000000000000000000000000000000;
@@ -119,8 +119,7 @@ rule approveZeroAddressFails(uint256 tokenId) {
     
     approve@withrevert(e, tokenId, zeroAddr, value);
     
-    assert lastReverted, 
-        "Aprovação para address(0) deve reverter";
+    assert lastReverted, "Aprovação para address(0) deve reverter";
 }
 
 // Aprovação e revogação concorrentes
