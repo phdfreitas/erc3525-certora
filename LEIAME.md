@@ -28,5 +28,5 @@ No objetivo inicial com os testes foi o de testar principalmente os métodos 'p�
 ## Testes/Rules
 - [x] onlyAuthorizedCanTransferSpec: Verifica se um token só pode ser transferido por seu proprietário. 
 - [x] unauthorazedTransferSpec: Verifica se uma transferência feita sem autorização não é executada
-- [x] slotConsistency: Verifica se _slotOf_ retorna o mesmo valor antes e depois. 
+- [x] slotConsistencySpec: Verifica se _slotOf_ retorna o mesmo valor antes e depois. 
 - [x] transferValueToNewToken: Cria um novo token ao transferir um valor x para ele. 
