@@ -1,0 +1,7 @@
+Reports in /home/pedro/Desktop/UFPE - Março/erc3525-certora/projeto_certora/certora/conf/emv-24-certora-09-abr--20-28/Reports
+Start Wed Apr 09 20:28:38 BRT 2025
+[ForkJoinPool-1-worker-3] WARN ALWAYS - The type `ERC3525.AddressData` will not be accessible in CVL code
+Reason(s):
+	struct field `ownedTokensIndex` cannot be expressed in CVL: [mapping types are not supported]
+	struct field `approvals` cannot be expressed in CVL: [mapping types are not supported]
+[ForkJoinPool-1-worker-3] ERROR ALWAYS - Error in spec file (ERC3525.spec:7:1): named pattern root '_values' is not defined: did you spell something wrong?

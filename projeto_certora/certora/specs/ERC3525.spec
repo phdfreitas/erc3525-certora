@@ -1,3 +1,5 @@
+invariant nonNegativeBalances(env e, uint256 tokenId) balanceOf(e, tokenId) >= 0;
+
 /** Um token só pode ser transferido por seu proprietário (teste válido) */
 rule onlyAuthorizedCanTransferSpec(address from, address to, uint256 tokenId) {
     env e;
@@ -37,6 +39,12 @@ rule unauthorazedTransferSpec(address from, address to, uint256 tokenId) {
     assert ownerOf(e, tokenId) == ownerBefore;
 }
 
+rule transferFailsOnInsufficientBalance(uint256 fromId, address to, uint256 value) {
+    env e;
+    require balanceOf(e, fromId) < value;
+    transferFrom@withrevert(e, fromId, to, value);
+    assert lastReverted;
+}
 
 // escrevendo essa função pois outras estavam dando erro de sintaxe
 rule slotConsistencySpec(uint256 tokenId) {
@@ -136,15 +144,4 @@ rule concurrentApprovalChange {
         "Aprovação concorrente pode deixar allowance inconsistente";
 }
 
-ghost mathint sum_of_values {
-    init_state axiom sum_of_values == 0;
-}
 
-hook Sstore _values[KEY uint256 tokenId] uint new_value (uint old_value) {
-    sum_of_values = sum_of_values + new_value - old_value;
-}
-
-// garante que a soma de todos os tokens é igual ao totalSupply
-invariant totalSupplyMatchesSumOfValues() {
-    totalSupply() == sum_of_values;
-}

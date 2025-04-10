@@ -1,0 +1,38 @@
+{
+	"assertMessages": {
+		"onlyAuthorizedCanTransferSpec": "!(changedOwner) || ownerTransfering - specs/ERC3525.spec line 22"
+	},
+	"rules": {
+		"approveZeroAddressFails": "SUCCESS",
+		"concurrentApprovalChange": "SUCCESS",
+		"derivedTokenInheritsSlot": "SUCCESS",
+		"mintOnTransferIncreasesSupply": "SUCCESS",
+		"nonNegativeBalances": {
+			"Induction base: After the constructor": "SUCCESS",
+			"Induction step: after external (non-view) methods": {
+				"Using general requirements": {
+					"FAIL": [],
+					"SANITY_FAIL": [
+						"approve(address,uint256)",
+						"approve(uint256,address,uint256)",
+						"safeTransferFrom(address,address,uint256)",
+						"safeTransferFrom(address,address,uint256,bytes)",
+						"setApprovalForAll(address,bool)",
+						"transferFrom(address,address,uint256)",
+						"transferFrom(uint256,address,uint256)",
+						"transferFrom(uint256,uint256,uint256)"
+					],
+					"SUCCESS": [],
+					"TIMEOUT": [],
+					"UNKNOWN": []
+				}
+			}
+		},
+		"onlyAuthorizedCanTransferSpec": "FAIL",
+		"slotConsistencySpec": "SUCCESS",
+		"transferToZeroAddressFails": "SUCCESS",
+		"transferValuePreservesTotal": "SUCCESS",
+		"transferValueToNewTokenSpec": "SUCCESS",
+		"unauthorazedTransferSpec": "SANITY_FAIL"
+	}
+}
