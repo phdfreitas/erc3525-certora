@@ -1,0 +1,324 @@
+Calltrace Debug Information
+[StorageTitleInstance, 925467082] Global State
+    [StorageTitleInstance, 2122176912] Balances
+        [BalanceValueInstance, 53280926] 0xfffffffffffffffffffffffffffffffffffffe8a.balance: 0x0
+[LabelInstance, 2085479879] rule parameters setup
+[LabelInstance, 126946389] Setup
+    [LabelInstance, 397468782] multi contract setup
+    [LabelInstance, 2096246774] contract address vars initialized
+    [LabelInstance, 1862438514] setup read tracking instrumentation
+    [LabelInstance, 1618924643] last storage initialize
+    [LabelInstance, 1895681942] assuming contracts in scene with non-empty bytecode have EXTCODESIZE larger than zero
+    [LabelInstance, 488489952] assuming address(0).code has no code deployed
+    [LabelInstance, 1712832303] assumptions about contracts' addresses
+    [LabelInstance, 1893511746] assumptions about static addresses
+    [LabelInstance, 1849905840] establish addresses of precompiled contracts
+    [LabelInstance, 489852507] assumptions about uniqueness of contracts' addresses
+    [LabelInstance, 1183298581] static links
+    [LabelInstance, 1406943269] record starting nonces
+    [LabelInstance, 670981692] cloned contracts have no balances
+    [LabelInstance, 783764686] Linked immutable setup
+    [LabelInstance, 1433104913] Constrain immutables
+    [LabelInstance, 1686625777] establish equivalence of extension and base contract immutables
+[LabelInstance, 828207331] env e
+[LabelInstance, 622369594] zeroAddr = 0x0
+[LabelInstance, 728600178] value = 100
+[LabelInstance, 1910486715] ERC3525.approve@withrevert(e, tokenId, zeroAddr, value)
+    [BalanceInstance, 736041483] 0xfffffffffffffffffffffffffffffffffffffe8a.balance ↪ 0x0
+    [RevertCauseHeaderInstance, 1963302518] Why did this call revert?
+[LabelInstance, 658783386] _ = lastReverted
+[LabelInstance, 1235130910] assert false
+    [StorageTitleInstance, 1758416928] Global State
+        [StorageTitleInstance, 600749662] Balances
+            [BalanceValueInstance, 636022353] 0xfffffffffffffffffffffffffffffffffffffe8a.balance: 0x0
+    -------- CVL model begin ------------
+    -- type: int --
+    CANON26                                       ~~>                         0xfffffffffffffffffffffffffffffffffffffe8a
+       cvl                 : true
+       cvl.display         : e.msg.sender
+       cvl.type            : address
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[msg, sender])
+       cvl.def.site        : Rule(range=ERC3525.spec:126:5)
+    CANON27                                       ~~>                                                                0x1
+       cvl                 : true
+       cvl.display         : e.msg.value
+       cvl.type            : uint256
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[msg, value])
+       cvl.def.site        : Rule(range=ERC3525.spec:126:5)
+    CANON28                                       ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : e.tx.origin
+       cvl.type            : address
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[tx, origin])
+       cvl.def.site        : Rule(range=ERC3525.spec:126:5)
+    CANON29                                       ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : e.block.basefee
+       cvl.type            : uint256
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[block, basefee])
+       cvl.def.site        : Rule(range=ERC3525.spec:126:5)
+    CANON30                                       ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : e.block.blobbasefee
+       cvl.type            : uint256
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[block, blobbasefee])
+       cvl.def.site        : Rule(range=ERC3525.spec:126:5)
+    CANON31                                       ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : e.block.coinbase
+       cvl.type            : address
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[block, coinbase])
+       cvl.def.site        : Rule(range=ERC3525.spec:126:5)
+    CANON32                                       ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : e.block.difficulty
+       cvl.type            : uint256
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[block, difficulty])
+       cvl.def.site        : Rule(range=ERC3525.spec:126:5)
+    CANON33                                       ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : e.block.gaslimit
+       cvl.type            : uint256
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[block, gaslimit])
+       cvl.def.site        : Rule(range=ERC3525.spec:126:5)
+    CANON34                                       ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : e.block.number
+       cvl.type            : uint256
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[block, number])
+       cvl.def.site        : Rule(range=ERC3525.spec:126:5)
+    CANON35                                       ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : e.block.timestamp
+       cvl.type            : uint256
+       cvl.struct.path     : CVLStructPathNode(rootStructType=env, fields=[block, timestamp])
+       cvl.def.site        : Rule(range=ERC3525.spec:126:5)
+    CANON37                                       ~~>                                                               0x64
+       cvl                 : true
+       cvl.display         : value
+       cvl.type            : uint256
+       cvl.def.site        : Rule(range=ERC3525.spec:128:5)
+    CANON1                                        ~~>                                                             0x2fdf
+       cvl                 : true
+       cvl.display         : currentContract
+       cvl.type            : ERC3525
+    CANON                                         ~~>                                                                0x0
+       cvl                 : true
+       cvl.display         : tokenId
+       cvl.type            : uint256
+       cvl.def.site        : Rule(range=ERC3525.spec:125:30)
+    -- type: bool --
+    CANON36                                       ~~> false
+       cvl                 : true
+       cvl.display         : zeroAddr
+       cvl.type            : address
+       cvl.def.site        : Rule(range=ERC3525.spec:127:5)
+    -------- CVL model end --------------
+    -------- TAC model begin ------------
+      OK_4_0_0_0_0_0:bool  -->                                                              false
+      OK_15327_1005_0_1_0_0:bool  -->                                                               true
+      OK_5_0_0_1_0_2:bool  -->                                                               true
+      tacCalldatabufCANON0@1:bv256  -->                                                             0x4819
+      tacCalldatabufCANON1@1:bool  -->                                                              false
+      tacCalldatabufCANON2@1:bv256  -->                                                                0x0
+      CANON16!!118:bv256  -->                                                                0x0
+      OK_15327_1004_0_1_0_0:bool  -->                                                               true
+      from_skey:ghostmap((uninterp) skey->bv256)  -->                                          {[x:bv256] ->
+  x:bv256
+}
+      OK_12879_1013_0_1_0_0:bool  -->                                                               true
+      tacM0x40!!0:bv256  -->                                                                0x0
+      ReachabilityCertora9575_1009_0_1_0_0:bool  -->                                                              false
+      ReachabilityCertora4_0_0_1_0_5698:bool  -->                                                              false
+      ReachabilityCertora4_0_0_1_0_5699:bool  -->                                                              false
+      ReachabilityCertora4_0_0_1_0_5700:bool  -->                                                              false
+      ReachabilityCertora4_0_0_1_0_5701:bool  -->                                                              false
+      ReachabilityCertora15108_1012_0_1_0_1:bool  -->                                                              false
+      ReachabilityCertora9575_1008_0_1_0_0:bool  -->                                                              false
+      to_skey:ghostmap(bv256->(uninterp) skey)  -->                                          {[x:bv256] ->
+  x:bv256
+}
+      ReachabilityCertora2835_1008_0_1_0_0:bool  -->                                                              false
+      OK_4_0_0_1_0_5698:bool  -->                                                               true
+      OK_4_0_0_1_0_5699:bool  -->                                                               true
+      OK_4_0_0_1_0_5700:bool  -->                                                               true
+      OK_4_0_0_1_0_5701:bool  -->                                                               true
+      ReachabilityCertora15310_1003_0_1_0_0:bool  -->                                                              false
+      ReachabilityCertora0_0_0_0_0_0:bool  -->                                                               true
+      ReachabilityCertora15310_1002_0_1_0_0:bool  -->                                                              false
+      ReachabilityCertora5968_1014_0_1_0_0:bool  -->                                                              false
+      CANON17!!119:bv256  -->                                                                0x1
+      ReachabilityCertora15327_1010_0_1_0_0:bool  -->                                                              false
+      ReachabilityCertora12868_1013_0_1_0_0:bool  -->                                                              false
+      ReachabilityCertora1_0_0_1_0_0:bool  -->                                                               true
+      ReachabilityCertora2_0_0_1_0_0:bool  -->                                                              false
+      ReachabilityCertora6162_1016_0_1_0_0:bool  -->                                                              false
+      ReachabilityCertora15108_1007_0_1_0_3:bool  -->                                                              false
+      ReachabilityCertora3_0_0_1_0_0:bool  -->                                                               true
+      ReachabilityCertora4_0_0_0_0_0:bool  -->                                                               true
+      ReachabilityCertora15108_1006_0_1_0_6:bool  -->                                                              false
+      ReachabilityCertora12941_1013_0_1_0_0:bool  -->                                                              false
+      ReachabilityCertora6862_1019_0_1_0_0:bool  -->                                                              false
+      tacCalldatasize!!76:bv256  -->                                                                0x0
+      ReachabilityCertora5_0_0_1_0_2:bool  -->                                                              false
+      ReachabilityCertora5968_1009_0_1_0_0:bool  -->                                                              false
+      ReachabilityCertora15327_1005_0_1_0_0:bool  -->                                                              false
+      ReachabilityCertora6920_1019_0_1_0_0:bool  -->                                                              false
+      CANON18!!120:bv256  -->                                                                0x0
+             R1:bv256  -->                                                                0x1
+             B38:bool  -->                                                               true
+             B75:bool  -->                                                              false
+             B94:bool  -->                                                              false
+             B97:bool  -->                                                              false
+              I41:int  -->                                                                0x0
+              I42:int  -->                                                                0x0
+              I43:int  -->                                                               0x64
+              I86:int  --> 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9c5
+              I89:int  -->                                                                0x0
+            R21:bv256  -->                                                                0x1
+            R22:bv256  -->                                                                0x2
+            R23:bv256  -->                                                                0x4
+            R33:bv256  -->                                                             0x2fdf
+            R36:bv256  -->                                                                0x1
+            R71:bv256  -->                         0xfffffffffffffffffffffffffffffffffffffe8a
+            R73:bv256  -->                                                                0x0
+            R77:bv256  -->                                                                0x0
+            R79:bv256  -->                         0xfffffffffffffffffffffffffffffffffffffe8b
+            R81:bv256  -->                                                                0x2
+            R82:bv256  -->                                                             0x2fdf
+            R85:bv256  -->                                                                0x0
+            R88:bv256  -->                                                                0x0
+            R91:bv256  -->                                                                0x0
+            R92:bv256  -->                                                                0x2
+            R93:bv256  -->                                                             0x481a
+            R95:bv256  -->                                                                0x0
+            B129:bool  -->                                                               true
+            B130:bool  -->                                                              false
+            B150:bool  -->                                                              false
+            B157:bool  -->                                                              false
+            B161:bool  -->                                                              false
+            B166:bool  -->                                                              false
+            B179:bool  -->                                                              false
+            B186:bool  -->                                                              false
+            B193:bool  -->                                                              false
+            B213:bool  -->                                                              false
+            B217:bool  -->                                                              false
+            B221:bool  -->                                                              false
+            B223:bool  -->                                                              false
+            B225:bool  -->                                                              false
+            B227:bool  -->                                                              false
+            B234:bool  -->                                                              false
+            B241:bool  -->                                                              false
+            B248:bool  -->                                                              false
+      ReachabilityCertora15327_1004_0_1_0_0:bool  -->                                                              false
+      R133:(uninterp) skey  -->                                                             0x32c7
+           R134:bv256  -->                                                              0x8ea
+      R135:(uninterp) skey  -->                                                              0x1c1
+      R136:(uninterp) skey  -->                                                                0x0
+           R137:bv256  -->                         0xfffffffffffffffffffffffffffffffffffffe8b
+           R143:bv256  -->                                                                0x1
+      R144:(uninterp) skey  -->                                                             0x32c7
+           R145:bv256  -->                                                             0x16dd
+      R146:(uninterp) skey  -->                                                              0x476
+      R147:(uninterp) skey  -->                                                                0x0
+           R148:bv256  -->                         0xfffffffffffffffffffffffffffffffffffffe8c
+      R151:(uninterp) skey  -->                                                             0x32c7
+           R152:bv256  -->                                                             0x1720
+      R153:(uninterp) skey  -->                                                             0x188b
+      R154:(uninterp) skey  -->                                                                0x0
+           R155:bv256  -->                                                                0x1
+           R174:bv256  -->                                                                0x0
+      R175:(uninterp) skey  -->                                                                0x0
+           R177:bv256  --> 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc9c
+           R181:bv256  -->                                                                0x0
+      R182:(uninterp) skey  -->                                                                0x0
+           R184:bv256  --> 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff668
+           R188:bv256  -->                                                                0x0
+      R189:(uninterp) skey  -->                                                                0x0
+           R191:bv256  --> 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5c7
+           R195:bv256  -->                                                                0x0
+           R199:bv256  -->                                                                0x0
+      R200:(uninterp) skey  -->                                                             0x2acb
+      R202:(uninterp) skey  -->                                                             0x1ade
+      R208:(uninterp) skey  -->                                                                0x0
+           R210:bv256  -->                                                                0x1
+           R229:bv256  -->                                                                0x0
+      R230:(uninterp) skey  -->                                                                0x0
+           R232:bv256  --> 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdac4
+           R236:bv256  -->                                                                0x0
+      R237:(uninterp) skey  -->                                                                0x0
+           R239:bv256  --> 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdfe2
+           R243:bv256  -->                                                                0x0
+      R244:(uninterp) skey  -->                                                                0x0
+           R246:bv256  --> 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe131
+      R249:(uninterp) skey  -->                                                             0x32c7
+           R250:bv256  -->                                                              0x704
+      R251:(uninterp) skey  -->                                                                0x0
+           R253:bv256  -->                                                             0x481a
+      R256:(uninterp) skey  -->                                                             0x32c7
+           R257:bv256  -->                                                             0x1247
+      R258:(uninterp) skey  -->                                                                0x0
+           R260:bv256  -->                                                             0x481a
+      R263:(uninterp) skey  -->                                                             0x2b65
+           R264:bv256  -->                                                                0x0
+      R265:(uninterp) skey  -->                                                                0x0
+           R267:bv256  -->                                                             0x481a
+      lastHasThrown!!100:bool  -->                                                              false
+      lastHasThrown!!131:bool  -->                                                              false
+      lastHasThrown!!169:bool  -->                                                              false
+      lastHasThrown!!171:bool  -->                                                              false
+      lastHasThrown!!276:bool  -->                                                              false
+      lastHasThrown!!278:bool  -->                                                              false
+      lastHasThrown!!280:bool  -->                                                              false
+      lastHasThrown!!282:bool  -->                                                              false
+      ReachabilityCertora12879_1013_0_1_0_0:bool  -->                                                              false
+      ReachabilityCertora12879_1013_0_1_0_5:bool  -->                                                              false
+      ReachabilityCertora6162_1011_0_1_0_0:bool  -->                                                              false
+      ReachabilityCertora15272_1010_0_1_0_0:bool  -->                                                              false
+      lastReverted!!101:bool  -->                                                               true
+      lastReverted!!132:bool  -->                                                              false
+      lastReverted!!170:bool  -->                                                              false
+      lastReverted!!172:bool  -->                                                              false
+      lastReverted!!277:bool  -->                                                              false
+      lastReverted!!279:bool  -->                                                              false
+      lastReverted!!281:bool  -->                                                              false
+      lastReverted!!283:bool  -->                                                              false
+      CANON14!!11:bv256  -->                                                                0x0
+      CANON15!!12:bv256  -->                                                                0x0
+      CANON16!!13:bv256  -->                                                                0x0
+      CANON17!!14:bv256  -->                                                                0x1
+          CANON26:int  -->                         0xfffffffffffffffffffffffffffffffffffffe8a
+          CANON27:int  -->                                                                0x1
+          CANON28:int  -->                                                                0x0
+          CANON29:int  -->                                                                0x0
+          CANON30:int  -->                                                                0x0
+          CANON31:int  -->                                                                0x0
+          CANON32:int  -->                                                                0x0
+          CANON33:int  -->                                                                0x0
+          CANON34:int  -->                                                                0x0
+          CANON35:int  -->                                                                0x0
+         CANON36:bool  -->                                                              false
+          CANON37:int  -->                                                               0x64
+      CANON14!!116:bv256  -->                                                                0x0
+      CANON18!!15:bv256  -->                                                                0x0
+      CANON19!!16:bv256  -->                                                                0x0
+      CANON80.41145:bv256  -->                                                                0x0
+      CANON19!!121:bv256  -->                                                                0x0
+           CANON1:int  -->                                                             0x2fdf
+      ReachabilityCertora15272_1005_0_1_0_0:bool  -->                                                              false
+      OK_15327_1010_0_1_0_0:bool  -->                                                               true
+      ReachabilityCertora15272_1004_0_1_0_0:bool  -->                                                              false
+      ReachabilityCertora12778_1013_0_1_0_4:bool  -->                                                              false
+      CANON15!!117:bv256  -->                                                                0x0
+      OK_0_0_0_0_0_0:bool  -->                                                              false
+      lastHasThrown!!78:bool  -->                                                              false
+      ReachabilityCertora9575_1014_0_1_0_0:bool  -->                                                              false
+      OK_1_0_0_1_0_0:bool  -->                                                              false
+      tacSighash!!35:bv256  -->                                                                0x0
+      OK_2_0_0_1_0_0:bool  -->                                                               true
+      OK_12941_1013_0_1_0_0:bool  -->                                                               true
+            CANON:int  -->                                                                0x0
+      ReachabilityCertora15310_1008_0_1_0_0:bool  -->                                                              false
+      ReachabilityCertora12885_1013_0_1_0_0:bool  -->                                                              false
+    -------- TAC model end --------------
+    

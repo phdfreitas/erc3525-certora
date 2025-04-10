@@ -1,0 +1,1525 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PresolverRule-slotConsistencySpec-rule_not_vacuous - Code Map</title>
+    <meta charset="utf-8"/>
+    <style>
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted black;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 900px;
+            background-color: red;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+
+            /* Position the tooltip */
+            position: fixed;
+            z-index: 100000;
+            top: 0;
+            left: 25%;
+            margin-left: -60px;
+        }
+
+        .deflink {
+            color: inherit;
+        }
+
+        /* By default, tac commands within uc-only are hidden */
+        .uc-enabled.cmds-list.uc-only > .tac-cmd {
+           display: none;
+        }
+
+        /* but override the above (this is a more specific selector) and "unset" the `none` specified above
+           end result: only `cmd-in-uc` commands within `uc-only` are displayed */
+        .uc-enabled.cmds-list.uc-only > .tac-cmd.cmd-in-uc {
+           display: unset;
+        }
+
+        /*
+           Don't show "close-skipped-lines" warnings
+         */
+        .uc-enabled.cmds-list.uc-only > .close-skipped-lines-warning {
+           display: none;
+        }
+
+        /*
+           if we have .uc-only, hide all `br` nodes that immediately follow a command that is hidden (i.e., not cmd-in-uc)
+        */
+        .uc-enabled.cmds-list.uc-only > span.tac-cmd:not(.cmd-in-uc) + br {
+           display:none;
+        }
+
+        /*
+           by default, commands in close-to-uc are hidden
+        */
+        .uc-enabled.cmds-list.close-to-uc > .tac-cmd {
+           display:none;
+        }
+
+        /*
+          Carve out an exception to the above (this selector is more specific, and thus overrides.
+          Commands with cmd-in-uc or cmd-close-to-uc have the display status unset, i.e., `inline` AKA visible
+        */
+        .uc-enabled.cmds-list.close-to-uc > :is(.cmd-in-uc,.cmd-close-to-uc).tac-cmd {
+           display:unset;
+        }
+
+        /*
+          Like in the uc-only case, hide BR commands that follow a command that is hidden, i.e., NOT cmd-in-uc or cmd-close-to-uc
+        */
+        .uc-enabled.cmds-list.close-to-uc > span.tac-cmd:not(:is(.cmd-in-uc,.cmd-close-to-uc)) + br {
+           display: none;
+        }
+
+        /*
+           Within close-to-uc, hide the "skipped-lines-warning", close-skipped-lines-lines will show instead
+        */
+        .uc-enabled.cmds-list.close-to-uc > .skipped-lines-warning {
+           display:none;
+        }
+
+        /*
+          Hide all warning with `.all`
+        */
+        .uc-enabled.cmds-list.all > :is(.close-skipped-lines-warning,.skipped-lines-warning) {
+            display:none;
+         }
+         /*
+           NB: we don't have a case for `uc-enables.cmds-list.all` because by default everything will use the default
+           display attribute
+         */
+
+        .skipped-lines-warning, .close-skipped-lines-warning {
+            background-color: #fffaca;
+            display:block;
+            padding: 10px 10px 10px 10px;
+        }
+
+        button.uc-close {
+            background-color: rgb(255, 237, 78);
+        }
+    </style>
+        <script type="text/javascript">
+        function showCmd(cmdId) {
+            document.getElementById(cmdId).style.display = "block"
+        }
+
+        function setDisplayClass(elem, className) {
+           var wrapper = elem.closest(".cmds-list");
+           wrapper.classList.remove("all", "uc-only", "close-to-uc");
+           wrapper.classList.add(className);
+        }
+
+        function highlighActiveButton(elem, classNameToHighlight = 'uc-toggle-button', wrapper = '.uc-toggle-buttons') {
+            var elems = elem.closest(wrapper).getElementsByClassName(classNameToHighlight);
+            for (var i = 0; i < elems.length; ++i) {
+                elems[i].style.backgroundColor = 'buttonface';
+            }
+            elem.style.backgroundColor = 'rgb(255, 237, 78)';
+        }
+
+        var showUcCmdsOnly = function() {
+            highlighActiveButton(this)
+            setDisplayClass(this, "uc-only")
+        }
+
+        var showCmdsCloseToUc = function() {
+            highlighActiveButton(this)
+            setDisplayClass(this, "close-to-uc")
+        }
+
+
+        var showAllCmds = function() {
+            highlighActiveButton(this)
+            setDisplayClass(this, "all");
+        }
+    </script>
+    <script src="https://certora-web-resources.s3-us-west-2.amazonaws.com/svg-pan-zoom.min.js"></script>
+    <script type="text/javascript">
+        var highlightedAnchor = null;
+        var lastNodeColor = "white";
+        var lastStrokeWidth = "2px";
+        var lastStrokeDashArray = "none";
+
+        function highlightAnchor(anchorId) {
+            var messagesDiv = document.getElementById("messages"); // must be not null
+            messagesDiv.innerHTML = "";
+            if (highlightedAnchor != null) {
+                var lastBlock = document.getElementById("block"+highlightedAnchor);
+                var lastEdgeS = document.getElementById("edgeS"+highlightedAnchor);
+                var lastEdgeT = document.getElementById("edgeT"+highlightedAnchor);
+                var lastEdgeP = document.getElementById("edgeP"+highlightedAnchor);
+                var lastNode = document.getElementById(highlightedAnchor);
+                if (lastBlock != null) {
+                    lastBlock.style.backgroundColor="white";
+                    if (lastEdgeS != null) lastEdgeS.style.backgroundColor="white";
+                    if (lastEdgeT != null) lastEdgeT.style.backgroundColor="white";
+                    if (lastEdgeP != null) lastEdgeP.style.backgroundColor="white";
+                } else {
+                    //messagesDiv.innerHTML += "block " + highlightedAnchor + " does not exist.<br/>";
+                }
+                if (lastNode != null) {
+                    lastNode.children[1].setAttribute("fill", lastNodeColor);
+                    lastNode.children[1].setAttribute("stroke-width", lastStrokeWidth);
+                    lastNode.children[1].setAttribute("stroke-dasharray", lastStrokeWidth);
+                }
+            }
+            highlightedAnchor = anchorId;
+            var newBlock = document.getElementById("block"+highlightedAnchor);
+            var newEdgeS = document.getElementById("edgeS"+highlightedAnchor);
+            var newEdgeT = document.getElementById("edgeT"+highlightedAnchor);
+            var newEdgeP = document.getElementById("edgeP"+highlightedAnchor);
+            var newNode = document.getElementById(highlightedAnchor);
+            if (newBlock != null) {
+                newBlock.style.backgroundColor="yellow";
+                if (newEdgeS != null) newEdgeS.style.backgroundColor="yellow";
+                if (newEdgeT != null) newEdgeT.style.backgroundColor="yellow";
+                if (newEdgeP != null) newEdgeP.style.backgroundColor="yellow";
+            } else {
+                messagesDiv.innerHTML += "block " + highlightedAnchor + " does not exist.<br/>";
+            }
+            if (newNode != null) {
+                lastNodeColor = newNode.children[1].getAttribute("fill");
+                newNode.children[1].setAttribute("fill", "yellow");
+                lastStrokeWidth = newNode.children[1].getAttribute("stroke-width");
+                newNode.children[1].setAttribute("stroke-width", "3px");
+                lastStrokeWidth = newNode.children[1].getAttribute("stroke-dasharray");
+                newNode.children[1].setAttribute("stroke-dasharray", "10,4");
+            }
+            if (newEdgeS != null) {
+                newEdgeS.scrollIntoView();
+                //location.href = "#"+newEdgeS.id;
+            }
+            if (newEdgeP != null) {
+                newEdgeP.scrollIntoView();
+            }
+        }
+
+        function toggleSize() {
+            var divCex = document.getElementById("cex");
+            if (divCex != null) {
+                if (divCex.style.width == "250px") {
+                    divCex.style.width = "900px";
+                } else {
+                    divCex.style.width = "250px";
+                }
+            }
+        }
+
+        var lastSvgEventListener = null;
+
+        var currentSVG = "0";
+        function toggleSVG(svgId) {
+            var _svgcurrent = document.getElementById("svgOf"+currentSVG);
+            var _svgnew = document.getElementById("svgOf"+svgId);
+            _svgcurrent.style.visibility = "hidden";
+            _svgnew.style.visibility = "visible";
+
+            var _blockscurrent = document.getElementById("blocksAndEdges"+currentSVG);
+            var _blocksnew = document.getElementById("blocksAndEdges"+svgId);
+            _blockscurrent.style.visibility = "hidden";
+            _blocksnew.style.visibility = "visible";
+
+            var _magCurrent = document.getElementById("mag_" + currentSVG);
+            var _magNew = document.getElementById("mag_" + svgId);
+            _magCurrent.style.visibility = "hidden";
+            _magNew.style.visibility = "visible";
+
+            if (currentSVG != "0")
+                var _pannedsvgcurrent = document.getElementById("theSVG"+currentSVG)
+            else
+                var _pannedsvgcurrent = document.getElementById("theSVG");
+            if (svgId != "0")
+                var svgsuffix = svgId
+            else
+                var svgsuffix = "";
+            var _pannedsvgnew = document.getElementById("theSVG"+svgsuffix);
+
+            if (_pannedsvgcurrent != null) {
+                svgPanZoom(_pannedsvgcurrent).destroy();
+            }
+
+            if (_pannedsvgnew != null) {
+                lastSvgEventListener = svgPanZoom('#theSVG'+svgsuffix, {
+                                zoomEnabled: true,
+                                controlIconsEnabled: true,
+                                fit: true,
+                                center: true,
+                                // viewportSelector: document.getElementById('theSVG').querySelector('#g4') // this option will make library to misbehave. Viewport should have no transform attribute
+                            });
+            }
+
+            currentSVG = svgId;
+        }
+
+        var highlightedDef = null;
+        var highlightedUseCls = null;
+        var lastNodeColor = "white";
+        function highlightDef(def) {
+            var messagesDiv = document.getElementById("messages"); // must be not null
+            messagesDiv.innerHTML = "";
+            if (highlightedDef != null) {
+                var lastDef = document.getElementById(highlightedDef);
+                if (lastDef != null) {
+                    lastDef.style.backgroundColor = "white";
+                }
+                var useElements = document.getElementsByClassName(highlightedUseCls);
+                for (var i = 0 ; i < useElements.length; i++) {
+                    useElements[i].style.backgroundColor = "white";
+                }
+            }
+            highlightedDef = "def_" + def;
+            highlightedUseCls = "use_" + def;
+            var newDef = document.getElementById(highlightedDef);
+            if (newDef != null) {
+                newDef.style.backgroundColor = "yellow";
+                var useElements = document.getElementsByClassName(highlightedUseCls);
+                for (var i = 0 ; i < useElements.length; i++) {
+                    useElements[i].style.backgroundColor = "yellow";
+                }
+            } else {
+                messagesDiv.innerHTML += "def " + def + " does not exist in this method.<br/>"
+            }
+        }
+
+        var highlightedIntFun = null;
+        function toggleInternalFun(id) {
+            if (highlightedIntFun != null) {
+                var lastStart = document.getElementById("intfunStart_"+highlightedIntFun);
+                var lastEnd = document.getElementById("intfunEnd_"+highlightedIntFun);
+                if (lastStart != null) {
+                    lastStart.style.backgroundColor="white";
+                }
+                if (lastEnd != null) {
+                    lastEnd.style.backgroundColor="white";
+                }
+            }
+
+            highlightedIntFun = id;
+            var newStart = document.getElementById("intfunStart_"+highlightedIntFun);
+            var newEnd = document.getElementById("intfunEnd_"+highlightedIntFun);
+            if (newStart != null) {
+                newStart.style.backgroundColor="#ffccff"
+            }
+            if (newEnd != null) {
+                newEnd.style.backgroundColor="#ffccff"
+            }
+        }
+    </script>
+    <style>
+        html {
+            height:100%;
+            margin:0;
+            padding:0;
+        }
+        body {
+            font-family: monospace;
+            height:100%;
+            overflow: hidden;
+            margin:0;
+            padding:0;
+        }
+        svg { width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+
+    <div style="position:fixed;width:250px;top:0;right:0;color:black;background-color:#e6e6e6;z-index:100;overflow-y: auto;max-height:400px;" id="cex" ondblclick="toggleSize()">
+        <div style="display:inline-block;z-index:100;">
+        
+        
+        <b>Double click to show/hide</b>
+        <br/><br/>
+        
+        </div>
+    </div>
+
+    <div style="position:fixed;width:300px;top:420px;right:0;color:blue;background-color:#e6e6e6;z-index:100;overflow-y:auto;max-height:200px;" id="tabs">
+        <div style="display:inline-block;z-index:100;">
+            Method calls quick lookup:<br/>
+            <a style="background-color: lightgray};" href="#blank0" onclick="toggleSVG('0')">0:  main<span id="mag_0" style="visibility:visible;">&nbsp;🔍</span></a><br/>
+<a style="background-color: lightgray};" href="#blank1" onclick="toggleSVG('1')">1: <span style="color:#15942a;"><b>→</b></span> ERC3525.slotOf<span id="mag_1" style="visibility:hidden;">&nbsp;🔍</span></a><br/>
+<a style="background-color: lightgray};" href="#blank1660" onclick="toggleSVG('1660')">1660: <span style="color:#15942a;"><b>→</b></span><span style="color:#15942a;"><b>→</b></span> ERC3525.slotOf(internal)<span id="mag_1660" style="visibility:hidden;">&nbsp;🔍</span></a><br/>
+<a style="background-color: lightgray};" href="#blank1661" onclick="toggleSVG('1661')">1661: <span style="color:#15942a;"><b>→</b></span><span style="color:#15942a;"><b>→</b></span><span style="color:#15942a;"><b>→</b></span> ERC3525._requireMinted(internal)<span id="mag_1661" style="visibility:hidden;">&nbsp;🔍</span></a><br/>
+<a style="background-color: lightgray};" href="#blank1662" onclick="toggleSVG('1662')">1662: <span style="color:#15942a;"><b>→</b></span><span style="color:#15942a;"><b>→</b></span><span style="color:#15942a;"><b>→</b></span><span style="color:#15942a;"><b>→</b></span> ERC3525._exists(internal)<span id="mag_1662" style="visibility:hidden;">&nbsp;🔍</span></a><br/>
+<a style="background-color: lightgray};" href="#blank2" onclick="toggleSVG('2')">2: <span style="color:#15942a;"><b>→</b></span> ERC3525.slotOf<span id="mag_2" style="visibility:hidden;">&nbsp;🔍</span></a><br/>
+<a style="background-color: lightgray};" href="#blank1663" onclick="toggleSVG('1663')">1663: <span style="color:#15942a;"><b>→</b></span><span style="color:#15942a;"><b>→</b></span> ERC3525.slotOf(internal)<span id="mag_1663" style="visibility:hidden;">&nbsp;🔍</span></a><br/>
+<a style="background-color: lightgray};" href="#blank1664" onclick="toggleSVG('1664')">1664: <span style="color:#15942a;"><b>→</b></span><span style="color:#15942a;"><b>→</b></span><span style="color:#15942a;"><b>→</b></span> ERC3525._requireMinted(internal)<span id="mag_1664" style="visibility:hidden;">&nbsp;🔍</span></a><br/>
+<a style="background-color: lightgray};" href="#blank1665" onclick="toggleSVG('1665')">1665: <span style="color:#15942a;"><b>→</b></span><span style="color:#15942a;"><b>→</b></span><span style="color:#15942a;"><b>→</b></span><span style="color:#15942a;"><b>→</b></span> ERC3525._exists(internal)<span id="mag_1665" style="visibility:hidden;">&nbsp;🔍</span></a>
+        </div>
+    </div>
+
+    <div style="position:fixed;bottom:0;left:0;color:white;background-color:red;" id="messages"></div>
+
+    <!-- SVG -->
+    
+<div id="svgOf0" style="position:absolute;left:40%;top:0;overflow:scroll;height:90%;visibility:visible"><svg id="theSVG" width="167pt" height="332pt"
+ viewBox="0.00 0.00 166.59 332.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 328)">
+<title>PresolverRule&#45;slotConsistencySpec&#45;rule_not_vacuous_main</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-328 162.59,-328 162.59,4 -4,4"/>
+<!-- 0_0_0_0_0_0 -->
+<g id="0_0_0_0_0_0" class="node">
+<title>0_0_0_0_0_0</title>
+<ellipse fill="none" stroke="black" cx="79.29" cy="-306" rx="59.29" ry="18"/>
+<a href="#block0_0_0_0_0_0" onclick="highlightAnchor('0_0_0_0_0_0')"><text text-anchor="middle" x="79.29" y="-302.3" font-family="Times,serif" font-size="14.00">0_0_0_0_0_0</text></a>
+</g>
+<!-- 1_0_0_1_0_0 -->
+<g id="1_0_0_1_0_0" class="node">
+<title>1_0_0_1_0_0</title>
+<ellipse fill="none" stroke="black" stroke-dasharray="5,2" cx="79.29" cy="-234" rx="79.09" ry="18"/>
+<a href="#blank1" onclick="toggleSVG('1')"><text text-anchor="middle" x="79.29" y="-230.3" font-family="Times,serif" font-size="14.00">1: ERC3525.slotOf</text></a>
+</g>
+<!-- 0_0_0_0_0_0&#45;&gt;1_0_0_1_0_0 -->
+<g id="edge1" class="edge">
+<title>0_0_0_0_0_0&#45;&gt;1_0_0_1_0_0</title>
+<path fill="none" stroke="black" d="M79.29,-287.7C79.29,-279.98 79.29,-270.71 79.29,-262.11"/>
+<polygon fill="black" stroke="black" points="82.79,-262.1 79.29,-252.1 75.79,-262.1 82.79,-262.1"/>
+</g>
+<!-- 2_0_0_0_0_0 -->
+<g id="2_0_0_0_0_0" class="node">
+<title>2_0_0_0_0_0</title>
+<ellipse fill="none" stroke="black" cx="79.29" cy="-162" rx="59.29" ry="18"/>
+<a href="#block2_0_0_0_0_0" onclick="highlightAnchor('2_0_0_0_0_0')"><text text-anchor="middle" x="79.29" y="-158.3" font-family="Times,serif" font-size="14.00">2_0_0_0_0_0</text></a>
+</g>
+<!-- 3_0_0_2_0_0 -->
+<g id="3_0_0_2_0_0" class="node">
+<title>3_0_0_2_0_0</title>
+<ellipse fill="none" stroke="black" stroke-dasharray="5,2" cx="79.29" cy="-90" rx="79.09" ry="18"/>
+<a href="#blank2" onclick="toggleSVG('2')"><text text-anchor="middle" x="79.29" y="-86.3" font-family="Times,serif" font-size="14.00">2: ERC3525.slotOf</text></a>
+</g>
+<!-- 2_0_0_0_0_0&#45;&gt;3_0_0_2_0_0 -->
+<g id="edge2" class="edge">
+<title>2_0_0_0_0_0&#45;&gt;3_0_0_2_0_0</title>
+<path fill="none" stroke="black" d="M79.29,-143.7C79.29,-135.98 79.29,-126.71 79.29,-118.11"/>
+<polygon fill="black" stroke="black" points="82.79,-118.1 79.29,-108.1 75.79,-118.1 82.79,-118.1"/>
+</g>
+<!-- 4_0_0_0_0_0 -->
+<g id="4_0_0_0_0_0" class="node">
+<title>4_0_0_0_0_0</title>
+<ellipse fill="none" stroke="black" cx="79.29" cy="-18" rx="59.29" ry="18"/>
+<a href="#block4_0_0_0_0_0" onclick="highlightAnchor('4_0_0_0_0_0')"><text text-anchor="middle" x="79.29" y="-14.3" font-family="Times,serif" font-size="14.00">4_0_0_0_0_0</text></a>
+</g>
+<!-- 1_0_0_1_0_0&#45;&gt;2_0_0_0_0_0 -->
+<g id="edge3" class="edge">
+<title>1_0_0_1_0_0&#45;&gt;2_0_0_0_0_0</title>
+<path fill="none" stroke="black" d="M79.29,-215.7C79.29,-207.98 79.29,-198.71 79.29,-190.11"/>
+<polygon fill="black" stroke="black" points="82.79,-190.1 79.29,-180.1 75.79,-190.1 82.79,-190.1"/>
+</g>
+<!-- 3_0_0_2_0_0&#45;&gt;4_0_0_0_0_0 -->
+<g id="edge4" class="edge">
+<title>3_0_0_2_0_0&#45;&gt;4_0_0_0_0_0</title>
+<path fill="none" stroke="black" d="M79.29,-71.7C79.29,-63.98 79.29,-54.71 79.29,-46.11"/>
+<polygon fill="black" stroke="black" points="82.79,-46.1 79.29,-36.1 75.79,-46.1 82.79,-46.1"/>
+</g>
+</g>
+</svg></div>
+
+    
+<div id="svgOf1" style="position:absolute;left:40%;top:0;overflow:scroll;height:90%;visibility:hidden"><svg id="theSVG1" width="258pt" height="188pt"
+ viewBox="0.00 0.00 257.58 188.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 184)">
+<title>PresolverRule&#45;slotConsistencySpec&#45;rule_not_vacuous1</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-184 253.58,-184 253.58,4 -4,4"/>
+<!-- 1_0_0_1_0_0 -->
+<g id="1_0_0_1_0_0" class="node">
+<title>1_0_0_1_0_0</title>
+<ellipse fill="none" stroke="black" cx="124.79" cy="-162" rx="59.29" ry="18"/>
+<a href="#block1_0_0_1_0_0" onclick="highlightAnchor('1_0_0_1_0_0')"><text text-anchor="middle" x="124.79" y="-158.3" font-family="Times,serif" font-size="14.00">1_0_0_1_0_0</text></a>
+</g>
+<!-- 1_0_0_1660_0_5669 -->
+<g id="1_0_0_1660_0_5669" class="node">
+<title>1_0_0_1660_0_5669</title>
+<ellipse fill="none" stroke="black" stroke-dasharray="5,2" cx="124.79" cy="-90" rx="124.58" ry="18"/>
+<a href="#blank1660" onclick="toggleSVG('1660')"><text text-anchor="middle" x="124.79" y="-86.3" font-family="Times,serif" font-size="14.00">1660: ERC3525.slotOf(internal)</text></a>
+</g>
+<!-- 1_0_0_1_0_0&#45;&gt;1_0_0_1660_0_5669 -->
+<g id="edge1" class="edge">
+<title>1_0_0_1_0_0&#45;&gt;1_0_0_1660_0_5669</title>
+<path fill="none" stroke="black" d="M124.79,-143.7C124.79,-135.98 124.79,-126.71 124.79,-118.11"/>
+<polygon fill="black" stroke="black" points="128.29,-118.1 124.79,-108.1 121.29,-118.1 128.29,-118.1"/>
+</g>
+<!-- 1_0_0_1_0_5679 -->
+<g id="1_0_0_1_0_5679" class="node">
+<title>1_0_0_1_0_5679</title>
+<ellipse fill="none" stroke="black" cx="124.79" cy="-18" rx="72.29" ry="18"/>
+<a href="#block1_0_0_1_0_5679" onclick="highlightAnchor('1_0_0_1_0_5679')"><text text-anchor="middle" x="124.79" y="-14.3" font-family="Times,serif" font-size="14.00">1_0_0_1_0_5679</text></a>
+</g>
+<!-- 1_0_0_1660_0_5669&#45;&gt;1_0_0_1_0_5679 -->
+<g id="edge2" class="edge">
+<title>1_0_0_1660_0_5669&#45;&gt;1_0_0_1_0_5679</title>
+<path fill="none" stroke="black" d="M124.79,-71.7C124.79,-63.98 124.79,-54.71 124.79,-46.11"/>
+<polygon fill="black" stroke="black" points="128.29,-46.1 124.79,-36.1 121.29,-46.1 128.29,-46.1"/>
+</g>
+</g>
+</svg></div>
+
+
+<div id="svgOf2" style="position:absolute;left:40%;top:0;overflow:scroll;height:90%;visibility:hidden"><svg id="theSVG2" width="258pt" height="188pt"
+ viewBox="0.00 0.00 257.58 188.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 184)">
+<title>PresolverRule&#45;slotConsistencySpec&#45;rule_not_vacuous2</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-184 253.58,-184 253.58,4 -4,4"/>
+<!-- 3_0_0_2_0_0 -->
+<g id="3_0_0_2_0_0" class="node">
+<title>3_0_0_2_0_0</title>
+<ellipse fill="none" stroke="black" cx="124.79" cy="-162" rx="59.29" ry="18"/>
+<a href="#block3_0_0_2_0_0" onclick="highlightAnchor('3_0_0_2_0_0')"><text text-anchor="middle" x="124.79" y="-158.3" font-family="Times,serif" font-size="14.00">3_0_0_2_0_0</text></a>
+</g>
+<!-- 3_0_0_1663_0_5674 -->
+<g id="3_0_0_1663_0_5674" class="node">
+<title>3_0_0_1663_0_5674</title>
+<ellipse fill="none" stroke="black" stroke-dasharray="5,2" cx="124.79" cy="-90" rx="124.58" ry="18"/>
+<a href="#blank1663" onclick="toggleSVG('1663')"><text text-anchor="middle" x="124.79" y="-86.3" font-family="Times,serif" font-size="14.00">1663: ERC3525.slotOf(internal)</text></a>
+</g>
+<!-- 3_0_0_2_0_0&#45;&gt;3_0_0_1663_0_5674 -->
+<g id="edge1" class="edge">
+<title>3_0_0_2_0_0&#45;&gt;3_0_0_1663_0_5674</title>
+<path fill="none" stroke="black" d="M124.79,-143.7C124.79,-135.98 124.79,-126.71 124.79,-118.11"/>
+<polygon fill="black" stroke="black" points="128.29,-118.1 124.79,-108.1 121.29,-118.1 128.29,-118.1"/>
+</g>
+<!-- 3_0_0_2_0_5680 -->
+<g id="3_0_0_2_0_5680" class="node">
+<title>3_0_0_2_0_5680</title>
+<ellipse fill="none" stroke="black" cx="124.79" cy="-18" rx="72.29" ry="18"/>
+<a href="#block3_0_0_2_0_5680" onclick="highlightAnchor('3_0_0_2_0_5680')"><text text-anchor="middle" x="124.79" y="-14.3" font-family="Times,serif" font-size="14.00">3_0_0_2_0_5680</text></a>
+</g>
+<!-- 3_0_0_1663_0_5674&#45;&gt;3_0_0_2_0_5680 -->
+<g id="edge2" class="edge">
+<title>3_0_0_1663_0_5674&#45;&gt;3_0_0_2_0_5680</title>
+<path fill="none" stroke="black" d="M124.79,-71.7C124.79,-63.98 124.79,-54.71 124.79,-46.11"/>
+<polygon fill="black" stroke="black" points="128.29,-46.1 124.79,-36.1 121.29,-46.1 128.29,-46.1"/>
+</g>
+</g>
+</svg></div>
+
+
+<div id="svgOf1660" style="position:absolute;left:40%;top:0;overflow:scroll;height:90%;visibility:hidden"><svg id="theSVG1660" width="324pt" height="188pt"
+ viewBox="0.00 0.00 323.87 188.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 184)">
+<title>PresolverRule&#45;slotConsistencySpec&#45;rule_not_vacuous1660</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-184 319.87,-184 319.87,4 -4,4"/>
+<!-- 1_0_0_1660_0_5669 -->
+<g id="1_0_0_1660_0_5669" class="node">
+<title>1_0_0_1660_0_5669</title>
+<ellipse fill="none" stroke="black" cx="157.94" cy="-162" rx="85.29" ry="18"/>
+<a href="#block1_0_0_1660_0_5669" onclick="highlightAnchor('1_0_0_1660_0_5669')"><text text-anchor="middle" x="157.94" y="-158.3" font-family="Times,serif" font-size="14.00">1_0_0_1660_0_5669</text></a>
+</g>
+<!-- 1_0_0_1661_0_5670 -->
+<g id="1_0_0_1661_0_5670" class="node">
+<title>1_0_0_1661_0_5670</title>
+<ellipse fill="none" stroke="black" stroke-dasharray="5,2" cx="157.94" cy="-90" rx="157.87" ry="18"/>
+<a href="#blank1661" onclick="toggleSVG('1661')"><text text-anchor="middle" x="157.94" y="-86.3" font-family="Times,serif" font-size="14.00">1661: ERC3525._requireMinted(internal)</text></a>
+</g>
+<!-- 1_0_0_1660_0_5669&#45;&gt;1_0_0_1661_0_5670 -->
+<g id="edge1" class="edge">
+<title>1_0_0_1660_0_5669&#45;&gt;1_0_0_1661_0_5670</title>
+<path fill="none" stroke="black" d="M157.94,-143.7C157.94,-135.98 157.94,-126.71 157.94,-118.11"/>
+<polygon fill="black" stroke="black" points="161.44,-118.1 157.94,-108.1 154.44,-118.1 161.44,-118.1"/>
+</g>
+<!-- 1_0_0_1660_0_5673 -->
+<g id="1_0_0_1660_0_5673" class="node">
+<title>1_0_0_1660_0_5673</title>
+<ellipse fill="none" stroke="black" cx="157.94" cy="-18" rx="85.29" ry="18"/>
+<a href="#block1_0_0_1660_0_5673" onclick="highlightAnchor('1_0_0_1660_0_5673')"><text text-anchor="middle" x="157.94" y="-14.3" font-family="Times,serif" font-size="14.00">1_0_0_1660_0_5673</text></a>
+</g>
+<!-- 1_0_0_1661_0_5670&#45;&gt;1_0_0_1660_0_5673 -->
+<g id="edge2" class="edge">
+<title>1_0_0_1661_0_5670&#45;&gt;1_0_0_1660_0_5673</title>
+<path fill="none" stroke="black" d="M157.94,-71.7C157.94,-63.98 157.94,-54.71 157.94,-46.11"/>
+<polygon fill="black" stroke="black" points="161.44,-46.1 157.94,-36.1 154.44,-46.1 161.44,-46.1"/>
+</g>
+</g>
+</svg></div>
+
+
+<div id="svgOf1661" style="position:absolute;left:40%;top:0;overflow:scroll;height:90%;visibility:hidden"><svg id="theSVG1661" width="263pt" height="188pt"
+ viewBox="0.00 0.00 262.78 188.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 184)">
+<title>PresolverRule&#45;slotConsistencySpec&#45;rule_not_vacuous1661</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-184 258.78,-184 258.78,4 -4,4"/>
+<!-- 1_0_0_1661_0_5670 -->
+<g id="1_0_0_1661_0_5670" class="node">
+<title>1_0_0_1661_0_5670</title>
+<ellipse fill="none" stroke="black" cx="127.39" cy="-162" rx="85.29" ry="18"/>
+<a href="#block1_0_0_1661_0_5670" onclick="highlightAnchor('1_0_0_1661_0_5670')"><text text-anchor="middle" x="127.39" y="-158.3" font-family="Times,serif" font-size="14.00">1_0_0_1661_0_5670</text></a>
+</g>
+<!-- 1_0_0_1662_0_5671 -->
+<g id="1_0_0_1662_0_5671" class="node">
+<title>1_0_0_1662_0_5671</title>
+<ellipse fill="none" stroke="black" stroke-dasharray="5,2" cx="127.39" cy="-90" rx="127.28" ry="18"/>
+<a href="#blank1662" onclick="toggleSVG('1662')"><text text-anchor="middle" x="127.39" y="-86.3" font-family="Times,serif" font-size="14.00">1662: ERC3525._exists(internal)</text></a>
+</g>
+<!-- 1_0_0_1661_0_5670&#45;&gt;1_0_0_1662_0_5671 -->
+<g id="edge1" class="edge">
+<title>1_0_0_1661_0_5670&#45;&gt;1_0_0_1662_0_5671</title>
+<path fill="none" stroke="black" d="M127.39,-143.7C127.39,-135.98 127.39,-126.71 127.39,-118.11"/>
+<polygon fill="black" stroke="black" points="130.89,-118.1 127.39,-108.1 123.89,-118.1 130.89,-118.1"/>
+</g>
+<!-- 1_0_0_1661_0_5672 -->
+<g id="1_0_0_1661_0_5672" class="node">
+<title>1_0_0_1661_0_5672</title>
+<ellipse fill="none" stroke="black" cx="127.39" cy="-18" rx="85.29" ry="18"/>
+<a href="#block1_0_0_1661_0_5672" onclick="highlightAnchor('1_0_0_1661_0_5672')"><text text-anchor="middle" x="127.39" y="-14.3" font-family="Times,serif" font-size="14.00">1_0_0_1661_0_5672</text></a>
+</g>
+<!-- 1_0_0_1662_0_5671&#45;&gt;1_0_0_1661_0_5672 -->
+<g id="edge2" class="edge">
+<title>1_0_0_1662_0_5671&#45;&gt;1_0_0_1661_0_5672</title>
+<path fill="none" stroke="black" d="M127.39,-71.7C127.39,-63.98 127.39,-54.71 127.39,-46.11"/>
+<polygon fill="black" stroke="black" points="130.89,-46.1 127.39,-36.1 123.89,-46.1 130.89,-46.1"/>
+</g>
+</g>
+</svg></div>
+
+
+<div id="svgOf1662" style="position:absolute;left:40%;top:0;overflow:scroll;height:90%;visibility:hidden"><svg id="theSVG1662" width="178pt" height="44pt"
+ viewBox="0.00 0.00 178.28 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>PresolverRule&#45;slotConsistencySpec&#45;rule_not_vacuous1662</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-40 174.28,-40 174.28,4 -4,4"/>
+<!-- 1_0_0_1662_0_5671 -->
+<g id="1_0_0_1662_0_5671" class="node">
+<title>1_0_0_1662_0_5671</title>
+<ellipse fill="none" stroke="black" cx="85.14" cy="-18" rx="85.29" ry="18"/>
+<a href="#block1_0_0_1662_0_5671" onclick="highlightAnchor('1_0_0_1662_0_5671')"><text text-anchor="middle" x="85.14" y="-14.3" font-family="Times,serif" font-size="14.00">1_0_0_1662_0_5671</text></a>
+</g>
+</g>
+</svg></div>
+
+
+<div id="svgOf1663" style="position:absolute;left:40%;top:0;overflow:scroll;height:90%;visibility:hidden"><svg id="theSVG1663" width="324pt" height="188pt"
+ viewBox="0.00 0.00 323.87 188.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 184)">
+<title>PresolverRule&#45;slotConsistencySpec&#45;rule_not_vacuous1663</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-184 319.87,-184 319.87,4 -4,4"/>
+<!-- 3_0_0_1663_0_5674 -->
+<g id="3_0_0_1663_0_5674" class="node">
+<title>3_0_0_1663_0_5674</title>
+<ellipse fill="none" stroke="black" cx="157.94" cy="-162" rx="85.29" ry="18"/>
+<a href="#block3_0_0_1663_0_5674" onclick="highlightAnchor('3_0_0_1663_0_5674')"><text text-anchor="middle" x="157.94" y="-158.3" font-family="Times,serif" font-size="14.00">3_0_0_1663_0_5674</text></a>
+</g>
+<!-- 3_0_0_1664_0_5675 -->
+<g id="3_0_0_1664_0_5675" class="node">
+<title>3_0_0_1664_0_5675</title>
+<ellipse fill="none" stroke="black" stroke-dasharray="5,2" cx="157.94" cy="-90" rx="157.87" ry="18"/>
+<a href="#blank1664" onclick="toggleSVG('1664')"><text text-anchor="middle" x="157.94" y="-86.3" font-family="Times,serif" font-size="14.00">1664: ERC3525._requireMinted(internal)</text></a>
+</g>
+<!-- 3_0_0_1663_0_5674&#45;&gt;3_0_0_1664_0_5675 -->
+<g id="edge1" class="edge">
+<title>3_0_0_1663_0_5674&#45;&gt;3_0_0_1664_0_5675</title>
+<path fill="none" stroke="black" d="M157.94,-143.7C157.94,-135.98 157.94,-126.71 157.94,-118.11"/>
+<polygon fill="black" stroke="black" points="161.44,-118.1 157.94,-108.1 154.44,-118.1 161.44,-118.1"/>
+</g>
+<!-- 3_0_0_1663_0_5678 -->
+<g id="3_0_0_1663_0_5678" class="node">
+<title>3_0_0_1663_0_5678</title>
+<ellipse fill="none" stroke="black" cx="157.94" cy="-18" rx="85.29" ry="18"/>
+<a href="#block3_0_0_1663_0_5678" onclick="highlightAnchor('3_0_0_1663_0_5678')"><text text-anchor="middle" x="157.94" y="-14.3" font-family="Times,serif" font-size="14.00">3_0_0_1663_0_5678</text></a>
+</g>
+<!-- 3_0_0_1664_0_5675&#45;&gt;3_0_0_1663_0_5678 -->
+<g id="edge2" class="edge">
+<title>3_0_0_1664_0_5675&#45;&gt;3_0_0_1663_0_5678</title>
+<path fill="none" stroke="black" d="M157.94,-71.7C157.94,-63.98 157.94,-54.71 157.94,-46.11"/>
+<polygon fill="black" stroke="black" points="161.44,-46.1 157.94,-36.1 154.44,-46.1 161.44,-46.1"/>
+</g>
+</g>
+</svg></div>
+
+
+<div id="svgOf1664" style="position:absolute;left:40%;top:0;overflow:scroll;height:90%;visibility:hidden"><svg id="theSVG1664" width="263pt" height="188pt"
+ viewBox="0.00 0.00 262.78 188.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 184)">
+<title>PresolverRule&#45;slotConsistencySpec&#45;rule_not_vacuous1664</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-184 258.78,-184 258.78,4 -4,4"/>
+<!-- 3_0_0_1664_0_5675 -->
+<g id="3_0_0_1664_0_5675" class="node">
+<title>3_0_0_1664_0_5675</title>
+<ellipse fill="none" stroke="black" cx="127.39" cy="-162" rx="85.29" ry="18"/>
+<a href="#block3_0_0_1664_0_5675" onclick="highlightAnchor('3_0_0_1664_0_5675')"><text text-anchor="middle" x="127.39" y="-158.3" font-family="Times,serif" font-size="14.00">3_0_0_1664_0_5675</text></a>
+</g>
+<!-- 3_0_0_1665_0_5676 -->
+<g id="3_0_0_1665_0_5676" class="node">
+<title>3_0_0_1665_0_5676</title>
+<ellipse fill="none" stroke="black" stroke-dasharray="5,2" cx="127.39" cy="-90" rx="127.28" ry="18"/>
+<a href="#blank1665" onclick="toggleSVG('1665')"><text text-anchor="middle" x="127.39" y="-86.3" font-family="Times,serif" font-size="14.00">1665: ERC3525._exists(internal)</text></a>
+</g>
+<!-- 3_0_0_1664_0_5675&#45;&gt;3_0_0_1665_0_5676 -->
+<g id="edge1" class="edge">
+<title>3_0_0_1664_0_5675&#45;&gt;3_0_0_1665_0_5676</title>
+<path fill="none" stroke="black" d="M127.39,-143.7C127.39,-135.98 127.39,-126.71 127.39,-118.11"/>
+<polygon fill="black" stroke="black" points="130.89,-118.1 127.39,-108.1 123.89,-118.1 130.89,-118.1"/>
+</g>
+<!-- 3_0_0_1664_0_5677 -->
+<g id="3_0_0_1664_0_5677" class="node">
+<title>3_0_0_1664_0_5677</title>
+<ellipse fill="none" stroke="black" cx="127.39" cy="-18" rx="85.29" ry="18"/>
+<a href="#block3_0_0_1664_0_5677" onclick="highlightAnchor('3_0_0_1664_0_5677')"><text text-anchor="middle" x="127.39" y="-14.3" font-family="Times,serif" font-size="14.00">3_0_0_1664_0_5677</text></a>
+</g>
+<!-- 3_0_0_1665_0_5676&#45;&gt;3_0_0_1664_0_5677 -->
+<g id="edge2" class="edge">
+<title>3_0_0_1665_0_5676&#45;&gt;3_0_0_1664_0_5677</title>
+<path fill="none" stroke="black" d="M127.39,-71.7C127.39,-63.98 127.39,-54.71 127.39,-46.11"/>
+<polygon fill="black" stroke="black" points="130.89,-46.1 127.39,-36.1 123.89,-46.1 130.89,-46.1"/>
+</g>
+</g>
+</svg></div>
+
+
+<div id="svgOf1665" style="position:absolute;left:40%;top:0;overflow:scroll;height:90%;visibility:hidden"><svg id="theSVG1665" width="178pt" height="44pt"
+ viewBox="0.00 0.00 178.28 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>PresolverRule&#45;slotConsistencySpec&#45;rule_not_vacuous1665</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-40 174.28,-40 174.28,4 -4,4"/>
+<!-- 3_0_0_1665_0_5676 -->
+<g id="3_0_0_1665_0_5676" class="node">
+<title>3_0_0_1665_0_5676</title>
+<ellipse fill="none" stroke="black" cx="85.14" cy="-18" rx="85.29" ry="18"/>
+<a href="#block3_0_0_1665_0_5676" onclick="highlightAnchor('3_0_0_1665_0_5676')"><text text-anchor="middle" x="85.14" y="-14.3" font-family="Times,serif" font-size="14.00">3_0_0_1665_0_5676</text></a>
+</g>
+</g>
+</svg></div>
+
+
+    <!-- BLOCKS -->
+    <div id="blocksAndEdges0" style="position:fixed;height:100%;width:40%;display:inline-block;border:1px">
+        
+<div id="blocksHtml0" style="overflow: scroll; height: 90%;">
+<a name="block0_0_0_0_0_0" id="block0_0_0_0_0_0" href="#block0_0_0_0_0_0" onclick="highlightAnchor('0_0_0_0_0_0')">Block 0_0_0_0_0_0:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-0_0_0_0_0_0-0' data-block-id='0_0_0_0_0_0' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">&nbsp;&nbsp;0:&nbsp;</span><span id="def_tacM0x40!!0">tacM0x40!!0</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-1' data-block-id='0_0_0_0_0_0' data-cmd-id='1' class='tac-cmd'><span style="color:#737373;">&nbsp;&nbsp;1:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_tacM0x40!!0" class="deflink use_tacM0x40!!0" onclick="highlightDef('tacM0x40!!0')">tacM0x40!!0</a>&lt;=0x80</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-2' data-block-id='0_0_0_0_0_0' data-cmd-id='2' class='tac-cmd'><span style="color:#737373;">&nbsp;&nbsp;2:&nbsp;</span><span id="def_tacM0x40!!1">tacM0x40!!1</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-3' data-block-id='0_0_0_0_0_0' data-cmd-id='3' class='tac-cmd'><span style="color:#737373;">&nbsp;&nbsp;3:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_tacM0x40!!1" class="deflink use_tacM0x40!!1" onclick="highlightDef('tacM0x40!!1')">tacM0x40!!1</a>&lt;=0x80</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-4' data-block-id='0_0_0_0_0_0' data-cmd-id='4' class='tac-cmd'><span style="color:#737373;">&nbsp;&nbsp;4:&nbsp;</span><span id="def_R2">R2</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-5' data-block-id='0_0_0_0_0_0' data-cmd-id='5' class='tac-cmd'><span style="color:#737373;">&nbsp;&nbsp;5:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_R2" class="deflink use_R2" onclick="highlightDef('R2')">R2</a>&gt;=0x1</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-6' data-block-id='0_0_0_0_0_0' data-cmd-id='6' class='tac-cmd'><span style="color:#737373;">&nbsp;&nbsp;6:&nbsp;</span><span id="def_tacCalldatasize!!4">tacCalldatasize!!4</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-7' data-block-id='0_0_0_0_0_0' data-cmd-id='7' class='tac-cmd'><span style="color:#737373;">&nbsp;&nbsp;7:&nbsp;</span><span id="def_tacExtcodesize!!6">tacExtcodesize!!6</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-8' data-block-id='0_0_0_0_0_0' data-cmd-id='8' class='tac-cmd'><span style="color:#737373;">&nbsp;&nbsp;8:&nbsp;</span><span id="def_tacBalance!!7">tacBalance!!7</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-9' data-block-id='0_0_0_0_0_0' data-cmd-id='9' class='tac-cmd'><span style="color:#737373;">&nbsp;&nbsp;9:&nbsp;</span><span id="def_CANON10!!8">CANON10!!8</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-10' data-block-id='0_0_0_0_0_0' data-cmd-id='10' class='tac-cmd'><span style="color:#737373;">&nbsp;10:&nbsp;</span><span id="def_CANON11!!9">CANON11!!9</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-11' data-block-id='0_0_0_0_0_0' data-cmd-id='11' class='tac-cmd'><span style="color:#737373;">&nbsp;11:&nbsp;</span><span id="def_CANON12!!10">CANON12!!10</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-12' data-block-id='0_0_0_0_0_0' data-cmd-id='12' class='tac-cmd'><span style="color:#737373;">&nbsp;12:&nbsp;</span><span id="def_CANON13!!11">CANON13!!11</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-13' data-block-id='0_0_0_0_0_0' data-cmd-id='13' class='tac-cmd'><span style="color:#737373;">&nbsp;13:&nbsp;</span><span id="def_CANON14!!12">CANON14!!12</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-14' data-block-id='0_0_0_0_0_0' data-cmd-id='14' class='tac-cmd'><span style="color:#737373;">&nbsp;14:&nbsp;</span><span id="def_CANON15!!13">CANON15!!13</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-15' data-block-id='0_0_0_0_0_0' data-cmd-id='15' class='tac-cmd'><span style="color:#737373;">&nbsp;15:&nbsp;</span><span id="def_CANON16!!14">CANON16!!14</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-16' data-block-id='0_0_0_0_0_0' data-cmd-id='16' class='tac-cmd'><span style="color:#737373;">&nbsp;16:&nbsp;</span><span id="def_CANON17!!15">CANON17!!15</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-17' data-block-id='0_0_0_0_0_0' data-cmd-id='17' class='tac-cmd'><span style="color:#737373;">&nbsp;17:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_CANON17!!15" class="deflink use_CANON17!!15" onclick="highlightDef('CANON17!!15')">CANON17!!15</a>&gt;=0x1</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-18' data-block-id='0_0_0_0_0_0' data-cmd-id='18' class='tac-cmd'><span style="color:#737373;">&nbsp;18:&nbsp;</span><span id="def_CANON18!!16">CANON18!!16</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-19' data-block-id='0_0_0_0_0_0' data-cmd-id='19' class='tac-cmd'><span style="color:#737373;">&nbsp;19:&nbsp;</span><span id="def_CANON19!!17">CANON19!!17</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-20' data-block-id='0_0_0_0_0_0' data-cmd-id='20' class='tac-cmd'><span style="color:#737373;">&nbsp;20:&nbsp;</span><span id="def_CANON20!!18">CANON20!!18</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-21' data-block-id='0_0_0_0_0_0' data-cmd-id='21' class='tac-cmd'><span style="color:#737373;">&nbsp;21:&nbsp;</span><span id="def_CANON21!!19">CANON21!!19</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-22' data-block-id='0_0_0_0_0_0' data-cmd-id='22' class='tac-cmd'><span style="color:#737373;">&nbsp;22:&nbsp;</span><span id="def_CANON22!!20">CANON22!!20</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-23' data-block-id='0_0_0_0_0_0' data-cmd-id='23' class='tac-cmd'><span style="color:#737373;">&nbsp;23:&nbsp;</span><span id="def_CANON26">CANON26</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-24' data-block-id='0_0_0_0_0_0' data-cmd-id='24' class='tac-cmd'><span style="color:#737373;">&nbsp;24:&nbsp;</span><span style="color:#863F91;">assume (<a href="#def_CANON26" class="deflink use_CANON26" onclick="highlightDef('CANON26')">CANON26</a>&gt;=0x0)&&(<a href="#def_CANON26" class="deflink use_CANON26" onclick="highlightDef('CANON26')">CANON26</a>&lt;=0xffffffffffffffffffffffffffffffffffffffff)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-25' data-block-id='0_0_0_0_0_0' data-cmd-id='25' class='tac-cmd'><span style="color:#737373;">&nbsp;25:&nbsp;</span><span id="def_CANON27">CANON27</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-26' data-block-id='0_0_0_0_0_0' data-cmd-id='26' class='tac-cmd'><span style="color:#737373;">&nbsp;26:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_CANON27" class="deflink use_CANON27" onclick="highlightDef('CANON27')">CANON27</a>==0x0</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-27' data-block-id='0_0_0_0_0_0' data-cmd-id='27' class='tac-cmd'><span style="color:#737373;">&nbsp;27:&nbsp;</span><span id="def_CANON28">CANON28</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-28' data-block-id='0_0_0_0_0_0' data-cmd-id='28' class='tac-cmd'><span style="color:#737373;">&nbsp;28:&nbsp;</span><span style="color:#863F91;">assume (<a href="#def_CANON28" class="deflink use_CANON28" onclick="highlightDef('CANON28')">CANON28</a>&gt;=0x0)&&(<a href="#def_CANON28" class="deflink use_CANON28" onclick="highlightDef('CANON28')">CANON28</a>&lt;=0xffffffffffffffffffffffffffffffffffffffff)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-29' data-block-id='0_0_0_0_0_0' data-cmd-id='29' class='tac-cmd'><span style="color:#737373;">&nbsp;29:&nbsp;</span><span id="def_CANON29">CANON29</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-30' data-block-id='0_0_0_0_0_0' data-cmd-id='30' class='tac-cmd'><span style="color:#737373;">&nbsp;30:&nbsp;</span><span style="color:#863F91;">assume (<a href="#def_CANON29" class="deflink use_CANON29" onclick="highlightDef('CANON29')">CANON29</a>&gt;=0x0)&&(<a href="#def_CANON29" class="deflink use_CANON29" onclick="highlightDef('CANON29')">CANON29</a>&lt;=0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-31' data-block-id='0_0_0_0_0_0' data-cmd-id='31' class='tac-cmd'><span style="color:#737373;">&nbsp;31:&nbsp;</span><span id="def_CANON30">CANON30</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-32' data-block-id='0_0_0_0_0_0' data-cmd-id='32' class='tac-cmd'><span style="color:#737373;">&nbsp;32:&nbsp;</span><span style="color:#863F91;">assume (<a href="#def_CANON30" class="deflink use_CANON30" onclick="highlightDef('CANON30')">CANON30</a>&gt;=0x0)&&(<a href="#def_CANON30" class="deflink use_CANON30" onclick="highlightDef('CANON30')">CANON30</a>&lt;=0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-33' data-block-id='0_0_0_0_0_0' data-cmd-id='33' class='tac-cmd'><span style="color:#737373;">&nbsp;33:&nbsp;</span><span id="def_CANON31">CANON31</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-34' data-block-id='0_0_0_0_0_0' data-cmd-id='34' class='tac-cmd'><span style="color:#737373;">&nbsp;34:&nbsp;</span><span style="color:#863F91;">assume (<a href="#def_CANON31" class="deflink use_CANON31" onclick="highlightDef('CANON31')">CANON31</a>&gt;=0x0)&&(<a href="#def_CANON31" class="deflink use_CANON31" onclick="highlightDef('CANON31')">CANON31</a>&lt;=0xffffffffffffffffffffffffffffffffffffffff)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-35' data-block-id='0_0_0_0_0_0' data-cmd-id='35' class='tac-cmd'><span style="color:#737373;">&nbsp;35:&nbsp;</span><span id="def_CANON32">CANON32</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-36' data-block-id='0_0_0_0_0_0' data-cmd-id='36' class='tac-cmd'><span style="color:#737373;">&nbsp;36:&nbsp;</span><span style="color:#863F91;">assume (<a href="#def_CANON32" class="deflink use_CANON32" onclick="highlightDef('CANON32')">CANON32</a>&gt;=0x0)&&(<a href="#def_CANON32" class="deflink use_CANON32" onclick="highlightDef('CANON32')">CANON32</a>&lt;=0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-37' data-block-id='0_0_0_0_0_0' data-cmd-id='37' class='tac-cmd'><span style="color:#737373;">&nbsp;37:&nbsp;</span><span id="def_CANON33">CANON33</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-38' data-block-id='0_0_0_0_0_0' data-cmd-id='38' class='tac-cmd'><span style="color:#737373;">&nbsp;38:&nbsp;</span><span style="color:#863F91;">assume (<a href="#def_CANON33" class="deflink use_CANON33" onclick="highlightDef('CANON33')">CANON33</a>&gt;=0x0)&&(<a href="#def_CANON33" class="deflink use_CANON33" onclick="highlightDef('CANON33')">CANON33</a>&lt;=0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-39' data-block-id='0_0_0_0_0_0' data-cmd-id='39' class='tac-cmd'><span style="color:#737373;">&nbsp;39:&nbsp;</span><span id="def_CANON34">CANON34</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-40' data-block-id='0_0_0_0_0_0' data-cmd-id='40' class='tac-cmd'><span style="color:#737373;">&nbsp;40:&nbsp;</span><span style="color:#863F91;">assume (<a href="#def_CANON34" class="deflink use_CANON34" onclick="highlightDef('CANON34')">CANON34</a>&gt;=0x0)&&(<a href="#def_CANON34" class="deflink use_CANON34" onclick="highlightDef('CANON34')">CANON34</a>&lt;=0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-41' data-block-id='0_0_0_0_0_0' data-cmd-id='41' class='tac-cmd'><span style="color:#737373;">&nbsp;41:&nbsp;</span><span id="def_CANON35">CANON35</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-42' data-block-id='0_0_0_0_0_0' data-cmd-id='42' class='tac-cmd'><span style="color:#737373;">&nbsp;42:&nbsp;</span><span style="color:#863F91;">assume (<a href="#def_CANON35" class="deflink use_CANON35" onclick="highlightDef('CANON35')">CANON35</a>&gt;=0x0)&&(<a href="#def_CANON35" class="deflink use_CANON35" onclick="highlightDef('CANON35')">CANON35</a>&lt;=0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-43' data-block-id='0_0_0_0_0_0' data-cmd-id='43' class='tac-cmd'><span style="color:#737373;">&nbsp;43:&nbsp;</span><span id="def_CANON40!21">CANON40!21</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-44' data-block-id='0_0_0_0_0_0' data-cmd-id='44' class='tac-cmd'><span style="color:#737373;">&nbsp;44:&nbsp;</span><span id="def_R22">R22</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-45' data-block-id='0_0_0_0_0_0' data-cmd-id='45' class='tac-cmd'><span style="color:#737373;">&nbsp;45:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_R22" class="deflink use_R22" onclick="highlightDef('R22')">R22</a>==0x1</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-46' data-block-id='0_0_0_0_0_0' data-cmd-id='46' class='tac-cmd'><span style="color:#737373;">&nbsp;46:&nbsp;</span><span id="def_R23">R23</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-47' data-block-id='0_0_0_0_0_0' data-cmd-id='47' class='tac-cmd'><span style="color:#737373;">&nbsp;47:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_R23" class="deflink use_R23" onclick="highlightDef('R23')">R23</a>==0x2</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-48' data-block-id='0_0_0_0_0_0' data-cmd-id='48' class='tac-cmd'><span style="color:#737373;">&nbsp;48:&nbsp;</span><span id="def_R24">R24</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-49' data-block-id='0_0_0_0_0_0' data-cmd-id='49' class='tac-cmd'><span style="color:#737373;">&nbsp;49:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_R24" class="deflink use_R24" onclick="highlightDef('R24')">R24</a>==0x4</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-50' data-block-id='0_0_0_0_0_0' data-cmd-id='50' class='tac-cmd'><span style="color:#737373;">&nbsp;50:&nbsp;</span><span id="def_CANON2!!26">CANON2!!26</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-51' data-block-id='0_0_0_0_0_0' data-cmd-id='51' class='tac-cmd'><span style="color:#737373;">&nbsp;51:&nbsp;</span><span id="def_CANON3!!27">CANON3!!27</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-52' data-block-id='0_0_0_0_0_0' data-cmd-id='52' class='tac-cmd'><span style="color:#737373;">&nbsp;52:&nbsp;</span><span id="def_CANON4!!28">CANON4!!28</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-53' data-block-id='0_0_0_0_0_0' data-cmd-id='53' class='tac-cmd'><span style="color:#737373;">&nbsp;53:&nbsp;</span><span id="def_CANON5!!29">CANON5!!29</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-54' data-block-id='0_0_0_0_0_0' data-cmd-id='54' class='tac-cmd'><span style="color:#737373;">&nbsp;54:&nbsp;</span><span id="def_CANON6!!30">CANON6!!30</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-55' data-block-id='0_0_0_0_0_0' data-cmd-id='55' class='tac-cmd'><span style="color:#737373;">&nbsp;55:&nbsp;</span><span id="def_CANON7!!31">CANON7!!31</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-56' data-block-id='0_0_0_0_0_0' data-cmd-id='56' class='tac-cmd'><span style="color:#737373;">&nbsp;56:&nbsp;</span><span id="def_CANON8!!32">CANON8!!32</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-57' data-block-id='0_0_0_0_0_0' data-cmd-id='57' class='tac-cmd'><span style="color:#737373;">&nbsp;57:&nbsp;</span><span id="def_CANON9!!33">CANON9!!33</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-58' data-block-id='0_0_0_0_0_0' data-cmd-id='58' class='tac-cmd'><span style="color:#737373;">&nbsp;58:&nbsp;</span><span id="def_R34">R34</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-59' data-block-id='0_0_0_0_0_0' data-cmd-id='59' class='tac-cmd'><span style="color:#737373;">&nbsp;59:&nbsp;</span><span style="color:#863F91;">assume (<a href="#def_R34" class="deflink use_R34" onclick="highlightDef('R34')">R34</a>&gt;=0x1)&&(<a href="#def_R34" class="deflink use_R34" onclick="highlightDef('R34')">R34</a>&lt;=2^160 - 1)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-60' data-block-id='0_0_0_0_0_0' data-cmd-id='60' class='tac-cmd'><span style="color:#737373;">&nbsp;60:&nbsp;</span><span id="def_tacSCANON0!!35">tacSCANON0!!35</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-61' data-block-id='0_0_0_0_0_0' data-cmd-id='61' class='tac-cmd'><span style="color:#737373;">&nbsp;61:&nbsp;</span><span id="def_tacSighash!!36">tacSighash!!36</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-62' data-block-id='0_0_0_0_0_0' data-cmd-id='62' class='tac-cmd'><span style="color:#737373;">&nbsp;62:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_tacSighash!!36" class="deflink use_tacSighash!!36" onclick="highlightDef('tacSighash!!36')">tacSighash!!36</a>==0x263f3e7e</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-63' data-block-id='0_0_0_0_0_0' data-cmd-id='63' class='tac-cmd'><span style="color:#737373;">&nbsp;63:&nbsp;</span><span id="def_tacSighash!!37">tacSighash!!37</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-64' data-block-id='0_0_0_0_0_0' data-cmd-id='64' class='tac-cmd'><span style="color:#737373;">&nbsp;64:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_tacSighash!!37" class="deflink use_tacSighash!!37" onclick="highlightDef('tacSighash!!37')">tacSighash!!37</a>==0x263f3e7e</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-65' data-block-id='0_0_0_0_0_0' data-cmd-id='65' class='tac-cmd'><span style="color:#737373;">&nbsp;65:&nbsp;</span><span style="color:#737373;">TRANSIENT::tac.state.extension=ExtendedStateVars(instanceToExtendedVars&#61;{274184521717934524641157099916833587223&#61;{}})::</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-66' data-block-id='0_0_0_0_0_0' data-cmd-id='66' class='tac-cmd'><span style="color:#737373;">&nbsp;66:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (0) rule parameters setup</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-67' data-block-id='0_0_0_0_0_0' data-cmd-id='67' class='tac-cmd'><span style="color:#737373;">&nbsp;67:&nbsp;</span><span id="def_CANON">CANON</span> = havoc</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-68' data-block-id='0_0_0_0_0_0' data-cmd-id='68' class='tac-cmd'><span style="color:#737373;">&nbsp;68:&nbsp;</span><span style="color:#863F91;">assume (<a href="#def_CANON" class="deflink use_CANON" onclick="highlightDef('CANON')">CANON</a>&gt;=0x0)&&(<a href="#def_CANON" class="deflink use_CANON" onclick="highlightDef('CANON')">CANON</a>&lt;=0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-69' data-block-id='0_0_0_0_0_0' data-cmd-id='69' class='tac-cmd'><span style="color:#737373;">&nbsp;69:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=PrimitiveArg(callIndex&#61;0, index&#61;0, sym&#61;CANON:int, param&#61;uint256 tokenId)::</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-70' data-block-id='0_0_0_0_0_0' data-cmd-id='70' class='tac-cmd'><span style="color:#737373;">&nbsp;70:&nbsp;</span><span style="color:#737373;">TRANSIENT::cvl.trace.declaration=VariableDeclaration(v&#61;TACVar(t&#61;CANON:int), t&#61;uint256, type&#61;Parameter(sourceName&#61;tokenId), fields&#61;null)::</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-71' data-block-id='0_0_0_0_0_0' data-cmd-id='71' class='tac-cmd'><span style="color:#737373;">&nbsp;71:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (0)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-72' data-block-id='0_0_0_0_0_0' data-cmd-id='72' class='tac-cmd'><span style="color:#737373;">&nbsp;72:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (1) Setup</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-73' data-block-id='0_0_0_0_0_0' data-cmd-id='73' class='tac-cmd'><span style="color:#737373;">&nbsp;73:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (2) multi contract setup</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-74' data-block-id='0_0_0_0_0_0' data-cmd-id='74' class='tac-cmd'><span style="color:#737373;">&nbsp;74:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (2)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-75' data-block-id='0_0_0_0_0_0' data-cmd-id='75' class='tac-cmd'><span style="color:#737373;">&nbsp;75:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (3) contract address vars initialized</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-76' data-block-id='0_0_0_0_0_0' data-cmd-id='76' class='tac-cmd'><span style="color:#737373;">&nbsp;76:&nbsp;</span><span id="def_CANON1">CANON1</span> = <a href="#def_R34" class="deflink use_R34" onclick="highlightDef('R34')">R34</a></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-77' data-block-id='0_0_0_0_0_0' data-cmd-id='77' class='tac-cmd'><span style="color:#737373;">&nbsp;77:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (3)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-78' data-block-id='0_0_0_0_0_0' data-cmd-id='78' class='tac-cmd'><span style="color:#737373;">&nbsp;78:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (4) setup read tracking instrumentation</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-79' data-block-id='0_0_0_0_0_0' data-cmd-id='79' class='tac-cmd'><span style="color:#737373;">&nbsp;79:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (4)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-80' data-block-id='0_0_0_0_0_0' data-cmd-id='80' class='tac-cmd'><span style="color:#737373;">&nbsp;80:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (5) last storage initialize</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-81' data-block-id='0_0_0_0_0_0' data-cmd-id='81' class='tac-cmd'><span style="color:#737373;">&nbsp;81:&nbsp;</span><span style="color:#FF8C00;">Take snapshot of storage  in <a href="#def_lastStorage" class="deflink use_lastStorage" onclick="highlightDef('lastStorage')">lastStorage</a></span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-82' data-block-id='0_0_0_0_0_0' data-cmd-id='82' class='tac-cmd'><span style="color:#737373;">&nbsp;82:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (5)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-83' data-block-id='0_0_0_0_0_0' data-cmd-id='83' class='tac-cmd'><span style="color:#737373;">&nbsp;83:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (6) assuming contracts in scene with non-empty bytecode have EXTCODESIZE larger than zero</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-84' data-block-id='0_0_0_0_0_0' data-cmd-id='84' class='tac-cmd'><span style="color:#737373;">&nbsp;84:&nbsp;</span><span id="def_R38">R38</span> = <a href="#def_tacExtcodesize!!6" class="deflink use_tacExtcodesize!!6" onclick="highlightDef('tacExtcodesize!!6')">tacExtcodesize!!6</a>[to_skey:bif(<a href="#def_R34" class="deflink use_R34" onclick="highlightDef('R34')">R34</a>)]</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-85' data-block-id='0_0_0_0_0_0' data-cmd-id='85' class='tac-cmd'><span style="color:#737373;">&nbsp;85:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_R38" class="deflink use_R38" onclick="highlightDef('R38')">R38</a>&gt;=0x1</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-86' data-block-id='0_0_0_0_0_0' data-cmd-id='86' class='tac-cmd'><span style="color:#737373;">&nbsp;86:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_R38" class="deflink use_R38" onclick="highlightDef('R38')">R38</a>==<a href="#def_R2" class="deflink use_R2" onclick="highlightDef('R2')">R2</a></span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-87' data-block-id='0_0_0_0_0_0' data-cmd-id='87' class='tac-cmd'><span style="color:#737373;">&nbsp;87:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (6)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-88' data-block-id='0_0_0_0_0_0' data-cmd-id='88' class='tac-cmd'><span style="color:#737373;">&nbsp;88:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (7) assuming address(0).code has no code deployed</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-89' data-block-id='0_0_0_0_0_0' data-cmd-id='89' class='tac-cmd'><span style="color:#737373;">&nbsp;89:&nbsp;</span><span id="def_B40">B40</span> = <a href="#def_tacExtcodesize!!6" class="deflink use_tacExtcodesize!!6" onclick="highlightDef('tacExtcodesize!!6')">tacExtcodesize!!6</a>[skey_basic:bif(0x0)]==0x0</span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-90' data-block-id='0_0_0_0_0_0' data-cmd-id='90' class='tac-cmd'><span style="color:#737373;">&nbsp;90:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_B40" class="deflink use_B40" onclick="highlightDef('B40')">B40</a></span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-91' data-block-id='0_0_0_0_0_0' data-cmd-id='91' class='tac-cmd'><span style="color:#737373;">&nbsp;91:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (7)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-92' data-block-id='0_0_0_0_0_0' data-cmd-id='92' class='tac-cmd'><span style="color:#737373;">&nbsp;92:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (8) assumptions about contracts&#39; addresses</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-93' data-block-id='0_0_0_0_0_0' data-cmd-id='93' class='tac-cmd'><span style="color:#737373;">&nbsp;93:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (8)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-94' data-block-id='0_0_0_0_0_0' data-cmd-id='94' class='tac-cmd'><span style="color:#737373;">&nbsp;94:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (9) assumptions about static addresses</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-95' data-block-id='0_0_0_0_0_0' data-cmd-id='95' class='tac-cmd'><span style="color:#737373;">&nbsp;95:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (9)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-96' data-block-id='0_0_0_0_0_0' data-cmd-id='96' class='tac-cmd'><span style="color:#737373;">&nbsp;96:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (10) establish addresses of precompiled contracts</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-97' data-block-id='0_0_0_0_0_0' data-cmd-id='97' class='tac-cmd'><span style="color:#737373;">&nbsp;97:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (10)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-98' data-block-id='0_0_0_0_0_0' data-cmd-id='98' class='tac-cmd'><span style="color:#737373;">&nbsp;98:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (11) assumptions about uniqueness of contracts&#39; addresses</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-99' data-block-id='0_0_0_0_0_0' data-cmd-id='99' class='tac-cmd'><span style="color:#737373;">&nbsp;99:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (11)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-100' data-block-id='0_0_0_0_0_0' data-cmd-id='100' class='tac-cmd'><span style="color:#737373;">100:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (12) static links</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-101' data-block-id='0_0_0_0_0_0' data-cmd-id='101' class='tac-cmd'><span style="color:#737373;">101:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (12)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-102' data-block-id='0_0_0_0_0_0' data-cmd-id='102' class='tac-cmd'><span style="color:#737373;">102:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (13) record starting nonces</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-103' data-block-id='0_0_0_0_0_0' data-cmd-id='103' class='tac-cmd'><span style="color:#737373;">103:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (13)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-104' data-block-id='0_0_0_0_0_0' data-cmd-id='104' class='tac-cmd'><span style="color:#737373;">104:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (14) cloned contracts have no balances</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-105' data-block-id='0_0_0_0_0_0' data-cmd-id='105' class='tac-cmd'><span style="color:#737373;">105:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (14)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-106' data-block-id='0_0_0_0_0_0' data-cmd-id='106' class='tac-cmd'><span style="color:#737373;">106:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (15) Linked immutable setup</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-107' data-block-id='0_0_0_0_0_0' data-cmd-id='107' class='tac-cmd'><span style="color:#737373;">107:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (15)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-108' data-block-id='0_0_0_0_0_0' data-cmd-id='108' class='tac-cmd'><span style="color:#737373;">108:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (16) Constrain immutables</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-109' data-block-id='0_0_0_0_0_0' data-cmd-id='109' class='tac-cmd'><span style="color:#737373;">109:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (16)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-110' data-block-id='0_0_0_0_0_0' data-cmd-id='110' class='tac-cmd'><span style="color:#737373;">110:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (17) establish equivalence of extension and base contract immutables</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-111' data-block-id='0_0_0_0_0_0' data-cmd-id='111' class='tac-cmd'><span style="color:#737373;">111:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (17)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-112' data-block-id='0_0_0_0_0_0' data-cmd-id='112' class='tac-cmd'><span style="color:#737373;">112:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (1)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-113' data-block-id='0_0_0_0_0_0' data-cmd-id='113' class='tac-cmd'><span style="color:#737373;">113:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (18) env e</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-114' data-block-id='0_0_0_0_0_0' data-cmd-id='114' class='tac-cmd'><span style="color:#737373;">114:&nbsp;</span><span style="color:#737373;">TRANSIENT::cvl.trace.declaration=VariableDeclaration(v&#61;CVLVar(id&#61;e11572), t&#61;env, type&#61;spec.CVLCompiler$Companion$TraceMeta$DeclarationType$Variable&#64;ea978add, fields&#61;{[StructField(field&#61;block), StructField(field&#61;coinbase)]&#61;CANON31:int, [StructField(field&#61;block), StructField(field&#61;basefee)]&#61;CANON29:int, [StructField(field&#61;block), StructField(field&#61;timestamp)]&#61;CANON35:int, [StructField(field&#61;block), StructField(field&#61;blobbasefee)]&#61;CANON30:int, [StructField(field&#61;tx), StructField(field&#61;origin)]&#61;CANON28:int, [StructField(field&#61;msg), StructField(field&#61;sender)]&#61;CANON26:int, [StructField(field&#61;msg), StructField(field&#61;value)]&#61;CANON27:int, [StructField(field&#61;block), StructField(field&#61;difficulty)]&#61;CANON32:int, [StructField(field&#61;block), StructField(field&#61;gaslimit)]&#61;CANON33:int, [StructField(field&#61;block), StructField(field&#61;number)]&#61;CANON34:int})::</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-115' data-block-id='0_0_0_0_0_0' data-cmd-id='115' class='tac-cmd'><span style="color:#737373;">115:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (18)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-116' data-block-id='0_0_0_0_0_0' data-cmd-id='116' class='tac-cmd'><span style="color:#737373;">116:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (19) slotAntes &#61; ERC3525.slotOf(e, tokenId)</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-117' data-block-id='0_0_0_0_0_0' data-cmd-id='117' class='tac-cmd'><span style="color:#737373;">117:&nbsp;</span><span style="color:#737373;">TRANSIENT::cvl.trace.data.movement=CVLMovement(dst&#61;CVLVar(id&#61;certoraArg1157411575), src&#61;CVLVar(id&#61;e11572))::</span></span><br/>
+<span id='tac-cmd-0_0_0_0_0_0-118' data-block-id='0_0_0_0_0_0' data-cmd-id='118' class='tac-cmd'><span style="color:#737373;">118:&nbsp;</span><span id="def_I42">I42</span> = <a href="#def_CANON" class="deflink use_CANON" onclick="highlightDef('CANON')">CANON</a></span></span>
+<br/>
+</br>
+<a name="block1_0_0_1_0_0" id="block1_0_0_1_0_0" href="#block1_0_0_1_0_0" onclick="highlightAnchor('1_0_0_1_0_0')">Block 1_0_0_1_0_0:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-1_0_0_1_0_0-0' data-block-id='1_0_0_1_0_0' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">0:&nbsp;</span><span style="color:#737373;">::1: ERC3525.slotOf::</span></span></span>
+<br/>
+</br>
+<a name="block2_0_0_0_0_0" id="block2_0_0_0_0_0" href="#block2_0_0_0_0_0" onclick="highlightAnchor('2_0_0_0_0_0')">Block 2_0_0_0_0_0:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-2_0_0_0_0_0-0' data-block-id='2_0_0_0_0_0' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">0:&nbsp;</span><span style="color:#FF8C00;">Take snapshot of storage  in <a href="#def_lastStorage" class="deflink use_lastStorage" onclick="highlightDef('lastStorage')">lastStorage</a></span></span><br/>
+<span id='tac-cmd-2_0_0_0_0_0-1' data-block-id='2_0_0_0_0_0' data-cmd-id='1' class='tac-cmd'><span style="color:#737373;">1:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (19)</span></span><br/>
+<span id='tac-cmd-2_0_0_0_0_0-2' data-block-id='2_0_0_0_0_0' data-cmd-id='2' class='tac-cmd'><span style="color:#737373;">2:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (20) slotDepois &#61; ERC3525.slotOf(e, tokenId)</span></span><br/>
+<span id='tac-cmd-2_0_0_0_0_0-3' data-block-id='2_0_0_0_0_0' data-cmd-id='3' class='tac-cmd'><span style="color:#737373;">3:&nbsp;</span><span style="color:#737373;">TRANSIENT::cvl.trace.data.movement=CVLMovement(dst&#61;CVLVar(id&#61;certoraArg1189111896), src&#61;CVLVar(id&#61;e11572))::</span></span><br/>
+<span id='tac-cmd-2_0_0_0_0_0-4' data-block-id='2_0_0_0_0_0' data-cmd-id='4' class='tac-cmd'><span style="color:#737373;">4:&nbsp;</span><span id="def_I91">I91</span> = <a href="#def_CANON" class="deflink use_CANON" onclick="highlightDef('CANON')">CANON</a></span></span>
+<br/>
+</br>
+<a name="block3_0_0_2_0_0" id="block3_0_0_2_0_0" href="#block3_0_0_2_0_0" onclick="highlightAnchor('3_0_0_2_0_0')">Block 3_0_0_2_0_0:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-3_0_0_2_0_0-0' data-block-id='3_0_0_2_0_0' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">0:&nbsp;</span><span style="color:#737373;">::2: ERC3525.slotOf::</span></span></span>
+<br/>
+</br>
+<a name="block4_0_0_0_0_0" id="block4_0_0_0_0_0" href="#block4_0_0_0_0_0" onclick="highlightAnchor('4_0_0_0_0_0')">Block 4_0_0_0_0_0:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-4_0_0_0_0_0-0' data-block-id='4_0_0_0_0_0' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">0:&nbsp;</span><span style="color:#FF8C00;">Take snapshot of storage  in <a href="#def_lastStorage" class="deflink use_lastStorage" onclick="highlightDef('lastStorage')">lastStorage</a></span></span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-1' data-block-id='4_0_0_0_0_0' data-cmd-id='1' class='tac-cmd'><span style="color:#737373;">1:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (20)</span></span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-2' data-block-id='4_0_0_0_0_0' data-cmd-id='2' class='tac-cmd'><span style="color:#737373;">2:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (21) _ &#61; slotAntes &#61;&#61; slotDepois</span></span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-3' data-block-id='4_0_0_0_0_0' data-cmd-id='3' class='tac-cmd'><span style="color:#737373;">3:&nbsp;</span><span id="def_I139">I139</span> = <a href="#def_CANON38!!89" class="deflink use_CANON38!!89" onclick="highlightDef('CANON38!!89')">CANON38!!89</a></span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-4' data-block-id='4_0_0_0_0_0' data-cmd-id='4' class='tac-cmd'><span style="color:#737373;">4:&nbsp;</span><span id="def_I140">I140</span> = <a href="#def_CANON69!!138" class="deflink use_CANON69!!138" onclick="highlightDef('CANON69!!138')">CANON69!!138</a></span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-5' data-block-id='4_0_0_0_0_0' data-cmd-id='5' class='tac-cmd'><span style="color:#737373;">5:&nbsp;</span><span id="def_CANON94">CANON94</span> = <a href="#def_I139" class="deflink use_I139" onclick="highlightDef('I139')">I139</a>==<a href="#def_I140" class="deflink use_I140" onclick="highlightDef('I140')">I140</a></span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-6' data-block-id='4_0_0_0_0_0' data-cmd-id='6' class='tac-cmd'><span style="color:#737373;">6:&nbsp;</span><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span> (21)</span></span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-7' data-block-id='4_0_0_0_0_0' data-cmd-id='7' class='tac-cmd'><span style="color:#737373;">7:&nbsp;</span><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> (22) assert false</span></span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-8' data-block-id='4_0_0_0_0_0' data-cmd-id='8' class='tac-cmd'><span style="color:#737373;">8:&nbsp;</span><span id="def_B141">B141</span> = false</span><br/>
+<span id='tac-cmd-4_0_0_0_0_0-9' data-block-id='4_0_0_0_0_0' data-cmd-id='9' class='tac-cmd'><span style="color:#737373;">9:&nbsp;</span><span style="color:#FF0000;">assert false, sanity check for rule slotConsistencySpe... - specs/ERC3525.spec line 52</span></span></span>
+<br/>
+</div>
+<div id="edgesHtml0" style="overflow: scroll; height: 10%;">Successor map:<br/>
+Edge <a name="edgeS2_0_0_0_0_0" id="edgeS2_0_0_0_0_0" href="#block2_0_0_0_0_0" onclick="highlightAnchor('2_0_0_0_0_0')">2_0_0_0_0_0</a>
+    -> <a name="edgeT3_0_0_2_0_0" id="edgeT3_0_0_2_0_0" href="#block3_0_0_2_0_0" onclick="highlightAnchor('3_0_0_2_0_0')">3_0_0_2_0_0</a>:
+true 
+</br>
+Edge <a name="edgeS1_0_0_1_0_0" id="edgeS1_0_0_1_0_0" href="#block1_0_0_1_0_0" onclick="highlightAnchor('1_0_0_1_0_0')">1_0_0_1_0_0</a>
+    -> <a name="edgeT2_0_0_0_0_0" id="edgeT2_0_0_0_0_0" href="#block2_0_0_0_0_0" onclick="highlightAnchor('2_0_0_0_0_0')">2_0_0_0_0_0</a>:
+true 
+</br>
+Edge <a name="edgeS3_0_0_2_0_0" id="edgeS3_0_0_2_0_0" href="#block3_0_0_2_0_0" onclick="highlightAnchor('3_0_0_2_0_0')">3_0_0_2_0_0</a>
+    -> <a name="edgeT4_0_0_0_0_0" id="edgeT4_0_0_0_0_0" href="#block4_0_0_0_0_0" onclick="highlightAnchor('4_0_0_0_0_0')">4_0_0_0_0_0</a>:
+true 
+</br>
+Edge <a name="edgeS0_0_0_0_0_0" id="edgeS0_0_0_0_0_0" href="#block0_0_0_0_0_0" onclick="highlightAnchor('0_0_0_0_0_0')">0_0_0_0_0_0</a>
+    -> <a name="edgeT1_0_0_1_0_0" id="edgeT1_0_0_1_0_0" href="#block1_0_0_1_0_0" onclick="highlightAnchor('1_0_0_1_0_0')">1_0_0_1_0_0</a>:
+true 
+</div>
+
+    </div>
+    
+<div id="blocksAndEdges1" style="position:fixed;height:100%;width:40%;display:inline-block;border:1px;visibility:hidden;">
+
+<div id="blocksHtml1" style="overflow: scroll; height: 90%;">
+<a name="block1_0_0_1_0_0" id="block1_0_0_1_0_0" href="#block1_0_0_1_0_0" onclick="highlightAnchor('1_0_0_1_0_0')">Block 1_0_0_1_0_0:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-1_0_0_1_0_0-0' data-block-id='1_0_0_1_0_0' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">&nbsp;0:&nbsp;</span><span id="def_CANON38!!43">CANON38!!43</span> = havoc</span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-1' data-block-id='1_0_0_1_0_0' data-cmd-id='1' class='tac-cmd'><span style="color:#737373;">&nbsp;1:&nbsp;</span><span style="color:#156194;"><span title="PushRecord(callee=MethodRef(contractId=274184521717934524641157099916833587223, sigHash=SigHash(263f3e7e), attr=COMMON), summary=null, convention=analysis.icfg.Inliner$CallConventionType$FromCVL@74fa2e00, calleeId=1, isNoRevert=true)"><span style="color:#15942a;"><b>→</b></span> Solidity call 1</span></span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-2' data-block-id='1_0_0_1_0_0' data-cmd-id='2' class='tac-cmd'><span style="color:#737373;">&nbsp;2:&nbsp;</span><span id="def_tacCalldatasize!!44">tacCalldatasize!!44</span> = havoc</span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-3' data-block-id='1_0_0_1_0_0' data-cmd-id='3' class='tac-cmd'><span style="color:#737373;">&nbsp;3:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_tacCalldatasize!!44" class="deflink use_tacCalldatasize!!44" onclick="highlightDef('tacCalldatasize!!44')">tacCalldatasize!!44</a>==0x24</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-4' data-block-id='1_0_0_1_0_0' data-cmd-id='4' class='tac-cmd'><span style="color:#737373;">&nbsp;4:&nbsp;</span><span id="def_tacCalldatabuf&#64;1">tacCalldatabuf&#64;1</span> = [<a href="#def_CANON39.40835" class="deflink use_CANON39.40835" onclick="highlightDef('CANON39.40835')">CANON39.40835</a> -> <a href="#def_CANON39.40835" class="deflink use_CANON39.40835" onclick="highlightDef('CANON39.40835')">CANON39.40835</a>&lt;<a href="#def_tacCalldatasize!!44" class="deflink use_tacCalldatasize!!44" onclick="highlightDef('tacCalldatasize!!44')">tacCalldatasize!!44</a> ? <a href="#def_CANON40!21" class="deflink use_CANON40!21" onclick="highlightDef('CANON40!21')">CANON40!21</a>[<a href="#def_CANON39.40835" class="deflink use_CANON39.40835" onclick="highlightDef('CANON39.40835')">CANON39.40835</a>][<a href="#def_tacCalldatasize!!44" class="deflink use_tacCalldatasize!!44" onclick="highlightDef('tacCalldatasize!!44')">tacCalldatasize!!44</a>][0x263f3e7e] : 0x0]</span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-5' data-block-id='1_0_0_1_0_0' data-cmd-id='5' class='tac-cmd'><span style="color:#737373;">&nbsp;5:&nbsp;</span><span id="def_R45">R45</span> = <a href="#def_CANON40!21" class="deflink use_CANON40!21" onclick="highlightDef('CANON40!21')">CANON40!21</a>[0x0][0x24][0x263f3e7e]</span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-6' data-block-id='1_0_0_1_0_0' data-cmd-id='6' class='tac-cmd'><span style="color:#737373;">&nbsp;6:&nbsp;</span><span style="color:#863F91;">assume (<a href="#def_R45" class="deflink use_R45" onclick="highlightDef('R45')">R45</a>&gt;=0x263f3e7e00000000000000000000000000000000000000000000000000000000)&&(<a href="#def_R45" class="deflink use_R45" onclick="highlightDef('R45')">R45</a>&lt;=0x263f3e7effffffffffffffffffffffffffffffffffffffffffffffffffffffff)</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-7' data-block-id='1_0_0_1_0_0' data-cmd-id='7' class='tac-cmd'><span style="color:#737373;">&nbsp;7:&nbsp;</span><span style="color:#737373;">TRANSIENT::cvl.arg-serialization.start=StartSerializationMarker(id&#61;0, callId&#61;1)::</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-8' data-block-id='1_0_0_1_0_0' data-cmd-id='8' class='tac-cmd'><span style="color:#737373;">&nbsp;8:&nbsp;</span><span style="color:#737373;">::67: Read primitive from certoraArg1157611577:int...::</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-9' data-block-id='1_0_0_1_0_0' data-cmd-id='9' class='tac-cmd'><span style="color:#737373;">&nbsp;9:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int elements of a user array) of I42:int failed</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-10' data-block-id='1_0_0_1_0_0' data-cmd-id='10' class='tac-cmd'><span style="color:#737373;">10:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int elements of a user array) of I42:int failed</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-11' data-block-id='1_0_0_1_0_0' data-cmd-id='11' class='tac-cmd'><span style="color:#737373;">11:&nbsp;</span><span id="def_tacCalldatabufCANON0&#64;1">tacCalldatabufCANON0&#64;1</span> = safe_math_narrow_bv256:bif(<a href="#def_I42" class="deflink use_I42" onclick="highlightDef('I42')">I42</a>)</span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-12' data-block-id='1_0_0_1_0_0' data-cmd-id='12' class='tac-cmd'><span style="color:#737373;">12:&nbsp;</span><span style="color:#737373;">::...done 67::</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-13' data-block-id='1_0_0_1_0_0' data-cmd-id='13' class='tac-cmd'><span style="color:#737373;">13:&nbsp;</span><span style="color:#737373;">TRANSIENT::cvl.trace.external=ExternalArg(s&#61;TACVar(t&#61;I42:int), rootOffset&#61;0, callId&#61;1, targetType&#61;uint256, sourceType&#61;uint256, fields&#61;null)::</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-14' data-block-id='1_0_0_1_0_0' data-cmd-id='14' class='tac-cmd'><span style="color:#737373;">14:&nbsp;</span><span style="color:#737373;">TRANSIENT::cvl.arg-serialization.end=EndSerializationMarker(id&#61;0, callId&#61;1)::</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-15' data-block-id='1_0_0_1_0_0' data-cmd-id='15' class='tac-cmd'><span style="color:#737373;">15:&nbsp;</span><span id="def_lastHasThrown!!46">lastHasThrown!!46</span> = false</span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-16' data-block-id='1_0_0_1_0_0' data-cmd-id='16' class='tac-cmd'><span style="color:#737373;">16:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int) of CANON42:int failed</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-17' data-block-id='1_0_0_1_0_0' data-cmd-id='17' class='tac-cmd'><span style="color:#737373;">17:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int) of CANON43:int failed</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-18' data-block-id='1_0_0_1_0_0' data-cmd-id='18' class='tac-cmd'><span style="color:#737373;">18:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int) of CANON44:int failed</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-19' data-block-id='1_0_0_1_0_0' data-cmd-id='19' class='tac-cmd'><span style="color:#737373;">19:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int) of CANON45:int failed</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-20' data-block-id='1_0_0_1_0_0' data-cmd-id='20' class='tac-cmd'><span style="color:#737373;">20:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int) of CANON46:int failed</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-21' data-block-id='1_0_0_1_0_0' data-cmd-id='21' class='tac-cmd'><span style="color:#737373;">21:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int) of CANON47:int failed</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-22' data-block-id='1_0_0_1_0_0' data-cmd-id='22' class='tac-cmd'><span style="color:#737373;">22:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int) of CANON48:int failed</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-23' data-block-id='1_0_0_1_0_0' data-cmd-id='23' class='tac-cmd'><span style="color:#737373;">23:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int) of CANON49:int failed</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-24' data-block-id='1_0_0_1_0_0' data-cmd-id='24' class='tac-cmd'><span style="color:#737373;">24:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int) of CANON50:int failed</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-25' data-block-id='1_0_0_1_0_0' data-cmd-id='25' class='tac-cmd'><span style="color:#737373;">25:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int) of CANON51:int failed</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-26' data-block-id='1_0_0_1_0_0' data-cmd-id='26' class='tac-cmd'><span style="color:#737373;">26:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int) of CANON52:int failed</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-27' data-block-id='1_0_0_1_0_0' data-cmd-id='27' class='tac-cmd'><span style="color:#737373;">27:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int) of CANON53:int failed</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-28' data-block-id='1_0_0_1_0_0' data-cmd-id='28' class='tac-cmd'><span style="color:#737373;">28:&nbsp;</span><span id="def_R48">R48</span> = safe_math_narrow_bv256:bif(<a href="#def_CANON26" class="deflink use_CANON26" onclick="highlightDef('CANON26')">CANON26</a>)</span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-29' data-block-id='1_0_0_1_0_0' data-cmd-id='29' class='tac-cmd'><span style="color:#737373;">29:&nbsp;</span><span id="def_R50">R50</span> = <a href="#def_tacBalance!!7" class="deflink use_tacBalance!!7" onclick="highlightDef('tacBalance!!7')">tacBalance!!7</a>[to_skey:bif(<a href="#def_R48" class="deflink use_R48" onclick="highlightDef('R48')">R48</a>)]</span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-30' data-block-id='1_0_0_1_0_0' data-cmd-id='30' class='tac-cmd'><span style="color:#737373;">30:&nbsp;</span><span id="def_tacBalance!!52">tacBalance!!52</span> = Store(<a href="#def_tacBalance!!7" class="deflink use_tacBalance!!7" onclick="highlightDef('tacBalance!!7')">tacBalance!!7</a> to_skey:bif(<a href="#def_R48" class="deflink use_R48" onclick="highlightDef('R48')">R48</a>) <a href="#def_R50" class="deflink use_R50" onclick="highlightDef('R50')">R50</a>)</span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-31' data-block-id='1_0_0_1_0_0' data-cmd-id='31' class='tac-cmd'><span style="color:#737373;">31:&nbsp;</span><span id="def_R53">R53</span> = <a href="#def_tacBalance!!52" class="deflink use_tacBalance!!52" onclick="highlightDef('tacBalance!!52')">tacBalance!!52</a>[to_skey:bif(<a href="#def_R34" class="deflink use_R34" onclick="highlightDef('R34')">R34</a>)]</span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-32' data-block-id='1_0_0_1_0_0' data-cmd-id='32' class='tac-cmd'><span style="color:#737373;">32:&nbsp;</span><span id="def_R55">R55</span> = safe_math_narrow_bv256:bif(<a href="#def_R53" class="deflink use_R53" onclick="highlightDef('R53')">R53</a>)</span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-33' data-block-id='1_0_0_1_0_0' data-cmd-id='33' class='tac-cmd'><span style="color:#737373;">33:&nbsp;</span><span id="def_tacBalance!!56">tacBalance!!56</span> = Store(<a href="#def_tacBalance!!52" class="deflink use_tacBalance!!52" onclick="highlightDef('tacBalance!!52')">tacBalance!!52</a> to_skey:bif(<a href="#def_R34" class="deflink use_R34" onclick="highlightDef('R34')">R34</a>) <a href="#def_R55" class="deflink use_R55" onclick="highlightDef('R55')">R55</a>)</span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-34' data-block-id='1_0_0_1_0_0' data-cmd-id='34' class='tac-cmd'><span style="color:#737373;">34:&nbsp;</span><span style="color:#156194;">Transferring 0x0 from <a href="#def_R48" class="deflink use_R48" onclick="highlightDef('R48')">R48</a> to <a href="#def_R34" class="deflink use_R34" onclick="highlightDef('R34')">R34</a></span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-35' data-block-id='1_0_0_1_0_0' data-cmd-id='35' class='tac-cmd'><span style="color:#737373;">35:&nbsp;</span><span style="color:#737373;">::Start procedure ERC3525-slotOf(uint256)::</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-36' data-block-id='1_0_0_1_0_0' data-cmd-id='36' class='tac-cmd'><span style="color:#737373;">36:&nbsp;</span><span style="color:#737373;">TRANSIENT::fps.free-pointer-is-scalarized=true::</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-37' data-block-id='1_0_0_1_0_0' data-cmd-id='37' class='tac-cmd'><span style="color:#737373;">37:&nbsp;</span><span id="def_R57">R57</span> = <a href="#def_tacExtcodesize!!6" class="deflink use_tacExtcodesize!!6" onclick="highlightDef('tacExtcodesize!!6')">tacExtcodesize!!6</a>[to_skey:bif(<a href="#def_R34" class="deflink use_R34" onclick="highlightDef('R34')">R34</a>)]</span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-38' data-block-id='1_0_0_1_0_0' data-cmd-id='38' class='tac-cmd'><span style="color:#737373;">38:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_R57" class="deflink use_R57" onclick="highlightDef('R57')">R57</a>&gt;=0x1</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-39' data-block-id='1_0_0_1_0_0' data-cmd-id='39' class='tac-cmd'><span style="color:#737373;">39:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=WithLocSym(isLoad&#61;true, loc&#61;R34:bv256, contractInstance&#61;274184521717934524641157099916833587223, value&#61;R57:bv256, storageType&#61;null, range&#61;null)::</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-40' data-block-id='1_0_0_1_0_0' data-cmd-id='40' class='tac-cmd'><span style="color:#737373;">40:&nbsp;</span><span style="color:#15942a;">No unresolved internal functions!</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-41' data-block-id='1_0_0_1_0_0' data-cmd-id='41' class='tac-cmd'><span style="color:#737373;">41:&nbsp;</span><span style="color:#737373;">TRANSIENT::fps.free-pointer-is-scalarized=true::</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-42' data-block-id='1_0_0_1_0_0' data-cmd-id='42' class='tac-cmd'><span style="color:#737373;">43:&nbsp;</span><span style="color:#737373;">::→ Assuming FP is strictly monotonic increasing::</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-43' data-block-id='1_0_0_1_0_0' data-cmd-id='43' class='tac-cmd'><span style="color:#737373;">44:&nbsp;</span><span style="color:#737373;">::←::</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-44' data-block-id='1_0_0_1_0_0' data-cmd-id='44' class='tac-cmd'><span style="color:#737373;">52:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=StartBranchSnippet(branchIndex&#61;0, branchSource&#61;SourceSegment(range&#61;ERC3525.sol:105:5, content&#61;compiler-generate condition in function slotOf(uint256 tokenId_) public view virtual override returns (uint256) ))::</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-45' data-block-id='1_0_0_1_0_0' data-cmd-id='45' class='tac-cmd'><span style="color:#737373;">53:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=EndBranchSnippet(branchIndex&#61;0)::</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-46' data-block-id='1_0_0_1_0_0' data-cmd-id='46' class='tac-cmd'><span style="color:#737373;">56:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=StartBranchSnippet(branchIndex&#61;1, branchSource&#61;SourceSegment(range&#61;ERC3525.sol:105:5, content&#61;compiler-generate condition in function slotOf(uint256 tokenId_) public view virtual override returns (uint256) ))::</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-47' data-block-id='1_0_0_1_0_0' data-cmd-id='47' class='tac-cmd'><span style="color:#737373;">57:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=EndBranchSnippet(branchIndex&#61;1)::</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_0-48' data-block-id='1_0_0_1_0_0' data-cmd-id='48' class='tac-cmd'><span style="color:#737373;">60:&nbsp;</span><span id="def_R58">R58</span> = <a href="#def_tacCalldatabufCANON0&#64;1" class="deflink use_tacCalldatabufCANON0&#64;1" onclick="highlightDef('tacCalldatabufCANON0&#64;1')">tacCalldatabufCANON0&#64;1</a></span></span>
+<br/>
+</br>
+<a name="block1_0_0_1660_0_5669" id="block1_0_0_1660_0_5669" href="#block1_0_0_1660_0_5669" onclick="highlightAnchor('1_0_0_1660_0_5669')">Block 1_0_0_1660_0_5669:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-1_0_0_1660_0_5669-0' data-block-id='1_0_0_1660_0_5669' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">0:&nbsp;</span><span style="color:#737373;">::1660: ERC3525.slotOf(internal)::</span></span></span>
+<br/>
+</br>
+<a name="block1_0_0_1_0_5679" id="block1_0_0_1_0_5679" href="#block1_0_0_1_0_5679" onclick="highlightAnchor('1_0_0_1_0_5679')">Block 1_0_0_1_0_5679:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-1_0_0_1_0_5679-0' data-block-id='1_0_0_1_0_5679' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">&nbsp;5:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=EVMFunctionReturnWrite(returnbufOffset&#61;0, returnValueSym&#61;R85:bv256, callIndex&#61;1)::</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_5679-1' data-block-id='1_0_0_1_0_5679' data-cmd-id='1' class='tac-cmd'><span style="color:#737373;">&nbsp;8:&nbsp;</span><span class="tooltip"><span id="def_lastHasThrown!!87">lastHasThrown!!87</span> = false <span class="tooltiptext" tooltipatt="1"></span></span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_5679-2' data-block-id='1_0_0_1_0_5679' data-cmd-id='2' class='tac-cmd'><span style="color:#737373;">&nbsp;9:&nbsp;</span><span class="tooltip"><span id="def_lastReverted!!88">lastReverted!!88</span> = false <span class="tooltiptext" tooltipatt="1"></span></span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_5679-3' data-block-id='1_0_0_1_0_5679' data-cmd-id='3' class='tac-cmd'><span style="color:#737373;">10:&nbsp;</span><span class="tooltip"><span style="color:#737373;">TRANSIENT::tac.return.path=NoValue::</span> <span class="tooltiptext" tooltipatt="1"></span></span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_5679-4' data-block-id='1_0_0_1_0_5679' data-cmd-id='4' class='tac-cmd'><span style="color:#737373;">11:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=Return(range&#61;ERC3525.sol:105:5)::</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_5679-5' data-block-id='1_0_0_1_0_5679' data-cmd-id='5' class='tac-cmd'><span style="color:#737373;">12:&nbsp;</span><span style="color:#737373;">::End procedure ERC3525-slotOf(uint256)::</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_5679-6' data-block-id='1_0_0_1_0_5679' data-cmd-id='6' class='tac-cmd'><span style="color:#737373;">13:&nbsp;</span><span style="color:#737373;">::64: Move primitive value for variable slotAntes11573:int...::</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_5679-7' data-block-id='1_0_0_1_0_5679' data-cmd-id='7' class='tac-cmd'><span style="color:#737373;">14:&nbsp;</span><span id="def_CANON38!!89">CANON38!!89</span> = <a href="#def_R85" class="deflink use_R85" onclick="highlightDef('R85')">R85</a></span><br/>
+<span id='tac-cmd-1_0_0_1_0_5679-8' data-block-id='1_0_0_1_0_5679' data-cmd-id='8' class='tac-cmd'><span style="color:#737373;">15:&nbsp;</span><span style="color:#737373;">::...done 64::</span></span><br/>
+<span id='tac-cmd-1_0_0_1_0_5679-9' data-block-id='1_0_0_1_0_5679' data-cmd-id='9' class='tac-cmd'><span style="color:#737373;">16:&nbsp;</span><span style="color:#156194;"><span title="PopRecord(callee=MethodRef(contractId=274184521717934524641157099916833587223, sigHash=SigHash(263f3e7e), attr=COMMON), calleeId=1)"><span style="color:#FF0000;"><b>←</b></span> Solidity call 1</span></span></span></span>
+<br/>
+</div>
+<div id="edgesHtml1" style="overflow: scroll; height: 10%;">Successor map:<br/>
+Edge <a name="edgeS1_0_0_1_0_0" id="edgeS1_0_0_1_0_0" href="#block1_0_0_1_0_0" onclick="highlightAnchor('1_0_0_1_0_0')">1_0_0_1_0_0</a>
+    -> <a name="edgeT1_0_0_1660_0_5669" id="edgeT1_0_0_1660_0_5669" href="#block1_0_0_1660_0_5669" onclick="highlightAnchor('1_0_0_1660_0_5669')">1_0_0_1660_0_5669</a>:
+ 
+</br>
+Edge <a name="edgeS1_0_0_1_0_0" id="edgeS1_0_0_1_0_0" href="#block1_0_0_1_0_0" onclick="highlightAnchor('1_0_0_1_0_0')">1_0_0_1_0_0</a>
+    -> <a name="edgeT2_0_0_0_0_0" id="edgeT2_0_0_0_0_0" href="#block2_0_0_0_0_0" onclick="highlightAnchor('2_0_0_0_0_0')">2_0_0_0_0_0</a>:
+true 
+</br>
+Edge <a name="edgeS1_0_0_1660_0_5669" id="edgeS1_0_0_1660_0_5669" href="#block1_0_0_1660_0_5669" onclick="highlightAnchor('1_0_0_1660_0_5669')">1_0_0_1660_0_5669</a>
+    -> <a name="edgeT1_0_0_1_0_5679" id="edgeT1_0_0_1_0_5679" href="#block1_0_0_1_0_5679" onclick="highlightAnchor('1_0_0_1_0_5679')">1_0_0_1_0_5679</a>:
+ 
+</br>
+Edge <a name="edgeS0_0_0_0_0_0" id="edgeS0_0_0_0_0_0" href="#block0_0_0_0_0_0" onclick="highlightAnchor('0_0_0_0_0_0')">0_0_0_0_0_0</a>
+    -> <a name="edgeT1_0_0_1_0_0" id="edgeT1_0_0_1_0_0" href="#block1_0_0_1_0_0" onclick="highlightAnchor('1_0_0_1_0_0')">1_0_0_1_0_0</a>:
+true 
+</div>
+
+</div>
+
+
+<div id="blocksAndEdges2" style="position:fixed;height:100%;width:40%;display:inline-block;border:1px;visibility:hidden;">
+
+<div id="blocksHtml2" style="overflow: scroll; height: 90%;">
+<a name="block3_0_0_2_0_0" id="block3_0_0_2_0_0" href="#block3_0_0_2_0_0" onclick="highlightAnchor('3_0_0_2_0_0')">Block 3_0_0_2_0_0:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-3_0_0_2_0_0-0' data-block-id='3_0_0_2_0_0' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">&nbsp;0:&nbsp;</span><span id="def_CANON69!!92">CANON69!!92</span> = havoc</span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-1' data-block-id='3_0_0_2_0_0' data-cmd-id='1' class='tac-cmd'><span style="color:#737373;">&nbsp;1:&nbsp;</span><span style="color:#156194;"><span title="PushRecord(callee=MethodRef(contractId=274184521717934524641157099916833587223, sigHash=SigHash(263f3e7e), attr=COMMON), summary=null, convention=analysis.icfg.Inliner$CallConventionType$FromCVL@74fa2e00, calleeId=2, isNoRevert=true)"><span style="color:#15942a;"><b>→</b></span> Solidity call 2</span></span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-2' data-block-id='3_0_0_2_0_0' data-cmd-id='2' class='tac-cmd'><span style="color:#737373;">&nbsp;2:&nbsp;</span><span id="def_tacCalldatasize!!93">tacCalldatasize!!93</span> = havoc</span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-3' data-block-id='3_0_0_2_0_0' data-cmd-id='3' class='tac-cmd'><span style="color:#737373;">&nbsp;3:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_tacCalldatasize!!93" class="deflink use_tacCalldatasize!!93" onclick="highlightDef('tacCalldatasize!!93')">tacCalldatasize!!93</a>==0x24</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-4' data-block-id='3_0_0_2_0_0' data-cmd-id='4' class='tac-cmd'><span style="color:#737373;">&nbsp;4:&nbsp;</span><span id="def_tacCalldatabuf&#64;2">tacCalldatabuf&#64;2</span> = [<a href="#def_CANON70.40836" class="deflink use_CANON70.40836" onclick="highlightDef('CANON70.40836')">CANON70.40836</a> -> <a href="#def_CANON70.40836" class="deflink use_CANON70.40836" onclick="highlightDef('CANON70.40836')">CANON70.40836</a>&lt;<a href="#def_tacCalldatasize!!93" class="deflink use_tacCalldatasize!!93" onclick="highlightDef('tacCalldatasize!!93')">tacCalldatasize!!93</a> ? <a href="#def_CANON40!21" class="deflink use_CANON40!21" onclick="highlightDef('CANON40!21')">CANON40!21</a>[<a href="#def_CANON70.40836" class="deflink use_CANON70.40836" onclick="highlightDef('CANON70.40836')">CANON70.40836</a>][<a href="#def_tacCalldatasize!!93" class="deflink use_tacCalldatasize!!93" onclick="highlightDef('tacCalldatasize!!93')">tacCalldatasize!!93</a>][0x263f3e7e] : 0x0]</span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-5' data-block-id='3_0_0_2_0_0' data-cmd-id='5' class='tac-cmd'><span style="color:#737373;">&nbsp;5:&nbsp;</span><span id="def_R94">R94</span> = <a href="#def_CANON40!21" class="deflink use_CANON40!21" onclick="highlightDef('CANON40!21')">CANON40!21</a>[0x0][0x24][0x263f3e7e]</span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-6' data-block-id='3_0_0_2_0_0' data-cmd-id='6' class='tac-cmd'><span style="color:#737373;">&nbsp;6:&nbsp;</span><span style="color:#863F91;">assume (<a href="#def_R94" class="deflink use_R94" onclick="highlightDef('R94')">R94</a>&gt;=0x263f3e7e00000000000000000000000000000000000000000000000000000000)&&(<a href="#def_R94" class="deflink use_R94" onclick="highlightDef('R94')">R94</a>&lt;=0x263f3e7effffffffffffffffffffffffffffffffffffffffffffffffffffffff)</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-7' data-block-id='3_0_0_2_0_0' data-cmd-id='7' class='tac-cmd'><span style="color:#737373;">&nbsp;7:&nbsp;</span><span style="color:#737373;">TRANSIENT::cvl.arg-serialization.start=StartSerializationMarker(id&#61;1, callId&#61;2)::</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-8' data-block-id='3_0_0_2_0_0' data-cmd-id='8' class='tac-cmd'><span style="color:#737373;">&nbsp;8:&nbsp;</span><span style="color:#737373;">::73: Read primitive from certoraArg1189711898:int...::</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-9' data-block-id='3_0_0_2_0_0' data-cmd-id='9' class='tac-cmd'><span style="color:#737373;">&nbsp;9:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int elements of a user array) of I91:int failed</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-10' data-block-id='3_0_0_2_0_0' data-cmd-id='10' class='tac-cmd'><span style="color:#737373;">10:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int elements of a user array) of I91:int failed</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-11' data-block-id='3_0_0_2_0_0' data-cmd-id='11' class='tac-cmd'><span style="color:#737373;">11:&nbsp;</span><span id="def_tacCalldatabufCANON0&#64;2">tacCalldatabufCANON0&#64;2</span> = safe_math_narrow_bv256:bif(<a href="#def_I91" class="deflink use_I91" onclick="highlightDef('I91')">I91</a>)</span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-12' data-block-id='3_0_0_2_0_0' data-cmd-id='12' class='tac-cmd'><span style="color:#737373;">12:&nbsp;</span><span style="color:#737373;">::...done 73::</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-13' data-block-id='3_0_0_2_0_0' data-cmd-id='13' class='tac-cmd'><span style="color:#737373;">13:&nbsp;</span><span style="color:#737373;">TRANSIENT::cvl.trace.external=ExternalArg(s&#61;TACVar(t&#61;I91:int), rootOffset&#61;0, callId&#61;2, targetType&#61;uint256, sourceType&#61;uint256, fields&#61;null)::</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-14' data-block-id='3_0_0_2_0_0' data-cmd-id='14' class='tac-cmd'><span style="color:#737373;">14:&nbsp;</span><span style="color:#737373;">TRANSIENT::cvl.arg-serialization.end=EndSerializationMarker(id&#61;1, callId&#61;2)::</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-15' data-block-id='3_0_0_2_0_0' data-cmd-id='15' class='tac-cmd'><span style="color:#737373;">15:&nbsp;</span><span id="def_lastHasThrown!!95">lastHasThrown!!95</span> = false</span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-16' data-block-id='3_0_0_2_0_0' data-cmd-id='16' class='tac-cmd'><span style="color:#737373;">16:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int) of CANON72:int failed</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-17' data-block-id='3_0_0_2_0_0' data-cmd-id='17' class='tac-cmd'><span style="color:#737373;">17:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int) of CANON73:int failed</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-18' data-block-id='3_0_0_2_0_0' data-cmd-id='18' class='tac-cmd'><span style="color:#737373;">18:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int) of CANON74:int failed</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-19' data-block-id='3_0_0_2_0_0' data-cmd-id='19' class='tac-cmd'><span style="color:#737373;">19:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int) of CANON75:int failed</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-20' data-block-id='3_0_0_2_0_0' data-cmd-id='20' class='tac-cmd'><span style="color:#737373;">20:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int) of CANON76:int failed</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-21' data-block-id='3_0_0_2_0_0' data-cmd-id='21' class='tac-cmd'><span style="color:#737373;">21:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int) of CANON77:int failed</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-22' data-block-id='3_0_0_2_0_0' data-cmd-id='22' class='tac-cmd'><span style="color:#737373;">22:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int) of CANON78:int failed</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-23' data-block-id='3_0_0_2_0_0' data-cmd-id='23' class='tac-cmd'><span style="color:#737373;">23:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int) of CANON79:int failed</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-24' data-block-id='3_0_0_2_0_0' data-cmd-id='24' class='tac-cmd'><span style="color:#737373;">24:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int) of CANON80:int failed</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-25' data-block-id='3_0_0_2_0_0' data-cmd-id='25' class='tac-cmd'><span style="color:#737373;">25:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int) of CANON81:int failed</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-26' data-block-id='3_0_0_2_0_0' data-cmd-id='26' class='tac-cmd'><span style="color:#737373;">26:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int) of CANON82:int failed</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-27' data-block-id='3_0_0_2_0_0' data-cmd-id='27' class='tac-cmd'><span style="color:#737373;">27:&nbsp;</span><span style="color:#FF0000;">assert true, sanity bounds check on cvl to vm encoding (unsigned int) of CANON83:int failed</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-28' data-block-id='3_0_0_2_0_0' data-cmd-id='28' class='tac-cmd'><span style="color:#737373;">28:&nbsp;</span><span id="def_R97">R97</span> = safe_math_narrow_bv256:bif(<a href="#def_CANON26" class="deflink use_CANON26" onclick="highlightDef('CANON26')">CANON26</a>)</span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-29' data-block-id='3_0_0_2_0_0' data-cmd-id='29' class='tac-cmd'><span style="color:#737373;">29:&nbsp;</span><span id="def_R99">R99</span> = <a href="#def_tacBalance!!56" class="deflink use_tacBalance!!56" onclick="highlightDef('tacBalance!!56')">tacBalance!!56</a>[to_skey:bif(<a href="#def_R97" class="deflink use_R97" onclick="highlightDef('R97')">R97</a>)]</span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-30' data-block-id='3_0_0_2_0_0' data-cmd-id='30' class='tac-cmd'><span style="color:#737373;">30:&nbsp;</span><span id="def_tacBalance!!101">tacBalance!!101</span> = Store(<a href="#def_tacBalance!!56" class="deflink use_tacBalance!!56" onclick="highlightDef('tacBalance!!56')">tacBalance!!56</a> to_skey:bif(<a href="#def_R97" class="deflink use_R97" onclick="highlightDef('R97')">R97</a>) <a href="#def_R99" class="deflink use_R99" onclick="highlightDef('R99')">R99</a>)</span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-31' data-block-id='3_0_0_2_0_0' data-cmd-id='31' class='tac-cmd'><span style="color:#737373;">31:&nbsp;</span><span id="def_R102">R102</span> = <a href="#def_tacBalance!!101" class="deflink use_tacBalance!!101" onclick="highlightDef('tacBalance!!101')">tacBalance!!101</a>[to_skey:bif(<a href="#def_R34" class="deflink use_R34" onclick="highlightDef('R34')">R34</a>)]</span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-32' data-block-id='3_0_0_2_0_0' data-cmd-id='32' class='tac-cmd'><span style="color:#737373;">32:&nbsp;</span><span id="def_R104">R104</span> = safe_math_narrow_bv256:bif(<a href="#def_R102" class="deflink use_R102" onclick="highlightDef('R102')">R102</a>)</span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-33' data-block-id='3_0_0_2_0_0' data-cmd-id='33' class='tac-cmd'><span style="color:#737373;">33:&nbsp;</span><span style="color:#156194;">Transferring 0x0 from <a href="#def_R97" class="deflink use_R97" onclick="highlightDef('R97')">R97</a> to <a href="#def_R34" class="deflink use_R34" onclick="highlightDef('R34')">R34</a></span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-34' data-block-id='3_0_0_2_0_0' data-cmd-id='34' class='tac-cmd'><span style="color:#737373;">34:&nbsp;</span><span style="color:#737373;">::Start procedure ERC3525-slotOf(uint256)::</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-35' data-block-id='3_0_0_2_0_0' data-cmd-id='35' class='tac-cmd'><span style="color:#737373;">35:&nbsp;</span><span style="color:#737373;">TRANSIENT::fps.free-pointer-is-scalarized=true::</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-36' data-block-id='3_0_0_2_0_0' data-cmd-id='36' class='tac-cmd'><span style="color:#737373;">36:&nbsp;</span><span id="def_R106">R106</span> = <a href="#def_tacExtcodesize!!6" class="deflink use_tacExtcodesize!!6" onclick="highlightDef('tacExtcodesize!!6')">tacExtcodesize!!6</a>[to_skey:bif(<a href="#def_R34" class="deflink use_R34" onclick="highlightDef('R34')">R34</a>)]</span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-37' data-block-id='3_0_0_2_0_0' data-cmd-id='37' class='tac-cmd'><span style="color:#737373;">37:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_R106" class="deflink use_R106" onclick="highlightDef('R106')">R106</a>&gt;=0x1</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-38' data-block-id='3_0_0_2_0_0' data-cmd-id='38' class='tac-cmd'><span style="color:#737373;">38:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=WithLocSym(isLoad&#61;true, loc&#61;R34:bv256, contractInstance&#61;274184521717934524641157099916833587223, value&#61;R106:bv256, storageType&#61;null, range&#61;null)::</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-39' data-block-id='3_0_0_2_0_0' data-cmd-id='39' class='tac-cmd'><span style="color:#737373;">39:&nbsp;</span><span style="color:#15942a;">No unresolved internal functions!</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-40' data-block-id='3_0_0_2_0_0' data-cmd-id='40' class='tac-cmd'><span style="color:#737373;">40:&nbsp;</span><span style="color:#737373;">TRANSIENT::fps.free-pointer-is-scalarized=true::</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-41' data-block-id='3_0_0_2_0_0' data-cmd-id='41' class='tac-cmd'><span style="color:#737373;">42:&nbsp;</span><span style="color:#737373;">::→ Assuming FP is strictly monotonic increasing::</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-42' data-block-id='3_0_0_2_0_0' data-cmd-id='42' class='tac-cmd'><span style="color:#737373;">43:&nbsp;</span><span style="color:#737373;">::←::</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-43' data-block-id='3_0_0_2_0_0' data-cmd-id='43' class='tac-cmd'><span style="color:#737373;">51:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=StartBranchSnippet(branchIndex&#61;6, branchSource&#61;SourceSegment(range&#61;ERC3525.sol:105:5, content&#61;compiler-generate condition in function slotOf(uint256 tokenId_) public view virtual override returns (uint256) ))::</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-44' data-block-id='3_0_0_2_0_0' data-cmd-id='44' class='tac-cmd'><span style="color:#737373;">52:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=EndBranchSnippet(branchIndex&#61;6)::</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-45' data-block-id='3_0_0_2_0_0' data-cmd-id='45' class='tac-cmd'><span style="color:#737373;">55:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=StartBranchSnippet(branchIndex&#61;7, branchSource&#61;SourceSegment(range&#61;ERC3525.sol:105:5, content&#61;compiler-generate condition in function slotOf(uint256 tokenId_) public view virtual override returns (uint256) ))::</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-46' data-block-id='3_0_0_2_0_0' data-cmd-id='46' class='tac-cmd'><span style="color:#737373;">56:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=EndBranchSnippet(branchIndex&#61;7)::</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_0-47' data-block-id='3_0_0_2_0_0' data-cmd-id='47' class='tac-cmd'><span style="color:#737373;">59:&nbsp;</span><span id="def_R107">R107</span> = <a href="#def_tacCalldatabufCANON0&#64;2" class="deflink use_tacCalldatabufCANON0&#64;2" onclick="highlightDef('tacCalldatabufCANON0&#64;2')">tacCalldatabufCANON0&#64;2</a></span></span>
+<br/>
+</br>
+<a name="block3_0_0_1663_0_5674" id="block3_0_0_1663_0_5674" href="#block3_0_0_1663_0_5674" onclick="highlightAnchor('3_0_0_1663_0_5674')">Block 3_0_0_1663_0_5674:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-3_0_0_1663_0_5674-0' data-block-id='3_0_0_1663_0_5674' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">0:&nbsp;</span><span style="color:#737373;">::1663: ERC3525.slotOf(internal)::</span></span></span>
+<br/>
+</br>
+<a name="block3_0_0_2_0_5680" id="block3_0_0_2_0_5680" href="#block3_0_0_2_0_5680" onclick="highlightAnchor('3_0_0_2_0_5680')">Block 3_0_0_2_0_5680:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-3_0_0_2_0_5680-0' data-block-id='3_0_0_2_0_5680' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">&nbsp;5:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=EVMFunctionReturnWrite(returnbufOffset&#61;0, returnValueSym&#61;R134:bv256, callIndex&#61;2)::</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_5680-1' data-block-id='3_0_0_2_0_5680' data-cmd-id='1' class='tac-cmd'><span style="color:#737373;">&nbsp;8:&nbsp;</span><span class="tooltip"><span id="def_lastHasThrown!!136">lastHasThrown!!136</span> = false <span class="tooltiptext" tooltipatt="1"></span></span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_5680-2' data-block-id='3_0_0_2_0_5680' data-cmd-id='2' class='tac-cmd'><span style="color:#737373;">&nbsp;9:&nbsp;</span><span class="tooltip"><span id="def_lastReverted!!137">lastReverted!!137</span> = false <span class="tooltiptext" tooltipatt="1"></span></span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_5680-3' data-block-id='3_0_0_2_0_5680' data-cmd-id='3' class='tac-cmd'><span style="color:#737373;">10:&nbsp;</span><span class="tooltip"><span style="color:#737373;">TRANSIENT::tac.return.path=NoValue::</span> <span class="tooltiptext" tooltipatt="1"></span></span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_5680-4' data-block-id='3_0_0_2_0_5680' data-cmd-id='4' class='tac-cmd'><span style="color:#737373;">11:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=Return(range&#61;ERC3525.sol:105:5)::</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_5680-5' data-block-id='3_0_0_2_0_5680' data-cmd-id='5' class='tac-cmd'><span style="color:#737373;">12:&nbsp;</span><span style="color:#737373;">::End procedure ERC3525-slotOf(uint256)::</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_5680-6' data-block-id='3_0_0_2_0_5680' data-cmd-id='6' class='tac-cmd'><span style="color:#737373;">13:&nbsp;</span><span style="color:#737373;">::72: Move primitive value for variable slotDepois11886:int...::</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_5680-7' data-block-id='3_0_0_2_0_5680' data-cmd-id='7' class='tac-cmd'><span style="color:#737373;">14:&nbsp;</span><span id="def_CANON69!!138">CANON69!!138</span> = <a href="#def_R134" class="deflink use_R134" onclick="highlightDef('R134')">R134</a></span><br/>
+<span id='tac-cmd-3_0_0_2_0_5680-8' data-block-id='3_0_0_2_0_5680' data-cmd-id='8' class='tac-cmd'><span style="color:#737373;">15:&nbsp;</span><span style="color:#737373;">::...done 72::</span></span><br/>
+<span id='tac-cmd-3_0_0_2_0_5680-9' data-block-id='3_0_0_2_0_5680' data-cmd-id='9' class='tac-cmd'><span style="color:#737373;">16:&nbsp;</span><span style="color:#156194;"><span title="PopRecord(callee=MethodRef(contractId=274184521717934524641157099916833587223, sigHash=SigHash(263f3e7e), attr=COMMON), calleeId=2)"><span style="color:#FF0000;"><b>←</b></span> Solidity call 2</span></span></span></span>
+<br/>
+</div>
+<div id="edgesHtml2" style="overflow: scroll; height: 10%;">Successor map:<br/>
+Edge <a name="edgeS2_0_0_0_0_0" id="edgeS2_0_0_0_0_0" href="#block2_0_0_0_0_0" onclick="highlightAnchor('2_0_0_0_0_0')">2_0_0_0_0_0</a>
+    -> <a name="edgeT3_0_0_2_0_0" id="edgeT3_0_0_2_0_0" href="#block3_0_0_2_0_0" onclick="highlightAnchor('3_0_0_2_0_0')">3_0_0_2_0_0</a>:
+true 
+</br>
+Edge <a name="edgeS3_0_0_2_0_0" id="edgeS3_0_0_2_0_0" href="#block3_0_0_2_0_0" onclick="highlightAnchor('3_0_0_2_0_0')">3_0_0_2_0_0</a>
+    -> <a name="edgeT3_0_0_1663_0_5674" id="edgeT3_0_0_1663_0_5674" href="#block3_0_0_1663_0_5674" onclick="highlightAnchor('3_0_0_1663_0_5674')">3_0_0_1663_0_5674</a>:
+ 
+</br>
+Edge <a name="edgeS3_0_0_2_0_0" id="edgeS3_0_0_2_0_0" href="#block3_0_0_2_0_0" onclick="highlightAnchor('3_0_0_2_0_0')">3_0_0_2_0_0</a>
+    -> <a name="edgeT4_0_0_0_0_0" id="edgeT4_0_0_0_0_0" href="#block4_0_0_0_0_0" onclick="highlightAnchor('4_0_0_0_0_0')">4_0_0_0_0_0</a>:
+true 
+</br>
+Edge <a name="edgeS3_0_0_1663_0_5674" id="edgeS3_0_0_1663_0_5674" href="#block3_0_0_1663_0_5674" onclick="highlightAnchor('3_0_0_1663_0_5674')">3_0_0_1663_0_5674</a>
+    -> <a name="edgeT3_0_0_2_0_5680" id="edgeT3_0_0_2_0_5680" href="#block3_0_0_2_0_5680" onclick="highlightAnchor('3_0_0_2_0_5680')">3_0_0_2_0_5680</a>:
+ 
+</div>
+
+</div>
+
+
+<div id="blocksAndEdges1660" style="position:fixed;height:100%;width:40%;display:inline-block;border:1px;visibility:hidden;">
+
+<div id="blocksHtml1660" style="overflow: scroll; height: 90%;">
+<a name="block1_0_0_1660_0_5669" id="block1_0_0_1660_0_5669" href="#block1_0_0_1660_0_5669" onclick="highlightAnchor('1_0_0_1660_0_5669')">Block 1_0_0_1660_0_5669:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-1_0_0_1660_0_5669-0' data-block-id='1_0_0_1660_0_5669' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">0:&nbsp;</span><span style="color:#156194;"><span title="InternalFuncStartAnnotation(id=0, startPc=4484, args=[InternalFuncArg(s=R58:bv256, offset=1, logicalPosition=0, sort=SCALAR, location=InternalFuncValueLocation.Scalar)], methodSignature=ERC3525.slotOf(uint256 tokenId_) returns (uint256), stackOffsetToArgPos={1=0}, callSiteSrc=(5402:540:7:0xce4604a0000000000000000000000017) // ERC3525.sol)"><span style="color:#15942a;"><b>→</b></span> Method call <a id="intfunStart_0" onclick="toggleInternalFun(0)"><u>0</u></a> to slotOf(uint256 tokenId_ = <a href="#def_R58" class="deflink use_R58" onclick="highlightDef('R58')">R58</a>)</span></span></span></span>
+<br/>
+</br>
+<a name="block1_0_0_1661_0_5670" id="block1_0_0_1661_0_5670" href="#block1_0_0_1661_0_5670" onclick="highlightAnchor('1_0_0_1661_0_5670')">Block 1_0_0_1661_0_5670:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-1_0_0_1661_0_5670-0' data-block-id='1_0_0_1661_0_5670' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">0:&nbsp;</span><span style="color:#737373;">::1661: ERC3525._requireMinted(internal)::</span></span></span>
+<br/>
+</br>
+<a name="block1_0_0_1660_0_5673" id="block1_0_0_1660_0_5673" href="#block1_0_0_1660_0_5673" onclick="highlightAnchor('1_0_0_1660_0_5673')">Block 1_0_0_1660_0_5673:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-1_0_0_1660_0_5673-0' data-block-id='1_0_0_1660_0_5673' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">&nbsp;1:&nbsp;</span><span id="def_R75">R75</span> = 0x6</span><br/>
+<span id='tac-cmd-1_0_0_1660_0_5673-1' data-block-id='1_0_0_1660_0_5673' data-cmd-id='1' class='tac-cmd'><span style="color:#737373;">&nbsp;2:&nbsp;</span><span class="tooltip"><span id="def_R76">R76</span> = hash_3_keccak:bif(skey_basic:bif(0x40),to_skey:bif(<a href="#def_tacCalldatabufCANON0&#64;1" class="deflink use_tacCalldatabufCANON0&#64;1" onclick="highlightDef('tacCalldatabufCANON0&#64;1')">tacCalldatabufCANON0&#64;1</a>),skey_basic:bif(0x6)) <span class="tooltiptext" tooltipatt="2"></span></span></span><br/>
+<span id='tac-cmd-1_0_0_1660_0_5673-2' data-block-id='1_0_0_1660_0_5673' data-cmd-id='2' class='tac-cmd'><span style="color:#737373;">&nbsp;3:&nbsp;</span><span class="tooltip"><span id="def_R78">R78</span> = Annotate(tac.storage.access-paths := AccessPaths(paths=[0x6[key R58:bv256].(offset 0x0)]), <a href="#def_CANON3!!27" class="deflink use_CANON3!!27" onclick="highlightDef('CANON3!!27')">CANON3!!27</a>[<a href="#def_R76" class="deflink use_R76" onclick="highlightDef('R76')">R76</a>]) <span style="color:#15942a;">// accessPaths = ?</span> <span class="tooltiptext" tooltipatt="2"></span></span></span><br/>
+<span id='tac-cmd-1_0_0_1660_0_5673-3' data-block-id='1_0_0_1660_0_5673' data-cmd-id='3' class='tac-cmd'><span style="color:#737373;">&nbsp;4:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_R78" class="deflink use_R78" onclick="highlightDef('R78')">R78</a>&lt;=2^256 - 2</span></span><br/>
+<span id='tac-cmd-1_0_0_1660_0_5673-4' data-block-id='1_0_0_1660_0_5673' data-cmd-id='4' class='tac-cmd'><span style="color:#737373;">&nbsp;5:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=LoadSnippet(value&#61;R78:bv256, displayPath&#61;_allTokensIndex[k &#61; tacCalldatabufCANON0&#64;1:bv256], storageType&#61;uint256, contractInstance&#61;274184521717934524641157099916833587223, range&#61;ERC3525.sol:107:27, linkableStorageReadId&#61;vc.data.SnippetCmd$EVMSnippetCmd$StorageSnippet$LoadSnippet$None&#64;6d1e4eb8)::</span></span><br/>
+<span id='tac-cmd-1_0_0_1660_0_5673-5' data-block-id='1_0_0_1660_0_5673' data-cmd-id='5' class='tac-cmd'><span style="color:#737373;">&nbsp;6:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=LoadSnippet(value&#61;CANON17!!15:bv256, displayPath&#61;_allTokens, storageType&#61;uint256, contractInstance&#61;274184521717934524641157099916833587223, range&#61;ERC3525.sol:107:16, linkableStorageReadId&#61;vc.data.SnippetCmd$EVMSnippetCmd$StorageSnippet$LoadSnippet$None&#64;6d1e4eb8)::</span></span><br/>
+<span id='tac-cmd-1_0_0_1660_0_5673-6' data-block-id='1_0_0_1660_0_5673' data-cmd-id='6' class='tac-cmd'><span style="color:#737373;">&nbsp;7:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_R78" class="deflink use_R78" onclick="highlightDef('R78')">R78</a>&lt;<a href="#def_CANON17!!15" class="deflink use_CANON17!!15" onclick="highlightDef('CANON17!!15')">CANON17!!15</a></span></span><br/>
+<span id='tac-cmd-1_0_0_1660_0_5673-7' data-block-id='1_0_0_1660_0_5673' data-cmd-id='7' class='tac-cmd'><span style="color:#737373;">&nbsp;8:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=StartBranchSnippet(branchIndex&#61;5, branchSource&#61;SourceSegment(range&#61;ERC3525.sol:107:16, content&#61;_allTokens[_allTokensIndex[tokenId_]]))::</span></span><br/>
+<span id='tac-cmd-1_0_0_1660_0_5673-8' data-block-id='1_0_0_1660_0_5673' data-cmd-id='8' class='tac-cmd'><span style="color:#737373;">&nbsp;9:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=EndBranchSnippet(branchIndex&#61;5)::</span></span><br/>
+<span id='tac-cmd-1_0_0_1660_0_5673-9' data-block-id='1_0_0_1660_0_5673' data-cmd-id='9' class='tac-cmd'><span style="color:#737373;">11:&nbsp;</span><span class="tooltip"><span id="def_R81">R81</span> = hash_2_keccak:bif(skey_basic:bif(0x20),skey_basic:bif(0x5)) <span class="tooltiptext" tooltipatt="3"></span></span></span><br/>
+<span id='tac-cmd-1_0_0_1660_0_5673-10' data-block-id='1_0_0_1660_0_5673' data-cmd-id='10' class='tac-cmd'><span style="color:#737373;">12:&nbsp;</span><span class="tooltip"><span id="def_R82">R82</span> = 0x6*<a href="#def_R78" class="deflink use_R78" onclick="highlightDef('R78')">R78</a> <span class="tooltiptext" tooltipatt="3"></span></span></span><br/>
+<span id='tac-cmd-1_0_0_1660_0_5673-11' data-block-id='1_0_0_1660_0_5673' data-cmd-id='11' class='tac-cmd'><span style="color:#737373;">13:&nbsp;</span><span class="tooltip"><span id="def_R83">R83</span> = skey_add:bif(<a href="#def_R81" class="deflink use_R81" onclick="highlightDef('R81')">R81</a>,<a href="#def_R82" class="deflink use_R82" onclick="highlightDef('R82')">R82</a>) <span class="tooltiptext" tooltipatt="3"></span></span></span><br/>
+<span id='tac-cmd-1_0_0_1660_0_5673-12' data-block-id='1_0_0_1660_0_5673' data-cmd-id='12' class='tac-cmd'><span style="color:#737373;">14:&nbsp;</span><span class="tooltip"><span id="def_R84">R84</span> = skey_add:bif(<a href="#def_R83" class="deflink use_R83" onclick="highlightDef('R83')">R83</a>,0x1) <span class="tooltiptext" tooltipatt="4"></span></span></span><br/>
+<span id='tac-cmd-1_0_0_1660_0_5673-13' data-block-id='1_0_0_1660_0_5673' data-cmd-id='13' class='tac-cmd'><span style="color:#737373;">15:&nbsp;</span><span class="tooltip"><span id="def_R85">R85</span> = Annotate(tac.storage.access-paths := AccessPaths(paths=[0x5[key R78:bv256].(offset 0x1)]), <a href="#def_CANON21!!19" class="deflink use_CANON21!!19" onclick="highlightDef('CANON21!!19')">CANON21!!19</a>[<a href="#def_R84" class="deflink use_R84" onclick="highlightDef('R84')">R84</a>]) <span style="color:#15942a;">// accessPaths = ?</span> <span class="tooltiptext" tooltipatt="4"></span></span></span><br/>
+<span id='tac-cmd-1_0_0_1660_0_5673-14' data-block-id='1_0_0_1660_0_5673' data-cmd-id='14' class='tac-cmd'><span style="color:#737373;">16:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=LoadSnippet(value&#61;R85:bv256, displayPath&#61;_allTokens[i &#61; R78:bv256].slot, storageType&#61;uint256, contractInstance&#61;274184521717934524641157099916833587223, range&#61;ERC3525.sol:107:16, linkableStorageReadId&#61;Id(id&#61;0))::</span></span><br/>
+<span id='tac-cmd-1_0_0_1660_0_5673-15' data-block-id='1_0_0_1660_0_5673' data-cmd-id='15' class='tac-cmd'><span style="color:#737373;">17:&nbsp;</span><span style="color:#156194;"><span title="InternalFuncExitAnnotation(id=0, rets=[InternalFuncRet(s=R85:bv256, offset=0, location=InternalFuncValueLocation.Scalar)], methodSignature=ERC3525.slotOf(uint256 tokenId_) returns (uint256))"><span style="color:#FF0000;"><b>←</b></span> Method call <a id="intfunEnd_0" onclick="toggleInternalFun(0)"><u>0</u></a> (rets: <a href="#def_R85" class="deflink use_R85" onclick="highlightDef('R85')">R85</a>))</span></span></span></span>
+<br/>
+</div>
+<div id="edgesHtml1660" style="overflow: scroll; height: 10%;">Successor map:<br/>
+Edge <a name="edgeS1_0_0_1_0_0" id="edgeS1_0_0_1_0_0" href="#block1_0_0_1_0_0" onclick="highlightAnchor('1_0_0_1_0_0')">1_0_0_1_0_0</a>
+    -> <a name="edgeT1_0_0_1660_0_5669" id="edgeT1_0_0_1660_0_5669" href="#block1_0_0_1660_0_5669" onclick="highlightAnchor('1_0_0_1660_0_5669')">1_0_0_1660_0_5669</a>:
+ 
+</br>
+Edge <a name="edgeS1_0_0_1660_0_5669" id="edgeS1_0_0_1660_0_5669" href="#block1_0_0_1660_0_5669" onclick="highlightAnchor('1_0_0_1660_0_5669')">1_0_0_1660_0_5669</a>
+    -> <a name="edgeT1_0_0_1_0_5679" id="edgeT1_0_0_1_0_5679" href="#block1_0_0_1_0_5679" onclick="highlightAnchor('1_0_0_1_0_5679')">1_0_0_1_0_5679</a>:
+ 
+</br>
+Edge <a name="edgeS1_0_0_1660_0_5669" id="edgeS1_0_0_1660_0_5669" href="#block1_0_0_1660_0_5669" onclick="highlightAnchor('1_0_0_1660_0_5669')">1_0_0_1660_0_5669</a>
+    -> <a name="edgeT1_0_0_1661_0_5670" id="edgeT1_0_0_1661_0_5670" href="#block1_0_0_1661_0_5670" onclick="highlightAnchor('1_0_0_1661_0_5670')">1_0_0_1661_0_5670</a>:
+ 
+</br>
+Edge <a name="edgeS1_0_0_1661_0_5670" id="edgeS1_0_0_1661_0_5670" href="#block1_0_0_1661_0_5670" onclick="highlightAnchor('1_0_0_1661_0_5670')">1_0_0_1661_0_5670</a>
+    -> <a name="edgeT1_0_0_1660_0_5673" id="edgeT1_0_0_1660_0_5673" href="#block1_0_0_1660_0_5673" onclick="highlightAnchor('1_0_0_1660_0_5673')">1_0_0_1660_0_5673</a>:
+ 
+</div>
+
+</div>
+
+
+<div id="blocksAndEdges1663" style="position:fixed;height:100%;width:40%;display:inline-block;border:1px;visibility:hidden;">
+
+<div id="blocksHtml1663" style="overflow: scroll; height: 90%;">
+<a name="block3_0_0_1663_0_5674" id="block3_0_0_1663_0_5674" href="#block3_0_0_1663_0_5674" onclick="highlightAnchor('3_0_0_1663_0_5674')">Block 3_0_0_1663_0_5674:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-3_0_0_1663_0_5674-0' data-block-id='3_0_0_1663_0_5674' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">0:&nbsp;</span><span style="color:#156194;"><span title="InternalFuncStartAnnotation(id=3, startPc=4484, args=[InternalFuncArg(s=R107:bv256, offset=1, logicalPosition=0, sort=SCALAR, location=InternalFuncValueLocation.Scalar)], methodSignature=ERC3525.slotOf(uint256 tokenId_) returns (uint256), stackOffsetToArgPos={1=0}, callSiteSrc=(5402:540:7:0xce4604a0000000000000000000000017) // ERC3525.sol)"><span style="color:#15942a;"><b>→</b></span> Method call <a id="intfunStart_3" onclick="toggleInternalFun(3)"><u>3</u></a> to slotOf(uint256 tokenId_ = <a href="#def_R107" class="deflink use_R107" onclick="highlightDef('R107')">R107</a>)</span></span></span></span>
+<br/>
+</br>
+<a name="block3_0_0_1664_0_5675" id="block3_0_0_1664_0_5675" href="#block3_0_0_1664_0_5675" onclick="highlightAnchor('3_0_0_1664_0_5675')">Block 3_0_0_1664_0_5675:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-3_0_0_1664_0_5675-0' data-block-id='3_0_0_1664_0_5675' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">0:&nbsp;</span><span style="color:#737373;">::1664: ERC3525._requireMinted(internal)::</span></span></span>
+<br/>
+</br>
+<a name="block3_0_0_1663_0_5678" id="block3_0_0_1663_0_5678" href="#block3_0_0_1663_0_5678" onclick="highlightAnchor('3_0_0_1663_0_5678')">Block 3_0_0_1663_0_5678:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-3_0_0_1663_0_5678-0' data-block-id='3_0_0_1663_0_5678' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">&nbsp;1:&nbsp;</span><span id="def_R124">R124</span> = 0x6</span><br/>
+<span id='tac-cmd-3_0_0_1663_0_5678-1' data-block-id='3_0_0_1663_0_5678' data-cmd-id='1' class='tac-cmd'><span style="color:#737373;">&nbsp;2:&nbsp;</span><span class="tooltip"><span id="def_R125">R125</span> = hash_3_keccak:bif(skey_basic:bif(0x40),to_skey:bif(<a href="#def_tacCalldatabufCANON0&#64;2" class="deflink use_tacCalldatabufCANON0&#64;2" onclick="highlightDef('tacCalldatabufCANON0&#64;2')">tacCalldatabufCANON0&#64;2</a>),skey_basic:bif(0x6)) <span class="tooltiptext" tooltipatt="2"></span></span></span><br/>
+<span id='tac-cmd-3_0_0_1663_0_5678-2' data-block-id='3_0_0_1663_0_5678' data-cmd-id='2' class='tac-cmd'><span style="color:#737373;">&nbsp;3:&nbsp;</span><span class="tooltip"><span id="def_R127">R127</span> = Annotate(tac.storage.access-paths := AccessPaths(paths=[0x6[key R107:bv256].(offset 0x0)]), <a href="#def_CANON3!!27" class="deflink use_CANON3!!27" onclick="highlightDef('CANON3!!27')">CANON3!!27</a>[<a href="#def_R125" class="deflink use_R125" onclick="highlightDef('R125')">R125</a>]) <span style="color:#15942a;">// accessPaths = ?</span> <span class="tooltiptext" tooltipatt="2"></span></span></span><br/>
+<span id='tac-cmd-3_0_0_1663_0_5678-3' data-block-id='3_0_0_1663_0_5678' data-cmd-id='3' class='tac-cmd'><span style="color:#737373;">&nbsp;4:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_R127" class="deflink use_R127" onclick="highlightDef('R127')">R127</a>&lt;=2^256 - 2</span></span><br/>
+<span id='tac-cmd-3_0_0_1663_0_5678-4' data-block-id='3_0_0_1663_0_5678' data-cmd-id='4' class='tac-cmd'><span style="color:#737373;">&nbsp;5:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=LoadSnippet(value&#61;R127:bv256, displayPath&#61;_allTokensIndex[k &#61; tacCalldatabufCANON0&#64;2:bv256], storageType&#61;uint256, contractInstance&#61;274184521717934524641157099916833587223, range&#61;ERC3525.sol:107:27, linkableStorageReadId&#61;vc.data.SnippetCmd$EVMSnippetCmd$StorageSnippet$LoadSnippet$None&#64;6d1e4eb8)::</span></span><br/>
+<span id='tac-cmd-3_0_0_1663_0_5678-5' data-block-id='3_0_0_1663_0_5678' data-cmd-id='5' class='tac-cmd'><span style="color:#737373;">&nbsp;6:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=LoadSnippet(value&#61;CANON17!!15:bv256, displayPath&#61;_allTokens, storageType&#61;uint256, contractInstance&#61;274184521717934524641157099916833587223, range&#61;ERC3525.sol:107:16, linkableStorageReadId&#61;vc.data.SnippetCmd$EVMSnippetCmd$StorageSnippet$LoadSnippet$None&#64;6d1e4eb8)::</span></span><br/>
+<span id='tac-cmd-3_0_0_1663_0_5678-6' data-block-id='3_0_0_1663_0_5678' data-cmd-id='6' class='tac-cmd'><span style="color:#737373;">&nbsp;7:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_R127" class="deflink use_R127" onclick="highlightDef('R127')">R127</a>&lt;<a href="#def_CANON17!!15" class="deflink use_CANON17!!15" onclick="highlightDef('CANON17!!15')">CANON17!!15</a></span></span><br/>
+<span id='tac-cmd-3_0_0_1663_0_5678-7' data-block-id='3_0_0_1663_0_5678' data-cmd-id='7' class='tac-cmd'><span style="color:#737373;">&nbsp;8:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=StartBranchSnippet(branchIndex&#61;11, branchSource&#61;SourceSegment(range&#61;ERC3525.sol:107:16, content&#61;_allTokens[_allTokensIndex[tokenId_]]))::</span></span><br/>
+<span id='tac-cmd-3_0_0_1663_0_5678-8' data-block-id='3_0_0_1663_0_5678' data-cmd-id='8' class='tac-cmd'><span style="color:#737373;">&nbsp;9:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=EndBranchSnippet(branchIndex&#61;11)::</span></span><br/>
+<span id='tac-cmd-3_0_0_1663_0_5678-9' data-block-id='3_0_0_1663_0_5678' data-cmd-id='9' class='tac-cmd'><span style="color:#737373;">11:&nbsp;</span><span class="tooltip"><span id="def_R130">R130</span> = hash_2_keccak:bif(skey_basic:bif(0x20),skey_basic:bif(0x5)) <span class="tooltiptext" tooltipatt="3"></span></span></span><br/>
+<span id='tac-cmd-3_0_0_1663_0_5678-10' data-block-id='3_0_0_1663_0_5678' data-cmd-id='10' class='tac-cmd'><span style="color:#737373;">12:&nbsp;</span><span class="tooltip"><span id="def_R131">R131</span> = 0x6*<a href="#def_R127" class="deflink use_R127" onclick="highlightDef('R127')">R127</a> <span class="tooltiptext" tooltipatt="3"></span></span></span><br/>
+<span id='tac-cmd-3_0_0_1663_0_5678-11' data-block-id='3_0_0_1663_0_5678' data-cmd-id='11' class='tac-cmd'><span style="color:#737373;">13:&nbsp;</span><span class="tooltip"><span id="def_R132">R132</span> = skey_add:bif(<a href="#def_R130" class="deflink use_R130" onclick="highlightDef('R130')">R130</a>,<a href="#def_R131" class="deflink use_R131" onclick="highlightDef('R131')">R131</a>) <span class="tooltiptext" tooltipatt="3"></span></span></span><br/>
+<span id='tac-cmd-3_0_0_1663_0_5678-12' data-block-id='3_0_0_1663_0_5678' data-cmd-id='12' class='tac-cmd'><span style="color:#737373;">14:&nbsp;</span><span class="tooltip"><span id="def_R133">R133</span> = skey_add:bif(<a href="#def_R132" class="deflink use_R132" onclick="highlightDef('R132')">R132</a>,0x1) <span class="tooltiptext" tooltipatt="4"></span></span></span><br/>
+<span id='tac-cmd-3_0_0_1663_0_5678-13' data-block-id='3_0_0_1663_0_5678' data-cmd-id='13' class='tac-cmd'><span style="color:#737373;">15:&nbsp;</span><span class="tooltip"><span id="def_R134">R134</span> = Annotate(tac.storage.access-paths := AccessPaths(paths=[0x5[key R127:bv256].(offset 0x1)]), <a href="#def_CANON21!!19" class="deflink use_CANON21!!19" onclick="highlightDef('CANON21!!19')">CANON21!!19</a>[<a href="#def_R133" class="deflink use_R133" onclick="highlightDef('R133')">R133</a>]) <span style="color:#15942a;">// accessPaths = ?</span> <span class="tooltiptext" tooltipatt="4"></span></span></span><br/>
+<span id='tac-cmd-3_0_0_1663_0_5678-14' data-block-id='3_0_0_1663_0_5678' data-cmd-id='14' class='tac-cmd'><span style="color:#737373;">16:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=LoadSnippet(value&#61;R134:bv256, displayPath&#61;_allTokens[i &#61; R127:bv256].slot, storageType&#61;uint256, contractInstance&#61;274184521717934524641157099916833587223, range&#61;ERC3525.sol:107:16, linkableStorageReadId&#61;Id(id&#61;1))::</span></span><br/>
+<span id='tac-cmd-3_0_0_1663_0_5678-15' data-block-id='3_0_0_1663_0_5678' data-cmd-id='15' class='tac-cmd'><span style="color:#737373;">17:&nbsp;</span><span style="color:#156194;"><span title="InternalFuncExitAnnotation(id=3, rets=[InternalFuncRet(s=R134:bv256, offset=0, location=InternalFuncValueLocation.Scalar)], methodSignature=ERC3525.slotOf(uint256 tokenId_) returns (uint256))"><span style="color:#FF0000;"><b>←</b></span> Method call <a id="intfunEnd_3" onclick="toggleInternalFun(3)"><u>3</u></a> (rets: <a href="#def_R134" class="deflink use_R134" onclick="highlightDef('R134')">R134</a>))</span></span></span></span>
+<br/>
+</div>
+<div id="edgesHtml1663" style="overflow: scroll; height: 10%;">Successor map:<br/>
+Edge <a name="edgeS3_0_0_2_0_0" id="edgeS3_0_0_2_0_0" href="#block3_0_0_2_0_0" onclick="highlightAnchor('3_0_0_2_0_0')">3_0_0_2_0_0</a>
+    -> <a name="edgeT3_0_0_1663_0_5674" id="edgeT3_0_0_1663_0_5674" href="#block3_0_0_1663_0_5674" onclick="highlightAnchor('3_0_0_1663_0_5674')">3_0_0_1663_0_5674</a>:
+ 
+</br>
+Edge <a name="edgeS3_0_0_1663_0_5674" id="edgeS3_0_0_1663_0_5674" href="#block3_0_0_1663_0_5674" onclick="highlightAnchor('3_0_0_1663_0_5674')">3_0_0_1663_0_5674</a>
+    -> <a name="edgeT3_0_0_2_0_5680" id="edgeT3_0_0_2_0_5680" href="#block3_0_0_2_0_5680" onclick="highlightAnchor('3_0_0_2_0_5680')">3_0_0_2_0_5680</a>:
+ 
+</br>
+Edge <a name="edgeS3_0_0_1663_0_5674" id="edgeS3_0_0_1663_0_5674" href="#block3_0_0_1663_0_5674" onclick="highlightAnchor('3_0_0_1663_0_5674')">3_0_0_1663_0_5674</a>
+    -> <a name="edgeT3_0_0_1664_0_5675" id="edgeT3_0_0_1664_0_5675" href="#block3_0_0_1664_0_5675" onclick="highlightAnchor('3_0_0_1664_0_5675')">3_0_0_1664_0_5675</a>:
+ 
+</br>
+Edge <a name="edgeS3_0_0_1664_0_5675" id="edgeS3_0_0_1664_0_5675" href="#block3_0_0_1664_0_5675" onclick="highlightAnchor('3_0_0_1664_0_5675')">3_0_0_1664_0_5675</a>
+    -> <a name="edgeT3_0_0_1663_0_5678" id="edgeT3_0_0_1663_0_5678" href="#block3_0_0_1663_0_5678" onclick="highlightAnchor('3_0_0_1663_0_5678')">3_0_0_1663_0_5678</a>:
+ 
+</div>
+
+</div>
+
+
+<div id="blocksAndEdges1661" style="position:fixed;height:100%;width:40%;display:inline-block;border:1px;visibility:hidden;">
+
+<div id="blocksHtml1661" style="overflow: scroll; height: 90%;">
+<a name="block1_0_0_1661_0_5670" id="block1_0_0_1661_0_5670" href="#block1_0_0_1661_0_5670" onclick="highlightAnchor('1_0_0_1661_0_5670')">Block 1_0_0_1661_0_5670:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-1_0_0_1661_0_5670-0' data-block-id='1_0_0_1661_0_5670' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">0:&nbsp;</span><span style="color:#156194;"><span title="InternalFuncStartAnnotation(id=1, startPc=9356, args=[InternalFuncArg(s=R58:bv256, offset=1, logicalPosition=0, sort=SCALAR, location=InternalFuncValueLocation.Scalar)], methodSignature=ERC3525._requireMinted(uint256 tokenId_), stackOffsetToArgPos={1=0}, callSiteSrc=(5852:24:7:0xce4604a0000000000000000000000017) // ERC3525.sol)"><span style="color:#15942a;"><b>→</b></span> Method call <a id="intfunStart_1" onclick="toggleInternalFun(1)"><u>1</u></a> to _requireMinted(uint256 tokenId_ = <a href="#def_R58" class="deflink use_R58" onclick="highlightDef('R58')">R58</a>)</span></span></span></span>
+<br/>
+</br>
+<a name="block1_0_0_1662_0_5671" id="block1_0_0_1662_0_5671" href="#block1_0_0_1662_0_5671" onclick="highlightAnchor('1_0_0_1662_0_5671')">Block 1_0_0_1662_0_5671:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-1_0_0_1662_0_5671-0' data-block-id='1_0_0_1662_0_5671' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">0:&nbsp;</span><span style="color:#737373;">::1662: ERC3525._exists(internal)::</span></span></span>
+<br/>
+</br>
+<a name="block1_0_0_1661_0_5672" id="block1_0_0_1661_0_5672" href="#block1_0_0_1661_0_5672" onclick="highlightAnchor('1_0_0_1661_0_5672')">Block 1_0_0_1661_0_5672:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-1_0_0_1661_0_5672-0' data-block-id='1_0_0_1661_0_5672' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">1:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=StartBranchSnippet(branchIndex&#61;4, branchSource&#61;SourceSegment(range&#61;ERC3525.sol:288:9, content&#61;require(_exists(tokenId_), \&#34;ERC3525: invalid token ID\&#34;)))::</span></span><br/>
+<span id='tac-cmd-1_0_0_1661_0_5672-1' data-block-id='1_0_0_1661_0_5672' data-cmd-id='1' class='tac-cmd'><span style="color:#737373;">2:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=EndBranchSnippet(branchIndex&#61;4)::</span></span><br/>
+<span id='tac-cmd-1_0_0_1661_0_5672-2' data-block-id='1_0_0_1661_0_5672' data-cmd-id='2' class='tac-cmd'><span style="color:#737373;">4:&nbsp;</span><span style="color:#156194;"><span title="InternalFuncExitAnnotation(id=1, rets=[], methodSignature=ERC3525._requireMinted(uint256 tokenId_))"><span style="color:#FF0000;"><b>←</b></span> Method call <a id="intfunEnd_1" onclick="toggleInternalFun(1)"><u>1</u></a> (rets: ))</span></span></span></span>
+<br/>
+</div>
+<div id="edgesHtml1661" style="overflow: scroll; height: 10%;">Successor map:<br/>
+Edge <a name="edgeS1_0_0_1660_0_5669" id="edgeS1_0_0_1660_0_5669" href="#block1_0_0_1660_0_5669" onclick="highlightAnchor('1_0_0_1660_0_5669')">1_0_0_1660_0_5669</a>
+    -> <a name="edgeT1_0_0_1661_0_5670" id="edgeT1_0_0_1661_0_5670" href="#block1_0_0_1661_0_5670" onclick="highlightAnchor('1_0_0_1661_0_5670')">1_0_0_1661_0_5670</a>:
+ 
+</br>
+Edge <a name="edgeS1_0_0_1661_0_5670" id="edgeS1_0_0_1661_0_5670" href="#block1_0_0_1661_0_5670" onclick="highlightAnchor('1_0_0_1661_0_5670')">1_0_0_1661_0_5670</a>
+    -> <a name="edgeT1_0_0_1660_0_5673" id="edgeT1_0_0_1660_0_5673" href="#block1_0_0_1660_0_5673" onclick="highlightAnchor('1_0_0_1660_0_5673')">1_0_0_1660_0_5673</a>:
+ 
+</br>
+Edge <a name="edgeS1_0_0_1661_0_5670" id="edgeS1_0_0_1661_0_5670" href="#block1_0_0_1661_0_5670" onclick="highlightAnchor('1_0_0_1661_0_5670')">1_0_0_1661_0_5670</a>
+    -> <a name="edgeT1_0_0_1662_0_5671" id="edgeT1_0_0_1662_0_5671" href="#block1_0_0_1662_0_5671" onclick="highlightAnchor('1_0_0_1662_0_5671')">1_0_0_1662_0_5671</a>:
+ 
+</br>
+Edge <a name="edgeS1_0_0_1662_0_5671" id="edgeS1_0_0_1662_0_5671" href="#block1_0_0_1662_0_5671" onclick="highlightAnchor('1_0_0_1662_0_5671')">1_0_0_1662_0_5671</a>
+    -> <a name="edgeT1_0_0_1661_0_5672" id="edgeT1_0_0_1661_0_5672" href="#block1_0_0_1661_0_5672" onclick="highlightAnchor('1_0_0_1661_0_5672')">1_0_0_1661_0_5672</a>:
+ 
+</div>
+
+</div>
+
+
+<div id="blocksAndEdges1662" style="position:fixed;height:100%;width:40%;display:inline-block;border:1px;visibility:hidden;">
+
+<div id="blocksHtml1662" style="overflow: scroll; height: 90%;">
+<a name="block1_0_0_1662_0_5671" id="block1_0_0_1662_0_5671" href="#block1_0_0_1662_0_5671" onclick="highlightAnchor('1_0_0_1662_0_5671')">Block 1_0_0_1662_0_5671:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-1_0_0_1662_0_5671-0' data-block-id='1_0_0_1662_0_5671' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">&nbsp;0:&nbsp;</span><span style="color:#156194;"><span title="InternalFuncStartAnnotation(id=2, startPc=15108, args=[InternalFuncArg(s=R58:bv256, offset=1, logicalPosition=0, sort=SCALAR, location=InternalFuncValueLocation.Scalar)], methodSignature=ERC3525._exists(uint256 tokenId_) returns (bool), stackOffsetToArgPos={1=0}, callSiteSrc=(22031:17:7:0xce4604a0000000000000000000000017) // ERC3525.sol)"><span style="color:#15942a;"><b>→</b></span> Method call <a id="intfunStart_2" onclick="toggleInternalFun(2)"><u>2</u></a> to _exists(uint256 tokenId_ = <a href="#def_R58" class="deflink use_R58" onclick="highlightDef('R58')">R58</a>)</span></span></span><br/>
+<span id='tac-cmd-1_0_0_1662_0_5671-1' data-block-id='1_0_0_1662_0_5671' data-cmd-id='1' class='tac-cmd'><span style="color:#737373;">&nbsp;2:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=LoadSnippet(value&#61;CANON17!!15:bv256, displayPath&#61;_allTokens, storageType&#61;uint256, contractInstance&#61;274184521717934524641157099916833587223, range&#61;ERC3525.sol:284:16, linkableStorageReadId&#61;vc.data.SnippetCmd$EVMSnippetCmd$StorageSnippet$LoadSnippet$None&#64;6d1e4eb8)::</span></span><br/>
+<span id='tac-cmd-1_0_0_1662_0_5671-2' data-block-id='1_0_0_1662_0_5671' data-cmd-id='2' class='tac-cmd'><span style="color:#737373;">&nbsp;3:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=StartBranchSnippet(branchIndex&#61;2, branchSource&#61;SourceSegment(range&#61;ERC3525.sol:284:16, content&#61;_allTokens.length !&#61; 0 &amp;&amp; _allTokens[_allTokensIndex[tokenId_]].id &#61;&#61; tokenId_))::</span></span><br/>
+<span id='tac-cmd-1_0_0_1662_0_5671-3' data-block-id='1_0_0_1662_0_5671' data-cmd-id='3' class='tac-cmd'><span style="color:#737373;">&nbsp;5:&nbsp;</span><span id="def_R61">R61</span> = 0x6</span><br/>
+<span id='tac-cmd-1_0_0_1662_0_5671-4' data-block-id='1_0_0_1662_0_5671' data-cmd-id='4' class='tac-cmd'><span style="color:#737373;">&nbsp;6:&nbsp;</span><span class="tooltip"><span id="def_R62">R62</span> = hash_3_keccak:bif(skey_basic:bif(0x40),to_skey:bif(<a href="#def_tacCalldatabufCANON0&#64;1" class="deflink use_tacCalldatabufCANON0&#64;1" onclick="highlightDef('tacCalldatabufCANON0&#64;1')">tacCalldatabufCANON0&#64;1</a>),skey_basic:bif(0x6)) <span class="tooltiptext" tooltipatt="5"></span></span></span><br/>
+<span id='tac-cmd-1_0_0_1662_0_5671-5' data-block-id='1_0_0_1662_0_5671' data-cmd-id='5' class='tac-cmd'><span style="color:#737373;">&nbsp;7:&nbsp;</span><span class="tooltip"><span id="def_R64">R64</span> = Annotate(tac.storage.access-paths := AccessPaths(paths=[0x6[key R58:bv256].(offset 0x0)]), <a href="#def_CANON3!!27" class="deflink use_CANON3!!27" onclick="highlightDef('CANON3!!27')">CANON3!!27</a>[<a href="#def_R62" class="deflink use_R62" onclick="highlightDef('R62')">R62</a>]) <span style="color:#15942a;">// accessPaths = ?</span> <span class="tooltiptext" tooltipatt="5"></span></span></span><br/>
+<span id='tac-cmd-1_0_0_1662_0_5671-6' data-block-id='1_0_0_1662_0_5671' data-cmd-id='6' class='tac-cmd'><span style="color:#737373;">&nbsp;8:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_R64" class="deflink use_R64" onclick="highlightDef('R64')">R64</a>&lt;=2^256 - 2</span></span><br/>
+<span id='tac-cmd-1_0_0_1662_0_5671-7' data-block-id='1_0_0_1662_0_5671' data-cmd-id='7' class='tac-cmd'><span style="color:#737373;">&nbsp;9:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=LoadSnippet(value&#61;R64:bv256, displayPath&#61;_allTokensIndex[k &#61; tacCalldatabufCANON0&#64;1:bv256], storageType&#61;uint256, contractInstance&#61;274184521717934524641157099916833587223, range&#61;ERC3525.sol:284:53, linkableStorageReadId&#61;vc.data.SnippetCmd$EVMSnippetCmd$StorageSnippet$LoadSnippet$None&#64;6d1e4eb8)::</span></span><br/>
+<span id='tac-cmd-1_0_0_1662_0_5671-8' data-block-id='1_0_0_1662_0_5671' data-cmd-id='8' class='tac-cmd'><span style="color:#737373;">10:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=LoadSnippet(value&#61;CANON17!!15:bv256, displayPath&#61;_allTokens, storageType&#61;uint256, contractInstance&#61;274184521717934524641157099916833587223, range&#61;ERC3525.sol:284:42, linkableStorageReadId&#61;vc.data.SnippetCmd$EVMSnippetCmd$StorageSnippet$LoadSnippet$None&#64;6d1e4eb8)::</span></span><br/>
+<span id='tac-cmd-1_0_0_1662_0_5671-9' data-block-id='1_0_0_1662_0_5671' data-cmd-id='9' class='tac-cmd'><span style="color:#737373;">11:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_R64" class="deflink use_R64" onclick="highlightDef('R64')">R64</a>&lt;<a href="#def_CANON17!!15" class="deflink use_CANON17!!15" onclick="highlightDef('CANON17!!15')">CANON17!!15</a></span></span><br/>
+<span id='tac-cmd-1_0_0_1662_0_5671-10' data-block-id='1_0_0_1662_0_5671' data-cmd-id='10' class='tac-cmd'><span style="color:#737373;">12:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=StartBranchSnippet(branchIndex&#61;3, branchSource&#61;SourceSegment(range&#61;ERC3525.sol:284:42, content&#61;_allTokens[_allTokensIndex[tokenId_]]))::</span></span><br/>
+<span id='tac-cmd-1_0_0_1662_0_5671-11' data-block-id='1_0_0_1662_0_5671' data-cmd-id='11' class='tac-cmd'><span style="color:#737373;">13:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=EndBranchSnippet(branchIndex&#61;3)::</span></span><br/>
+<span id='tac-cmd-1_0_0_1662_0_5671-12' data-block-id='1_0_0_1662_0_5671' data-cmd-id='12' class='tac-cmd'><span style="color:#737373;">15:&nbsp;</span><span class="tooltip"><span id="def_R67">R67</span> = hash_2_keccak:bif(skey_basic:bif(0x20),skey_basic:bif(0x5)) <span class="tooltiptext" tooltipatt="6"></span></span></span><br/>
+<span id='tac-cmd-1_0_0_1662_0_5671-13' data-block-id='1_0_0_1662_0_5671' data-cmd-id='13' class='tac-cmd'><span style="color:#737373;">16:&nbsp;</span><span class="tooltip"><span id="def_R68">R68</span> = 0x6*<a href="#def_R64" class="deflink use_R64" onclick="highlightDef('R64')">R64</a> <span class="tooltiptext" tooltipatt="6"></span></span></span><br/>
+<span id='tac-cmd-1_0_0_1662_0_5671-14' data-block-id='1_0_0_1662_0_5671' data-cmd-id='14' class='tac-cmd'><span style="color:#737373;">17:&nbsp;</span><span class="tooltip"><span id="def_R69">R69</span> = skey_add:bif(<a href="#def_R67" class="deflink use_R67" onclick="highlightDef('R67')">R67</a>,<a href="#def_R68" class="deflink use_R68" onclick="highlightDef('R68')">R68</a>) <span class="tooltiptext" tooltipatt="6"></span></span></span><br/>
+<span id='tac-cmd-1_0_0_1662_0_5671-15' data-block-id='1_0_0_1662_0_5671' data-cmd-id='15' class='tac-cmd'><span style="color:#737373;">18:&nbsp;</span><span class="tooltip"><span id="def_R71">R71</span> = Annotate(tac.storage.access-paths := AccessPaths(paths=[0x5[key R64:bv256].(offset 0x0)]), <a href="#def_CANON11!!9" class="deflink use_CANON11!!9" onclick="highlightDef('CANON11!!9')">CANON11!!9</a>[<a href="#def_R69" class="deflink use_R69" onclick="highlightDef('R69')">R69</a>]) <span style="color:#15942a;">// accessPaths = ?</span> <span class="tooltiptext" tooltipatt="7"></span></span></span><br/>
+<span id='tac-cmd-1_0_0_1662_0_5671-16' data-block-id='1_0_0_1662_0_5671' data-cmd-id='16' class='tac-cmd'><span style="color:#737373;">19:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=LoadSnippet(value&#61;R71:bv256, displayPath&#61;_allTokens[i &#61; R64:bv256].id, storageType&#61;uint256, contractInstance&#61;274184521717934524641157099916833587223, range&#61;ERC3525.sol:284:42, linkableStorageReadId&#61;vc.data.SnippetCmd$EVMSnippetCmd$StorageSnippet$LoadSnippet$None&#64;6d1e4eb8)::</span></span><br/>
+<span id='tac-cmd-1_0_0_1662_0_5671-17' data-block-id='1_0_0_1662_0_5671' data-cmd-id='17' class='tac-cmd'><span style="color:#737373;">20:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_R71" class="deflink use_R71" onclick="highlightDef('R71')">R71</a>==<a href="#def_tacCalldatabufCANON0&#64;1" class="deflink use_tacCalldatabufCANON0&#64;1" onclick="highlightDef('tacCalldatabufCANON0&#64;1')">tacCalldatabufCANON0&#64;1</a></span></span><br/>
+<span id='tac-cmd-1_0_0_1662_0_5671-18' data-block-id='1_0_0_1662_0_5671' data-cmd-id='18' class='tac-cmd'><span style="color:#737373;">21:&nbsp;</span><span style="color:#737373;">TRANSIENT::dsa.assign.start=15310_1013_0_0_0_0 -&gt; 15327_1015_0_0_0_0::</span></span><br/>
+<span id='tac-cmd-1_0_0_1662_0_5671-19' data-block-id='1_0_0_1662_0_5671' data-cmd-id='19' class='tac-cmd'><span style="color:#737373;">22:&nbsp;</span><span style="color:#737373;">::Parallel assignment for R143:bv256 :&#61; R163:bv256::</span></span><br/>
+<span id='tac-cmd-1_0_0_1662_0_5671-20' data-block-id='1_0_0_1662_0_5671' data-cmd-id='20' class='tac-cmd'><span style="color:#737373;">23:&nbsp;</span><span style="color:#737373;">TRANSIENT::dsa.assign.end=15310_1013_0_0_0_0 -&gt; 15327_1015_0_0_0_0::</span></span><br/>
+<span id='tac-cmd-1_0_0_1662_0_5671-21' data-block-id='1_0_0_1662_0_5671' data-cmd-id='21' class='tac-cmd'><span style="color:#737373;">24:&nbsp;</span><span style="color:#737373;">TRANSIENT::dsa.assign.start=15310_1013_0_0_0_0 -&gt; 15327_1015_0_0_0_0::</span></span><br/>
+<span id='tac-cmd-1_0_0_1662_0_5671-22' data-block-id='1_0_0_1662_0_5671' data-cmd-id='22' class='tac-cmd'><span style="color:#737373;">25:&nbsp;</span><span style="color:#737373;">::Parallel assignment for R66:bv256 :&#61; R64:bv256::</span></span><br/>
+<span id='tac-cmd-1_0_0_1662_0_5671-23' data-block-id='1_0_0_1662_0_5671' data-cmd-id='23' class='tac-cmd'><span style="color:#737373;">26:&nbsp;</span><span style="color:#737373;">TRANSIENT::dsa.assign.end=15310_1013_0_0_0_0 -&gt; 15327_1015_0_0_0_0::</span></span><br/>
+<span id='tac-cmd-1_0_0_1662_0_5671-24' data-block-id='1_0_0_1662_0_5671' data-cmd-id='24' class='tac-cmd'><span style="color:#737373;">27:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=EndBranchSnippet(branchIndex&#61;2)::</span></span><br/>
+<span id='tac-cmd-1_0_0_1662_0_5671-25' data-block-id='1_0_0_1662_0_5671' data-cmd-id='25' class='tac-cmd'><span style="color:#737373;">29:&nbsp;</span><span id="def_B73">B73</span> = true</span><br/>
+<span id='tac-cmd-1_0_0_1662_0_5671-26' data-block-id='1_0_0_1662_0_5671' data-cmd-id='26' class='tac-cmd'><span style="color:#737373;">30:&nbsp;</span><span style="color:#156194;"><span title="InternalFuncExitAnnotation(id=2, rets=[InternalFuncRet(s=B73:bool, offset=0, location=InternalFuncValueLocation.Scalar)], methodSignature=ERC3525._exists(uint256 tokenId_) returns (bool))"><span style="color:#FF0000;"><b>←</b></span> Method call <a id="intfunEnd_2" onclick="toggleInternalFun(2)"><u>2</u></a> (rets: <a href="#def_B73" class="deflink use_B73" onclick="highlightDef('B73')">B73</a>))</span></span></span></span>
+<br/>
+</div>
+<div id="edgesHtml1662" style="overflow: scroll; height: 10%;">Successor map:<br/>
+Edge <a name="edgeS1_0_0_1661_0_5670" id="edgeS1_0_0_1661_0_5670" href="#block1_0_0_1661_0_5670" onclick="highlightAnchor('1_0_0_1661_0_5670')">1_0_0_1661_0_5670</a>
+    -> <a name="edgeT1_0_0_1662_0_5671" id="edgeT1_0_0_1662_0_5671" href="#block1_0_0_1662_0_5671" onclick="highlightAnchor('1_0_0_1662_0_5671')">1_0_0_1662_0_5671</a>:
+ 
+</br>
+Edge <a name="edgeS1_0_0_1662_0_5671" id="edgeS1_0_0_1662_0_5671" href="#block1_0_0_1662_0_5671" onclick="highlightAnchor('1_0_0_1662_0_5671')">1_0_0_1662_0_5671</a>
+    -> <a name="edgeT1_0_0_1661_0_5672" id="edgeT1_0_0_1661_0_5672" href="#block1_0_0_1661_0_5672" onclick="highlightAnchor('1_0_0_1661_0_5672')">1_0_0_1661_0_5672</a>:
+ 
+</div>
+
+</div>
+
+
+<div id="blocksAndEdges1664" style="position:fixed;height:100%;width:40%;display:inline-block;border:1px;visibility:hidden;">
+
+<div id="blocksHtml1664" style="overflow: scroll; height: 90%;">
+<a name="block3_0_0_1664_0_5675" id="block3_0_0_1664_0_5675" href="#block3_0_0_1664_0_5675" onclick="highlightAnchor('3_0_0_1664_0_5675')">Block 3_0_0_1664_0_5675:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-3_0_0_1664_0_5675-0' data-block-id='3_0_0_1664_0_5675' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">0:&nbsp;</span><span style="color:#156194;"><span title="InternalFuncStartAnnotation(id=4, startPc=9356, args=[InternalFuncArg(s=R107:bv256, offset=1, logicalPosition=0, sort=SCALAR, location=InternalFuncValueLocation.Scalar)], methodSignature=ERC3525._requireMinted(uint256 tokenId_), stackOffsetToArgPos={1=0}, callSiteSrc=(5852:24:7:0xce4604a0000000000000000000000017) // ERC3525.sol)"><span style="color:#15942a;"><b>→</b></span> Method call <a id="intfunStart_4" onclick="toggleInternalFun(4)"><u>4</u></a> to _requireMinted(uint256 tokenId_ = <a href="#def_R107" class="deflink use_R107" onclick="highlightDef('R107')">R107</a>)</span></span></span></span>
+<br/>
+</br>
+<a name="block3_0_0_1665_0_5676" id="block3_0_0_1665_0_5676" href="#block3_0_0_1665_0_5676" onclick="highlightAnchor('3_0_0_1665_0_5676')">Block 3_0_0_1665_0_5676:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-3_0_0_1665_0_5676-0' data-block-id='3_0_0_1665_0_5676' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">0:&nbsp;</span><span style="color:#737373;">::1665: ERC3525._exists(internal)::</span></span></span>
+<br/>
+</br>
+<a name="block3_0_0_1664_0_5677" id="block3_0_0_1664_0_5677" href="#block3_0_0_1664_0_5677" onclick="highlightAnchor('3_0_0_1664_0_5677')">Block 3_0_0_1664_0_5677:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-3_0_0_1664_0_5677-0' data-block-id='3_0_0_1664_0_5677' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">1:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=StartBranchSnippet(branchIndex&#61;10, branchSource&#61;SourceSegment(range&#61;ERC3525.sol:288:9, content&#61;require(_exists(tokenId_), \&#34;ERC3525: invalid token ID\&#34;)))::</span></span><br/>
+<span id='tac-cmd-3_0_0_1664_0_5677-1' data-block-id='3_0_0_1664_0_5677' data-cmd-id='1' class='tac-cmd'><span style="color:#737373;">2:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=EndBranchSnippet(branchIndex&#61;10)::</span></span><br/>
+<span id='tac-cmd-3_0_0_1664_0_5677-2' data-block-id='3_0_0_1664_0_5677' data-cmd-id='2' class='tac-cmd'><span style="color:#737373;">4:&nbsp;</span><span style="color:#156194;"><span title="InternalFuncExitAnnotation(id=4, rets=[], methodSignature=ERC3525._requireMinted(uint256 tokenId_))"><span style="color:#FF0000;"><b>←</b></span> Method call <a id="intfunEnd_4" onclick="toggleInternalFun(4)"><u>4</u></a> (rets: ))</span></span></span></span>
+<br/>
+</div>
+<div id="edgesHtml1664" style="overflow: scroll; height: 10%;">Successor map:<br/>
+Edge <a name="edgeS3_0_0_1663_0_5674" id="edgeS3_0_0_1663_0_5674" href="#block3_0_0_1663_0_5674" onclick="highlightAnchor('3_0_0_1663_0_5674')">3_0_0_1663_0_5674</a>
+    -> <a name="edgeT3_0_0_1664_0_5675" id="edgeT3_0_0_1664_0_5675" href="#block3_0_0_1664_0_5675" onclick="highlightAnchor('3_0_0_1664_0_5675')">3_0_0_1664_0_5675</a>:
+ 
+</br>
+Edge <a name="edgeS3_0_0_1664_0_5675" id="edgeS3_0_0_1664_0_5675" href="#block3_0_0_1664_0_5675" onclick="highlightAnchor('3_0_0_1664_0_5675')">3_0_0_1664_0_5675</a>
+    -> <a name="edgeT3_0_0_1663_0_5678" id="edgeT3_0_0_1663_0_5678" href="#block3_0_0_1663_0_5678" onclick="highlightAnchor('3_0_0_1663_0_5678')">3_0_0_1663_0_5678</a>:
+ 
+</br>
+Edge <a name="edgeS3_0_0_1664_0_5675" id="edgeS3_0_0_1664_0_5675" href="#block3_0_0_1664_0_5675" onclick="highlightAnchor('3_0_0_1664_0_5675')">3_0_0_1664_0_5675</a>
+    -> <a name="edgeT3_0_0_1665_0_5676" id="edgeT3_0_0_1665_0_5676" href="#block3_0_0_1665_0_5676" onclick="highlightAnchor('3_0_0_1665_0_5676')">3_0_0_1665_0_5676</a>:
+ 
+</br>
+Edge <a name="edgeS3_0_0_1665_0_5676" id="edgeS3_0_0_1665_0_5676" href="#block3_0_0_1665_0_5676" onclick="highlightAnchor('3_0_0_1665_0_5676')">3_0_0_1665_0_5676</a>
+    -> <a name="edgeT3_0_0_1664_0_5677" id="edgeT3_0_0_1664_0_5677" href="#block3_0_0_1664_0_5677" onclick="highlightAnchor('3_0_0_1664_0_5677')">3_0_0_1664_0_5677</a>:
+ 
+</div>
+
+</div>
+
+
+<div id="blocksAndEdges1665" style="position:fixed;height:100%;width:40%;display:inline-block;border:1px;visibility:hidden;">
+
+<div id="blocksHtml1665" style="overflow: scroll; height: 90%;">
+<a name="block3_0_0_1665_0_5676" id="block3_0_0_1665_0_5676" href="#block3_0_0_1665_0_5676" onclick="highlightAnchor('3_0_0_1665_0_5676')">Block 3_0_0_1665_0_5676:</a>
+<br/>
+<span class='cmds-list close-to-uc'><span id='tac-cmd-3_0_0_1665_0_5676-0' data-block-id='3_0_0_1665_0_5676' data-cmd-id='0' class='tac-cmd'><span style="color:#737373;">&nbsp;0:&nbsp;</span><span style="color:#156194;"><span title="InternalFuncStartAnnotation(id=5, startPc=15108, args=[InternalFuncArg(s=R107:bv256, offset=1, logicalPosition=0, sort=SCALAR, location=InternalFuncValueLocation.Scalar)], methodSignature=ERC3525._exists(uint256 tokenId_) returns (bool), stackOffsetToArgPos={1=0}, callSiteSrc=(22031:17:7:0xce4604a0000000000000000000000017) // ERC3525.sol)"><span style="color:#15942a;"><b>→</b></span> Method call <a id="intfunStart_5" onclick="toggleInternalFun(5)"><u>5</u></a> to _exists(uint256 tokenId_ = <a href="#def_R107" class="deflink use_R107" onclick="highlightDef('R107')">R107</a>)</span></span></span><br/>
+<span id='tac-cmd-3_0_0_1665_0_5676-1' data-block-id='3_0_0_1665_0_5676' data-cmd-id='1' class='tac-cmd'><span style="color:#737373;">&nbsp;2:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=LoadSnippet(value&#61;CANON17!!15:bv256, displayPath&#61;_allTokens, storageType&#61;uint256, contractInstance&#61;274184521717934524641157099916833587223, range&#61;ERC3525.sol:284:16, linkableStorageReadId&#61;vc.data.SnippetCmd$EVMSnippetCmd$StorageSnippet$LoadSnippet$None&#64;6d1e4eb8)::</span></span><br/>
+<span id='tac-cmd-3_0_0_1665_0_5676-2' data-block-id='3_0_0_1665_0_5676' data-cmd-id='2' class='tac-cmd'><span style="color:#737373;">&nbsp;3:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=StartBranchSnippet(branchIndex&#61;8, branchSource&#61;SourceSegment(range&#61;ERC3525.sol:284:16, content&#61;_allTokens.length !&#61; 0 &amp;&amp; _allTokens[_allTokensIndex[tokenId_]].id &#61;&#61; tokenId_))::</span></span><br/>
+<span id='tac-cmd-3_0_0_1665_0_5676-3' data-block-id='3_0_0_1665_0_5676' data-cmd-id='3' class='tac-cmd'><span style="color:#737373;">&nbsp;5:&nbsp;</span><span id="def_R110">R110</span> = 0x6</span><br/>
+<span id='tac-cmd-3_0_0_1665_0_5676-4' data-block-id='3_0_0_1665_0_5676' data-cmd-id='4' class='tac-cmd'><span style="color:#737373;">&nbsp;6:&nbsp;</span><span class="tooltip"><span id="def_R111">R111</span> = hash_3_keccak:bif(skey_basic:bif(0x40),to_skey:bif(<a href="#def_tacCalldatabufCANON0&#64;2" class="deflink use_tacCalldatabufCANON0&#64;2" onclick="highlightDef('tacCalldatabufCANON0&#64;2')">tacCalldatabufCANON0&#64;2</a>),skey_basic:bif(0x6)) <span class="tooltiptext" tooltipatt="5"></span></span></span><br/>
+<span id='tac-cmd-3_0_0_1665_0_5676-5' data-block-id='3_0_0_1665_0_5676' data-cmd-id='5' class='tac-cmd'><span style="color:#737373;">&nbsp;7:&nbsp;</span><span class="tooltip"><span id="def_R113">R113</span> = Annotate(tac.storage.access-paths := AccessPaths(paths=[0x6[key R107:bv256].(offset 0x0)]), <a href="#def_CANON3!!27" class="deflink use_CANON3!!27" onclick="highlightDef('CANON3!!27')">CANON3!!27</a>[<a href="#def_R111" class="deflink use_R111" onclick="highlightDef('R111')">R111</a>]) <span style="color:#15942a;">// accessPaths = ?</span> <span class="tooltiptext" tooltipatt="5"></span></span></span><br/>
+<span id='tac-cmd-3_0_0_1665_0_5676-6' data-block-id='3_0_0_1665_0_5676' data-cmd-id='6' class='tac-cmd'><span style="color:#737373;">&nbsp;8:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_R113" class="deflink use_R113" onclick="highlightDef('R113')">R113</a>&lt;=2^256 - 2</span></span><br/>
+<span id='tac-cmd-3_0_0_1665_0_5676-7' data-block-id='3_0_0_1665_0_5676' data-cmd-id='7' class='tac-cmd'><span style="color:#737373;">&nbsp;9:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=LoadSnippet(value&#61;R113:bv256, displayPath&#61;_allTokensIndex[k &#61; tacCalldatabufCANON0&#64;2:bv256], storageType&#61;uint256, contractInstance&#61;274184521717934524641157099916833587223, range&#61;ERC3525.sol:284:53, linkableStorageReadId&#61;vc.data.SnippetCmd$EVMSnippetCmd$StorageSnippet$LoadSnippet$None&#64;6d1e4eb8)::</span></span><br/>
+<span id='tac-cmd-3_0_0_1665_0_5676-8' data-block-id='3_0_0_1665_0_5676' data-cmd-id='8' class='tac-cmd'><span style="color:#737373;">10:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=LoadSnippet(value&#61;CANON17!!15:bv256, displayPath&#61;_allTokens, storageType&#61;uint256, contractInstance&#61;274184521717934524641157099916833587223, range&#61;ERC3525.sol:284:42, linkableStorageReadId&#61;vc.data.SnippetCmd$EVMSnippetCmd$StorageSnippet$LoadSnippet$None&#64;6d1e4eb8)::</span></span><br/>
+<span id='tac-cmd-3_0_0_1665_0_5676-9' data-block-id='3_0_0_1665_0_5676' data-cmd-id='9' class='tac-cmd'><span style="color:#737373;">11:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_R113" class="deflink use_R113" onclick="highlightDef('R113')">R113</a>&lt;<a href="#def_CANON17!!15" class="deflink use_CANON17!!15" onclick="highlightDef('CANON17!!15')">CANON17!!15</a></span></span><br/>
+<span id='tac-cmd-3_0_0_1665_0_5676-10' data-block-id='3_0_0_1665_0_5676' data-cmd-id='10' class='tac-cmd'><span style="color:#737373;">12:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=StartBranchSnippet(branchIndex&#61;9, branchSource&#61;SourceSegment(range&#61;ERC3525.sol:284:42, content&#61;_allTokens[_allTokensIndex[tokenId_]]))::</span></span><br/>
+<span id='tac-cmd-3_0_0_1665_0_5676-11' data-block-id='3_0_0_1665_0_5676' data-cmd-id='11' class='tac-cmd'><span style="color:#737373;">13:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=EndBranchSnippet(branchIndex&#61;9)::</span></span><br/>
+<span id='tac-cmd-3_0_0_1665_0_5676-12' data-block-id='3_0_0_1665_0_5676' data-cmd-id='12' class='tac-cmd'><span style="color:#737373;">15:&nbsp;</span><span class="tooltip"><span id="def_R116">R116</span> = hash_2_keccak:bif(skey_basic:bif(0x20),skey_basic:bif(0x5)) <span class="tooltiptext" tooltipatt="6"></span></span></span><br/>
+<span id='tac-cmd-3_0_0_1665_0_5676-13' data-block-id='3_0_0_1665_0_5676' data-cmd-id='13' class='tac-cmd'><span style="color:#737373;">16:&nbsp;</span><span class="tooltip"><span id="def_R117">R117</span> = 0x6*<a href="#def_R113" class="deflink use_R113" onclick="highlightDef('R113')">R113</a> <span class="tooltiptext" tooltipatt="6"></span></span></span><br/>
+<span id='tac-cmd-3_0_0_1665_0_5676-14' data-block-id='3_0_0_1665_0_5676' data-cmd-id='14' class='tac-cmd'><span style="color:#737373;">17:&nbsp;</span><span class="tooltip"><span id="def_R118">R118</span> = skey_add:bif(<a href="#def_R116" class="deflink use_R116" onclick="highlightDef('R116')">R116</a>,<a href="#def_R117" class="deflink use_R117" onclick="highlightDef('R117')">R117</a>) <span class="tooltiptext" tooltipatt="6"></span></span></span><br/>
+<span id='tac-cmd-3_0_0_1665_0_5676-15' data-block-id='3_0_0_1665_0_5676' data-cmd-id='15' class='tac-cmd'><span style="color:#737373;">18:&nbsp;</span><span class="tooltip"><span id="def_R120">R120</span> = Annotate(tac.storage.access-paths := AccessPaths(paths=[0x5[key R113:bv256].(offset 0x0)]), <a href="#def_CANON11!!9" class="deflink use_CANON11!!9" onclick="highlightDef('CANON11!!9')">CANON11!!9</a>[<a href="#def_R118" class="deflink use_R118" onclick="highlightDef('R118')">R118</a>]) <span style="color:#15942a;">// accessPaths = ?</span> <span class="tooltiptext" tooltipatt="7"></span></span></span><br/>
+<span id='tac-cmd-3_0_0_1665_0_5676-16' data-block-id='3_0_0_1665_0_5676' data-cmd-id='16' class='tac-cmd'><span style="color:#737373;">19:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=LoadSnippet(value&#61;R120:bv256, displayPath&#61;_allTokens[i &#61; R113:bv256].id, storageType&#61;uint256, contractInstance&#61;274184521717934524641157099916833587223, range&#61;ERC3525.sol:284:42, linkableStorageReadId&#61;vc.data.SnippetCmd$EVMSnippetCmd$StorageSnippet$LoadSnippet$None&#64;6d1e4eb8)::</span></span><br/>
+<span id='tac-cmd-3_0_0_1665_0_5676-17' data-block-id='3_0_0_1665_0_5676' data-cmd-id='17' class='tac-cmd'><span style="color:#737373;">20:&nbsp;</span><span style="color:#863F91;">assume <a href="#def_R120" class="deflink use_R120" onclick="highlightDef('R120')">R120</a>==<a href="#def_tacCalldatabufCANON0&#64;2" class="deflink use_tacCalldatabufCANON0&#64;2" onclick="highlightDef('tacCalldatabufCANON0&#64;2')">tacCalldatabufCANON0&#64;2</a></span></span><br/>
+<span id='tac-cmd-3_0_0_1665_0_5676-18' data-block-id='3_0_0_1665_0_5676' data-cmd-id='18' class='tac-cmd'><span style="color:#737373;">21:&nbsp;</span><span style="color:#737373;">TRANSIENT::dsa.assign.start=15310_1013_0_0_0_0 -&gt; 15327_1015_0_0_0_0::</span></span><br/>
+<span id='tac-cmd-3_0_0_1665_0_5676-19' data-block-id='3_0_0_1665_0_5676' data-cmd-id='19' class='tac-cmd'><span style="color:#737373;">22:&nbsp;</span><span style="color:#737373;">::Parallel assignment for R143:bv256 :&#61; R163:bv256::</span></span><br/>
+<span id='tac-cmd-3_0_0_1665_0_5676-20' data-block-id='3_0_0_1665_0_5676' data-cmd-id='20' class='tac-cmd'><span style="color:#737373;">23:&nbsp;</span><span style="color:#737373;">TRANSIENT::dsa.assign.end=15310_1013_0_0_0_0 -&gt; 15327_1015_0_0_0_0::</span></span><br/>
+<span id='tac-cmd-3_0_0_1665_0_5676-21' data-block-id='3_0_0_1665_0_5676' data-cmd-id='21' class='tac-cmd'><span style="color:#737373;">24:&nbsp;</span><span style="color:#737373;">TRANSIENT::dsa.assign.start=15310_1013_0_0_0_0 -&gt; 15327_1015_0_0_0_0::</span></span><br/>
+<span id='tac-cmd-3_0_0_1665_0_5676-22' data-block-id='3_0_0_1665_0_5676' data-cmd-id='22' class='tac-cmd'><span style="color:#737373;">25:&nbsp;</span><span style="color:#737373;">::Parallel assignment for R66:bv256 :&#61; R64:bv256::</span></span><br/>
+<span id='tac-cmd-3_0_0_1665_0_5676-23' data-block-id='3_0_0_1665_0_5676' data-cmd-id='23' class='tac-cmd'><span style="color:#737373;">26:&nbsp;</span><span style="color:#737373;">TRANSIENT::dsa.assign.end=15310_1013_0_0_0_0 -&gt; 15327_1015_0_0_0_0::</span></span><br/>
+<span id='tac-cmd-3_0_0_1665_0_5676-24' data-block-id='3_0_0_1665_0_5676' data-cmd-id='24' class='tac-cmd'><span style="color:#737373;">27:&nbsp;</span><span style="color:#737373;">TRANSIENT::snippet.cmd=EndBranchSnippet(branchIndex&#61;8)::</span></span><br/>
+<span id='tac-cmd-3_0_0_1665_0_5676-25' data-block-id='3_0_0_1665_0_5676' data-cmd-id='25' class='tac-cmd'><span style="color:#737373;">29:&nbsp;</span><span id="def_B122">B122</span> = true</span><br/>
+<span id='tac-cmd-3_0_0_1665_0_5676-26' data-block-id='3_0_0_1665_0_5676' data-cmd-id='26' class='tac-cmd'><span style="color:#737373;">30:&nbsp;</span><span style="color:#156194;"><span title="InternalFuncExitAnnotation(id=5, rets=[InternalFuncRet(s=B122:bool, offset=0, location=InternalFuncValueLocation.Scalar)], methodSignature=ERC3525._exists(uint256 tokenId_) returns (bool))"><span style="color:#FF0000;"><b>←</b></span> Method call <a id="intfunEnd_5" onclick="toggleInternalFun(5)"><u>5</u></a> (rets: <a href="#def_B122" class="deflink use_B122" onclick="highlightDef('B122')">B122</a>))</span></span></span></span>
+<br/>
+</div>
+<div id="edgesHtml1665" style="overflow: scroll; height: 10%;">Successor map:<br/>
+Edge <a name="edgeS3_0_0_1664_0_5675" id="edgeS3_0_0_1664_0_5675" href="#block3_0_0_1664_0_5675" onclick="highlightAnchor('3_0_0_1664_0_5675')">3_0_0_1664_0_5675</a>
+    -> <a name="edgeT3_0_0_1665_0_5676" id="edgeT3_0_0_1665_0_5676" href="#block3_0_0_1665_0_5676" onclick="highlightAnchor('3_0_0_1665_0_5676')">3_0_0_1665_0_5676</a>:
+ 
+</br>
+Edge <a name="edgeS3_0_0_1665_0_5676" id="edgeS3_0_0_1665_0_5676" href="#block3_0_0_1665_0_5676" onclick="highlightAnchor('3_0_0_1665_0_5676')">3_0_0_1665_0_5676</a>
+    -> <a name="edgeT3_0_0_1664_0_5677" id="edgeT3_0_0_1664_0_5677" href="#block3_0_0_1664_0_5677" onclick="highlightAnchor('3_0_0_1664_0_5677')">3_0_0_1664_0_5677</a>:
+ 
+</div>
+
+</div>
+
+    <div style="position:fixed;left:40%;top:90%;width:60%;overflow:scroll;height:10%;">
+    Predecessor map:<br/>
+    
+
+                <a name="edgeP3_0_0_2_0_0" id="edgeP3_0_0_2_0_0" href="#block3_0_0_2_0_0" onclick="highlightAnchor('3_0_0_2_0_0')">3_0_0_2_0_0</a>
+             <- 
+                <a href="#block2_0_0_0_0_0" onclick="highlightAnchor('2_0_0_0_0_0')">2_0_0_0_0_0</a>
+            
+
+<br/>
+
+
+                <a name="edgeP1_0_0_1660_0_5669" id="edgeP1_0_0_1660_0_5669" href="#block1_0_0_1660_0_5669" onclick="highlightAnchor('1_0_0_1660_0_5669')">1_0_0_1660_0_5669</a>
+             <- 
+                <a href="#block1_0_0_1_0_0" onclick="highlightAnchor('1_0_0_1_0_0')">1_0_0_1_0_0</a>
+            
+
+<br/>
+
+
+                <a name="edgeP2_0_0_0_0_0" id="edgeP2_0_0_0_0_0" href="#block2_0_0_0_0_0" onclick="highlightAnchor('2_0_0_0_0_0')">2_0_0_0_0_0</a>
+             <- 
+                <a href="#block1_0_0_1_0_0" onclick="highlightAnchor('1_0_0_1_0_0')">1_0_0_1_0_0</a>
+            
+
+<br/>
+
+
+                <a name="edgeP3_0_0_1663_0_5674" id="edgeP3_0_0_1663_0_5674" href="#block3_0_0_1663_0_5674" onclick="highlightAnchor('3_0_0_1663_0_5674')">3_0_0_1663_0_5674</a>
+             <- 
+                <a href="#block3_0_0_2_0_0" onclick="highlightAnchor('3_0_0_2_0_0')">3_0_0_2_0_0</a>
+            
+
+<br/>
+
+
+                <a name="edgeP1_0_0_1_0_5679" id="edgeP1_0_0_1_0_5679" href="#block1_0_0_1_0_5679" onclick="highlightAnchor('1_0_0_1_0_5679')">1_0_0_1_0_5679</a>
+             <- 
+                <a href="#block1_0_0_1660_0_5669" onclick="highlightAnchor('1_0_0_1660_0_5669')">1_0_0_1660_0_5669</a>
+            
+
+<br/>
+
+
+                <a name="edgeP1_0_0_1661_0_5670" id="edgeP1_0_0_1661_0_5670" href="#block1_0_0_1661_0_5670" onclick="highlightAnchor('1_0_0_1661_0_5670')">1_0_0_1661_0_5670</a>
+             <- 
+                <a href="#block1_0_0_1660_0_5669" onclick="highlightAnchor('1_0_0_1660_0_5669')">1_0_0_1660_0_5669</a>
+            
+
+<br/>
+
+
+                <a name="edgeP1_0_0_1660_0_5673" id="edgeP1_0_0_1660_0_5673" href="#block1_0_0_1660_0_5673" onclick="highlightAnchor('1_0_0_1660_0_5673')">1_0_0_1660_0_5673</a>
+             <- 
+                <a href="#block1_0_0_1661_0_5670" onclick="highlightAnchor('1_0_0_1661_0_5670')">1_0_0_1661_0_5670</a>
+            
+
+<br/>
+
+
+                <a name="edgeP1_0_0_1662_0_5671" id="edgeP1_0_0_1662_0_5671" href="#block1_0_0_1662_0_5671" onclick="highlightAnchor('1_0_0_1662_0_5671')">1_0_0_1662_0_5671</a>
+             <- 
+                <a href="#block1_0_0_1661_0_5670" onclick="highlightAnchor('1_0_0_1661_0_5670')">1_0_0_1661_0_5670</a>
+            
+
+<br/>
+
+
+                <a name="edgeP1_0_0_1661_0_5672" id="edgeP1_0_0_1661_0_5672" href="#block1_0_0_1661_0_5672" onclick="highlightAnchor('1_0_0_1661_0_5672')">1_0_0_1661_0_5672</a>
+             <- 
+                <a href="#block1_0_0_1662_0_5671" onclick="highlightAnchor('1_0_0_1662_0_5671')">1_0_0_1662_0_5671</a>
+            
+
+<br/>
+
+
+                <a name="edgeP4_0_0_0_0_0" id="edgeP4_0_0_0_0_0" href="#block4_0_0_0_0_0" onclick="highlightAnchor('4_0_0_0_0_0')">4_0_0_0_0_0</a>
+             <- 
+                <a href="#block3_0_0_2_0_0" onclick="highlightAnchor('3_0_0_2_0_0')">3_0_0_2_0_0</a>
+            
+
+<br/>
+
+
+                <a name="edgeP3_0_0_2_0_5680" id="edgeP3_0_0_2_0_5680" href="#block3_0_0_2_0_5680" onclick="highlightAnchor('3_0_0_2_0_5680')">3_0_0_2_0_5680</a>
+             <- 
+                <a href="#block3_0_0_1663_0_5674" onclick="highlightAnchor('3_0_0_1663_0_5674')">3_0_0_1663_0_5674</a>
+            
+
+<br/>
+
+
+                <a name="edgeP1_0_0_1_0_0" id="edgeP1_0_0_1_0_0" href="#block1_0_0_1_0_0" onclick="highlightAnchor('1_0_0_1_0_0')">1_0_0_1_0_0</a>
+             <- 
+                <a href="#block0_0_0_0_0_0" onclick="highlightAnchor('0_0_0_0_0_0')">0_0_0_0_0_0</a>
+            
+
+<br/>
+
+
+                <a name="edgeP3_0_0_1664_0_5675" id="edgeP3_0_0_1664_0_5675" href="#block3_0_0_1664_0_5675" onclick="highlightAnchor('3_0_0_1664_0_5675')">3_0_0_1664_0_5675</a>
+             <- 
+                <a href="#block3_0_0_1663_0_5674" onclick="highlightAnchor('3_0_0_1663_0_5674')">3_0_0_1663_0_5674</a>
+            
+
+<br/>
+
+
+                <a name="edgeP3_0_0_1663_0_5678" id="edgeP3_0_0_1663_0_5678" href="#block3_0_0_1663_0_5678" onclick="highlightAnchor('3_0_0_1663_0_5678')">3_0_0_1663_0_5678</a>
+             <- 
+                <a href="#block3_0_0_1664_0_5675" onclick="highlightAnchor('3_0_0_1664_0_5675')">3_0_0_1664_0_5675</a>
+            
+
+<br/>
+
+
+                <a name="edgeP3_0_0_1665_0_5676" id="edgeP3_0_0_1665_0_5676" href="#block3_0_0_1665_0_5676" onclick="highlightAnchor('3_0_0_1665_0_5676')">3_0_0_1665_0_5676</a>
+             <- 
+                <a href="#block3_0_0_1664_0_5675" onclick="highlightAnchor('3_0_0_1664_0_5675')">3_0_0_1664_0_5675</a>
+            
+
+<br/>
+
+
+                <a name="edgeP3_0_0_1664_0_5677" id="edgeP3_0_0_1664_0_5677" href="#block3_0_0_1664_0_5677" onclick="highlightAnchor('3_0_0_1664_0_5677')">3_0_0_1664_0_5677</a>
+             <- 
+                <a href="#block3_0_0_1665_0_5676" onclick="highlightAnchor('3_0_0_1665_0_5676')">3_0_0_1665_0_5676</a>
+            
+
+<br/>
+
+
+                <a name="edgeP0_0_0_0_0_0" id="edgeP0_0_0_0_0_0" href="#block0_0_0_0_0_0" onclick="highlightAnchor('0_0_0_0_0_0')">0_0_0_0_0_0</a>
+             <- 
+
+    </div>
+
+    <script>
+    // Load tooltips callbacks
+    var tooltip_cache = {1:`conf/src/ERC3525.sol:105: function slotOf(uint256 tokenId_) public view virtual override returns (uint256) {assembly (&#34;memory-safe&#34;) { mstore(0xffffff6e4604afefe123321beef1b01fffffffffffffffffffffffff00ba0000, 1037618708666) mstore(0xffffff6e4604afefe123321beef1b01fffffffffffffffffffffffff00ba0001, 1) mstore(0xffffff6e4604afefe123321beef1b01fffffffffffffffffffffffff00ba0005, 1) mstore(0xffffff6e4604afefe123321beef1b01fffffffffffffffffffffffff00ba6000, tokenId_) }
+        _requireMinted(tokenId_);
+        return _allTokens[_allTokensIndex[tokenId_]].slot;
+    }`,2:`conf/src/ERC3525.sol:107: _allTokensIndex[tokenId_]`,3:`conf/src/ERC3525.sol:107: _allTokens[_allTokensIndex[tokenId_]]`,4:`conf/src/ERC3525.sol:107: _allTokens[_allTokensIndex[tokenId_]].slot`,5:`conf/src/ERC3525.sol:284: _allTokensIndex[tokenId_]`,6:`conf/src/ERC3525.sol:284: _allTokens[_allTokensIndex[tokenId_]]`,7:`conf/src/ERC3525.sol:284: _allTokens[_allTokensIndex[tokenId_]].id`};
+
+    var tooltips_spans = document.getElementsByClassName('tooltip');
+    for (var i=0; i<tooltips_spans.length; ++i) {
+        var me = tooltips_spans[i];
+        tooltips_spans[i].addEventListener("mouseover", function() {
+                for (var j=0; j < this.children.length ; ++j) {
+                if (this.children[j].className=="tooltiptext") {
+                    var attribs = this.children[j].attributes;
+                    if (attribs["tooltipatt"] != null) {
+                        var id = attribs["tooltipatt"].value;
+                        this.children[j].innerHTML = tooltip_cache[id];
+                        this.children[j].style.visibility = "visible";
+                    }
+                }
+            }
+        }.bind(me));
+        tooltips_spans[i].addEventListener("mouseout", function() {
+            for (var j=0; j < this.children.length ; ++j) {
+                if (this.children[j].className=="tooltiptext") {
+                    this.children[j].innerHTML = "";
+                    this.children[j].style.visibility="hidden";
+                }
+            }
+        }.bind(me));
+    }
+
+
+    lastSvgEventListener = svgPanZoom('#theSVG', {
+                            zoomEnabled: true,
+                            controlIconsEnabled: true,
+                            fit: true,
+                            center: true,
+                            // viewportSelector: document.getElementById('theSVG').querySelector('#g4') // this option will make library to misbehave. Viewport should have no transform attribute
+                        });
+        document.getElementById("cex").style.display = "none";
+    </script>
+</body>
+</html>
