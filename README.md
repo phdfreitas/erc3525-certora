@@ -51,3 +51,5 @@ In general, our *tests* passed. However, if you check the **"FinalResults.html"*
 Another point worth mentioning is that one of our tests fails. Although the logic of the test seems correct, Certora generates two different values for what should be equal during execution. Due to our current lack of knowledge, we haven't been able to make those values match without "forcing" them, i.e, assigning the value directly. Still, we found it interesting that one of our own mistakes could lead to incorrect conclusions, so we decided to keep this test/rule in the specification and mention it here.
 
 Just out of curiosity, we are referring to the following rule: *onlyAuthorizedCanTransferSpec*.
+
+So far, this is the work we’ve done.
